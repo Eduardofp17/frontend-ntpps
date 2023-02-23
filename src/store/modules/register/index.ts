@@ -1,18 +1,18 @@
-import { RegisterState } from './types';
+import { RegisterState, RegisterPayload } from './types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const INITIAL_STATE: RegisterState = {
   token: '',
   error: false,
   loading: false,
-  errorMessage: [],
-
+  errorMessage: { created: false, msg: '' },
+  registered: false,
   loggedIn: false,
 };
 const registerSlice = createSlice({
   name: 'register',
   initialState: INITIAL_STATE,
   reducers: {
-    RegisterRequest: (state) => {
+    RegisterRequest: (state, action: PayloadAction<RegisterPayload>) => {
       state.loading = true;
     },
     RegisterSuccess: (state, action: PayloadAction<string>) => {
@@ -20,6 +20,7 @@ const registerSlice = createSlice({
       state.error = false;
       state.token = action.payload.data.token;
       state.loggedIn = true;
+      state.registered = true;
     },
     RegisterFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
@@ -27,6 +28,7 @@ const registerSlice = createSlice({
       state.token = '';
       state.loggedIn = false;
       state.errorMessage = action.payload;
+      state.registered = false;
     },
   },
 });

@@ -4,12 +4,12 @@ import { Container, IMG, Main, P } from './styled';
 import DenseHeader from '../../components/headers/dense';
 import Form from '../../components/loginForm/form';
 import { useSelector } from 'react-redux';
-import { GetAuthState } from '../../store/modules/auth/types';
+import { States } from '../../store/globalTypes';
 import { CircularProgress } from '@mui/material';
 import { darkGreen } from '../../config/collors/colors';
 function Login(): JSX.Element {
   const loadingState = useSelector(
-    (state: GetAuthState): boolean => state.authReducer.loading,
+    (state: States): boolean => state.authReducer.loading,
   );
   const [loading, setLoading] = useState(false);
   useEffect(() => {

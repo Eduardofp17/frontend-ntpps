@@ -19,7 +19,7 @@ import ContainedButton from '../buttons/contained';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { useSelector } from 'react-redux';
-import { GetAuthState } from '../../store/modules/auth/types';
+import { States } from '../../store/globalTypes';
 import { AuthRequest } from '../../store/modules/auth';
 function LoginForm(): JSX.Element {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,9 +34,7 @@ function LoginForm(): JSX.Element {
   const [errors, setErrors] = useState([]);
   const dispatch = useDispatch();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const err = useSelector(
-    (state: GetAuthState) => state.authReducer.errorMessage,
-  );
+  const err = useSelector((state: States) => state.authReducer.errorMessage);
   useEffect(() => {
     if (password.length > 0) {
       setPasswordError(isInvalidPassword());

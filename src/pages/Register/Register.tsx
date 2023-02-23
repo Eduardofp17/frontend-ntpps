@@ -5,17 +5,22 @@ import DenseHeader from '../../components/headers/dense';
 import FormUser from '../../components/registerUserForm/form';
 import FormInstituicao from '../../components/registerInstituicaoForm/form';
 import { useSelector } from 'react-redux';
-import { GetAuthState } from '../../store/modules/auth/types';
+import { States } from '../../store/globalTypes';
 import { CircularProgress } from '@mui/material';
 import { darkGreen, primaryGreen } from '../../config/collors/colors';
+import { Navigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 function Register(): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [commonUser, setCommonUser] = useState(false);
   const loadingState = useSelector(
-    (state: GetAuthState): boolean => state.authReducer.loading,
+    (state: States): boolean => state.registerReducer.loading,
   );
+  const registered: boolean = useSelector(
+    (state: States): boolean => state.registerReducer.registered,
+  );
+
   useEffect(() => {
     setLoading(loadingState);
   }, [loadingState]);
@@ -37,48 +42,52 @@ function Register(): JSX.Element {
         />
       </Main>
       <Main style={{ display: loading ? 'none' : 'flex' }}>
-        <Container>
-          <h3>Selecione o tipo de conta: </h3>
-          <ButtonGroup
-            variant="contained"
-            aria-label="Disabled elevation buttons"
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              background: 'none',
-              boxShadow: 'none',
-            }}
-          >
-            <Button
-              className="ButtonGroup"
+        {registered ? (
+          <Navigate to="confirmEmail" />
+        ) : (
+          <Container>
+            <h3>Selecione o tipo de conta: </h3>
+            <ButtonGroup
+              variant="contained"
+              aria-label="Disabled elevation buttons"
               sx={{
-                bgcolor: commonUser ? primaryGreen : darkGreen,
-                ':not(:last-of-type)': {
-                  borderColor: '#fff',
-                },
-                ':hover': {
-                  backgroundColor: darkGreen,
-                },
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                background: 'none',
+                boxShadow: 'none',
               }}
-              onClick={(e) => handleClickUser(e)}
             >
-              Usuário
-            </Button>
-            <Button
-              sx={{
-                bgcolor: commonUser ? darkGreen : primaryGreen,
-                ':hover': {
-                  backgroundColor: darkGreen,
-                },
-              }}
-              onClick={(e) => handleClickInstituicao(e)}
-            >
-              Instituição
-            </Button>
-          </ButtonGroup>
-          {commonUser ? <FormInstituicao /> : <FormUser />}
-        </Container>
+              <Button
+                className="ButtonGroup"
+                sx={{
+                  bgcolor: commonUser ? primaryGreen : darkGreen,
+                  ':not(:last-of-type)': {
+                    borderColor: '#fff',
+                  },
+                  ':hover': {
+                    backgroundColor: darkGreen,
+                  },
+                }}
+                onClick={(e) => handleClickUser(e)}
+              >
+                Usuário
+              </Button>
+              <Button
+                sx={{
+                  bgcolor: commonUser ? darkGreen : primaryGreen,
+                  ':hover': {
+                    backgroundColor: darkGreen,
+                  },
+                }}
+                onClick={(e) => handleClickInstituicao(e)}
+              >
+                Instituição
+              </Button>
+            </ButtonGroup>
+            {commonUser ? <FormInstituicao /> : <FormUser />}
+          </Container>
+        )}
       </Main>
     </React.Fragment>
   );

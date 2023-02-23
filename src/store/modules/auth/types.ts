@@ -13,9 +13,6 @@ export interface AuthState {
   readonly errorMessage: string[];
 }
 
-export interface GetAuthState {
-  authReducer: AuthState;
-}
 export interface PayloadApi {
   readonly email: string;
   readonly password: string;

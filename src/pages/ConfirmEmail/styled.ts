@@ -1,10 +1,25 @@
 import styled from 'styled-components';
 import { lightGreen } from '../../config/collors/colors';
-export const FormHTML = styled.form`
+export const Container = styled.section`
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin: auto;
+  transition: all 500ms;
 `;
+export const IMG = styled.img`
+  width: 80px;
+  margin: auto;
+`;
+
+export const Main = styled.main`
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  margin: auto;
+  margin-top: 100px;
+`;
+
 export const P = styled.p`
   color: ${lightGreen};
   font-size: 16px;
