@@ -1,4 +1,3 @@
-import './Home.css';
 import React from 'react';
 import { Main, IMG } from './styled';
 import Stack from '@mui/material/Stack';

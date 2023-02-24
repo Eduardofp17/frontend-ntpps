@@ -1,7 +1,9 @@
 #root{
-  padding: 0px;
-  margin: auto;
-}
+    max-width: 1280px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
 body{
   padding: 0px;
 }

@@ -1,4 +1,3 @@
-import './404.css';
 import React from 'react';
 import { CssBaseline } from '@mui/material';
 import { Main } from './styled';

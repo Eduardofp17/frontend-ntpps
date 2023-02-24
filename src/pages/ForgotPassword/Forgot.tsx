@@ -1,4 +1,3 @@
-import './Forgot.css';
 import React, { useState, useEffect } from 'react';
 import { Container, IMG, Main, P } from '../ConfirmEmail/styled';
 import DenseHeader from '../../components/headers/dense';

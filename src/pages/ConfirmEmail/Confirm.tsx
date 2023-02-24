@@ -1,4 +1,3 @@
-import './Confirm.css';
 import React from 'react';
 import { Main, Container } from './styled';
 import ContainedButton from '../../components/buttons/contained';

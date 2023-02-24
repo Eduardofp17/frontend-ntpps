@@ -1,0 +1,29 @@
+:root {
+  --light-green: #F9FFFB;
+  --strong-green: #094019;
+}
+details[open] summary {
+  padding-bottom: 10px;
+
+}
+details{
+  transition:3s;
+}
+details [open] {
+    background-color: var(--light-green);
+    transition: height 0.3s linear;
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+}
+details[open] summary{
+  color: var(--strong-green);
+  font-weight: bold;
+}
+.row{
+  transition: 0.3s;
+  transform: rotate(90deg);
+}
+details[open] summary .row{
+  transition: 0.3s;
+  transform: rotate(-90deg);
+}

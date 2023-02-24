@@ -11,6 +11,7 @@ import Login from '../pages/Login/login';
 import Forgot from '../pages/ForgotPassword/Forgot';
 import Register from '../pages/Register/Register';
 import ConfirmEmail from '../pages/ConfirmEmail/Confirm';
+import Cardapios from '../pages/Cardapios';
 
 function Rotas(): JSX.Element {
   const loggedin = useSelector(
@@ -31,6 +32,7 @@ function Rotas(): JSX.Element {
         <Route path="/forgotPassword" element={<Forgot />} />
         <Route path="/createAccount" element={<Register />} />
         <Route path="/createAccount/confirmEmail" element={<ConfirmEmail />} />
+        <Route path="/cardapios" element={<Cardapios />} />
         <Route path="*" element={<Erro404 />} />
       </Routes>
     </React.Fragment>

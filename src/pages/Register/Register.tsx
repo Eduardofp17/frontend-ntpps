@@ -1,4 +1,3 @@
-import './Register.css';
 import React, { useState, useEffect } from 'react';
 import { Container, Main } from './styled';
 import DenseHeader from '../../components/headers/dense';
