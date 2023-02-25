@@ -4,9 +4,8 @@ export const Details = styled.details`
   background: #ffffff;
   box-shadow: 0px 4px 10px rgba(11, 11, 11, 0.1);
   border-radius: 15px;
-  max-width: 320px;
+  width: 90%;
   padding: 20px;
-  margin: auto;
   height: auto;
   transition: 3s;
   summary {

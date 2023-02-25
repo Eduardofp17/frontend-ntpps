@@ -6,6 +6,7 @@ export interface States {
   registerReducer: RegisterState;
 }
 export interface CardapioModel {
+  id: number;
   dayname: string;
   breakfast?: string;
   lunch?: string;

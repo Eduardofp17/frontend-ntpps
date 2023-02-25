@@ -32,50 +32,48 @@ function Cardapio(props: CardapioModel): JSX.Element {
     setLunch(false);
     setAfternoonSnack(false);
   }, []);
+
   return (
     <React.Fragment>
-      <div>
-        <Details>
-          <summary>
-            {props.dayname}
-            {<ArrowForwardIosIcon sx={{ color: darkGreen }} className="row" />}
-          </summary>
-          <table>
-            <tbody>
-              <tr
-                style={{
-                  backgroundColor:
-                    props.position === getDay && snack ? '#b4f5c6' : '#fff',
-                }}
-              >
-                <th>09:30</th>
-                <td>{props.breakfast} </td>
-              </tr>
-              <tr
-                style={{
-                  backgroundColor:
-                    props.position === getDay && lunch ? '#b4f5c6' : '#fff',
-                }}
-              >
-                <th>11:30</th>
-                <td>{props.lunch} </td>
-              </tr>
-              <tr
-                style={{
-                  backgroundColor:
-                    props.position === getDay && afternoonSnack
-                      ? '#b4f5c6'
-                      : '#fff',
-                }}
-              >
-                <th>14:40</th>
-                <td>{props.afternoonsnack} </td>
-              </tr>
-            </tbody>
-          </table>
-        </Details>
-        ;
-      </div>
+      <Details>
+        <summary>
+          {props.dayname}
+          {<ArrowForwardIosIcon sx={{ color: darkGreen }} className="row" />}
+        </summary>
+        <table>
+          <tbody>
+            <tr
+              style={{
+                backgroundColor:
+                  props.position === getDay && snack ? '#b4f5c6' : '#fff',
+              }}
+            >
+              <th>09:30</th>
+              <td>{props.breakfast} </td>
+            </tr>
+            <tr
+              style={{
+                backgroundColor:
+                  props.position === getDay && lunch ? '#b4f5c6' : '#fff',
+              }}
+            >
+              <th>11:30</th>
+              <td>{props.lunch} </td>
+            </tr>
+            <tr
+              style={{
+                backgroundColor:
+                  props.position === getDay && afternoonSnack
+                    ? '#b4f5c6'
+                    : '#fff',
+              }}
+            >
+              <th>14:40</th>
+              <td>{props.afternoonsnack} </td>
+            </tr>
+          </tbody>
+        </table>
+      </Details>
     </React.Fragment>
   );
 }

@@ -13,7 +13,7 @@ export function* authRequest({ payload }) {
     yield put(AuthSuccess(response));
     axios.defaults.headers.Authorization = `Bearer ${response.data.token}`;
   } catch (e) {
-    yield put(AuthFailure(e.response.data.errors));
+    yield put(AuthFailure(e));
   }
 }
 
