@@ -11,6 +11,7 @@ export interface AuthState {
   readonly data: PayloadApi;
   readonly loggedIn: boolean;
   readonly errorMessage: string[];
+  readonly level: number;
 }
 
 export interface PayloadApi {

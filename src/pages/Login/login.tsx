@@ -6,33 +6,43 @@ import { useSelector } from 'react-redux';
 import { States } from '../../store/globalTypes';
 import { CircularProgress } from '@mui/material';
 import { darkGreen } from '../../config/collors/colors';
+import { Navigate } from 'react-router-dom';
 function Login(): JSX.Element {
   const loadingState = useSelector(
     (state: States): boolean => state.authReducer.loading,
   );
+  const loggedInState = useSelector(
+    (state: States): boolean => state.authReducer.loggedIn,
+  );
   const [loading, setLoading] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   useEffect(() => {
     setLoading(loadingState);
-  }, [loadingState]);
+    setLoggedIn(loggedInState);
+  }, [loadingState, loadingState]);
 
   return (
     <React.Fragment>
       <DenseHeader to="/" text="Login" />
-      <Main style={{ display: loading ? 'flex' : 'none' }}>
+      <div style={{ display: loading ? 'flex' : 'none' }}>
         <CircularProgress
           style={{ color: darkGreen, margin: 'auto', marginTop: '200px' }}
         />
-      </Main>
-      <Main style={{ display: loading ? 'none' : 'flex' }}>
-        <Container>
-          <IMG
-            src="images/propaganda.png"
-            alt="Propaganda alusiva ao desperdício de Alimentos"
-          />
-          <P>Insira suas informações para entrar:</P>
-          <Form />
-        </Container>
-      </Main>
+      </div>
+      {loggedIn ? (
+        <Navigate to="/tools" />
+      ) : (
+        <Main style={{ display: loading ? 'none' : 'flex' }}>
+          <Container>
+            <IMG
+              src="images/propaganda.png"
+              alt="Propaganda alusiva ao desperdício de Alimentos"
+            />
+            <P>Insira suas informações para entrar:</P>
+            <Form />
+          </Container>
+        </Main>
+      )}
     </React.Fragment>
   );
 }

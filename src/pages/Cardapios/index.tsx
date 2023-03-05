@@ -40,7 +40,6 @@ function Cardapios(): JSX.Element {
     const position: number = days.indexOf(Day);
     return position;
   };
-  console.log(CardapiosAPI);
   CardapiosAPI.map((cardapio: CardapioModel) => {
     cardapio.position = position(cardapio.dayname);
   });
@@ -49,7 +48,7 @@ function Cardapios(): JSX.Element {
     if (a.position > b.position) return 1;
     return 0;
   });
-  console.log(CardapiosAPI);
+
   return (
     <React.Fragment>
       <DenseHeader to="/" text="Ver Cardápios" />

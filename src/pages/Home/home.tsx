@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 import ContainedButton from '../../components/buttons/contained';
 import OutlinedButton from '../../components/buttons/outlined';
 
-function Home(): JSX.Element {
+function Tools(): JSX.Element {
   return (
     <React.Fragment>
       <Main>
@@ -21,4 +21,4 @@ function Home(): JSX.Element {
   );
 }
 
-export default Home;
+export default Tools;

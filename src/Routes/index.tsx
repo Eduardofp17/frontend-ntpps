@@ -12,6 +12,9 @@ import Forgot from '../pages/ForgotPassword/Forgot';
 import Register from '../pages/Register/Register';
 import ConfirmEmail from '../pages/ConfirmEmail/Confirm';
 import Cardapios from '../pages/Cardapios';
+import Tools from '../pages/Tools/tools';
+import AdmCardapios from '../pages/AdmCardapios/AdmCardapios';
+import CriarCardapios from '../pages/CriarCardapios';
 
 function Rotas(): JSX.Element {
   const loggedin = useSelector(
@@ -21,18 +24,35 @@ function Rotas(): JSX.Element {
     <React.Fragment>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route
-          path="/login"
-          element={
-            <Loggeding loggedin={loggedin}>
-              <Login />
-            </Loggeding>
-          }
-        />
+        <Route path="/login" element={<Login />} />
         <Route path="/forgotPassword" element={<Forgot />} />
         <Route path="/createAccount" element={<Register />} />
         <Route path="/createAccount/confirmEmail" element={<ConfirmEmail />} />
         <Route path="/cardapios" element={<Cardapios />} />
+        <Route
+          path="/tools"
+          element={
+            <Loggeding loggedin={loggedin}>
+              <Tools />
+            </Loggeding>
+          }
+        />
+        <Route
+          path="/tools/AdmCardapios"
+          element={
+            <Loggeding loggedin={loggedin}>
+              <AdmCardapios />
+            </Loggeding>
+          }
+        />
+        <Route
+          path="/tools/AdmCardapios/CriarCardapios"
+          element={
+            <Loggeding loggedin={loggedin}>
+              <CriarCardapios />
+            </Loggeding>
+          }
+        />
         <Route path="*" element={<Erro404 />} />
       </Routes>
     </React.Fragment>

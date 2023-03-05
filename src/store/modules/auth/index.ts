@@ -10,6 +10,7 @@ const INITIAL_STATE: AuthState = {
     password: '',
   },
   loggedIn: false,
+  level: 0,
 };
 const authSlice = createSlice({
   name: 'auth',
@@ -25,6 +26,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = false;
       state.token = action.payload.data.token;
+      state.level = action.payload.data.level;
       state.data = { email: '', password: '' };
       state.loggedIn = true;
     },
