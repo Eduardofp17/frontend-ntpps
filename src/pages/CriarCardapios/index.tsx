@@ -128,7 +128,11 @@ function CriarCardapios(): JSX.Element {
                   labelId="demo-simple-select-standard-label-weekNum"
                   id="demo-simple-select-standard-weekNumId"
                   value={weekNum}
-                  onChange={(e) => setWeekNum(e.target.value)}
+                  onChange={(e) => {
+                    if (typeof e.target.value === 'number') {
+                      setWeekNum(e.target.value);
+                    }
+                  }}
                   label="Dia"
                 >
                   <MenuItem value={1}>Semanas 1 e 3</MenuItem>

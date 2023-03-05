@@ -31,7 +31,7 @@ function LoginForm(): JSX.Element {
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
   const [error, setError] = useState(false);
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = React.useState<string[]>([]);
   const dispatch = useDispatch();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const err = useSelector((state: States) => state.authReducer.errorMessage);
@@ -57,7 +57,7 @@ function LoginForm(): JSX.Element {
       dispatch(AuthRequest({ email, password }));
       if (err.length > 0) {
         setError(true);
-        setErrors([err]);
+        setErrors(err);
         setTimeout(() => setError(false), 2500);
       }
     }

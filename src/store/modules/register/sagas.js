@@ -7,7 +7,7 @@ export function* registerRequest({ payload }) {
     if (payload.cnpj) {
       const { name, email, cnpj, password } = payload;
 
-      const response: string = yield call(axios.post, '/school/', {
+      const response = yield call(axios.post, '/school/', {
         name,
         email,
         cnpj,
@@ -17,7 +17,7 @@ export function* registerRequest({ payload }) {
       return;
     }
     const { name, lastname, email, code, password } = payload;
-    const response: string = yield call(axios.post, '/requests/', {
+    const response = yield call(axios.post, '/requests/', {
       nome: name,
       sobrenome: lastname,
       email,

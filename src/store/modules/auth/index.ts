@@ -1,5 +1,7 @@
 import { AuthState, PayloadApi } from './types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Response } from '../../globalTypes';
+
 const INITIAL_STATE: AuthState = {
   token: '',
   error: false,
@@ -12,6 +14,7 @@ const INITIAL_STATE: AuthState = {
   loggedIn: false,
   level: 0,
 };
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: INITIAL_STATE,
@@ -22,7 +25,7 @@ const authSlice = createSlice({
         state.data = action.payload;
       }
     },
-    AuthSuccess: (state, action: PayloadAction<string>) => {
+    AuthSuccess: (state, action: PayloadAction<Response>) => {
       state.loading = false;
       state.error = false;
       state.token = action.payload.data.token;
@@ -36,7 +39,7 @@ const authSlice = createSlice({
       state.token = '';
       state.data = { email: '', password: '' };
       state.loggedIn = false;
-      state.errorMessage = action.payload;
+      state.errorMessage = [...action.payload];
     },
   },
 });

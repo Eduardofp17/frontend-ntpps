@@ -13,3 +13,10 @@ export interface CardapioModel {
   afternoonsnack?: string;
   position: number;
 }
+
+export interface Response {
+  data: {
+    token: string;
+    level: number;
+  };
+}

@@ -9,7 +9,7 @@ import ContainedButton from '../buttons/contained';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { useSelector } from 'react-redux';
-import { GetAuthState } from '../../store/modules/auth/types';
+import { States } from '../../store/globalTypes';
 import { AuthRequest } from '../../store/modules/auth';
 function EmailForm(): JSX.Element {
   const [email, setEmail] = useState('');
@@ -17,12 +17,10 @@ function EmailForm(): JSX.Element {
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
 
   const [error, setError] = useState(false);
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = React.useState<string[]>([]);
 
   const dispatch = useDispatch();
-  const err = useSelector(
-    (state: GetAuthState) => state.authReducer.errorMessage,
-  );
+  const err = useSelector((state: States) => state.authReducer.errorMessage);
 
   useEffect(() => {
     if (email.length > 0) {
@@ -37,7 +35,7 @@ function EmailForm(): JSX.Element {
       dispatch(AuthRequest({ email, password: 'asda' }));
       if (err.length > 0) {
         setError(true);
-        setErrors([err]);
+        setErrors(err);
         setTimeout(() => setError(false), 2500);
       }
     }

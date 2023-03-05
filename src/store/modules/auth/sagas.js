@@ -6,7 +6,7 @@ import { get } from 'lodash';
 export function* authRequest({ payload }) {
   try {
     const { email, password } = payload;
-    const response: string = yield call(axios.post, '/token/', {
+    const response = yield call(axios.post, '/token/', {
       email,
       password,
     });

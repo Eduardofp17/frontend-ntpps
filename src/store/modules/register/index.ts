@@ -1,5 +1,6 @@
 import { RegisterState, RegisterPayload } from './types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Response } from '../../globalTypes';
 const INITIAL_STATE: RegisterState = {
   token: '',
   error: false,
@@ -8,6 +9,10 @@ const INITIAL_STATE: RegisterState = {
   registered: false,
   loggedIn: false,
 };
+interface Error {
+  msg: string;
+  created: boolean;
+}
 const registerSlice = createSlice({
   name: 'register',
   initialState: INITIAL_STATE,
@@ -15,14 +20,14 @@ const registerSlice = createSlice({
     RegisterRequest: (state, action: PayloadAction<RegisterPayload>) => {
       state.loading = true;
     },
-    RegisterSuccess: (state, action: PayloadAction<string>) => {
+    RegisterSuccess: (state, action: PayloadAction<Response>) => {
       state.loading = false;
       state.error = false;
       state.token = action.payload.data.token;
       state.loggedIn = true;
       state.registered = true;
     },
-    RegisterFailure: (state, action: PayloadAction<string>) => {
+    RegisterFailure: (state, action: PayloadAction<Error>) => {
       state.loading = false;
       state.error = true;
       state.token = '';
