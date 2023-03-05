@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.Fragment>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <Router basename="/dist">
+        <Router>
           <CssBaseline />
           <Routes />
         </Router>
