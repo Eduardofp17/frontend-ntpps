@@ -13,17 +13,17 @@ function Cardapio(props: CardapioModel): JSX.Element {
   const getDay = new Date().getUTCDay();
   const fullHour = `${new Date().getHours()}:${new Date().getMinutes()}`;
   useEffect(() => {
-    if (fullHour > '07:00' && fullHour < '09:30') {
+    if (fullHour >= '07:00' && fullHour <= '09:30') {
       setLunch(false);
       setAfternoonSnack(false);
       return setSnack(true);
     }
-    if (fullHour > '09:50' && fullHour < '11:30') {
+    if (fullHour >= '09:50' && fullHour <= '11:30') {
       setSnack(false);
       setAfternoonSnack(false);
       return setLunch(true);
     }
-    if (fullHour > '13:00' && fullHour < '14:40') {
+    if (fullHour >= '13:00' && fullHour <= '14:40') {
       setSnack(false);
       setLunch(false);
       return setAfternoonSnack(true);

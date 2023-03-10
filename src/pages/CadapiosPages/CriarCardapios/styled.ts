@@ -14,4 +14,5 @@ export const Card = styled.div`
   background: #ffffff;
   box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
+  padding: 10px 20px;
 `;

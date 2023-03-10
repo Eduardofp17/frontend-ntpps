@@ -11,10 +11,11 @@ import Login from '../pages/Login/login';
 import Forgot from '../pages/ForgotPassword/Forgot';
 import Register from '../pages/Register/Register';
 import ConfirmEmail from '../pages/ConfirmEmail/Confirm';
-import Cardapios from '../pages/Cardapios';
+import Cardapios from '../pages/CadapiosPages/Cardapios';
 import Tools from '../pages/Tools/tools';
 import AdmCardapios from '../pages/AdmCardapios/AdmCardapios';
-import CriarCardapios from '../pages/CriarCardapios';
+import CriarCardapios from '../pages/CadapiosPages/CriarCardapios';
+import AtualizarCardapios from '../pages/CadapiosPages/AtualizarCardapios';
 
 function Rotas(): JSX.Element {
   const loggedin = useSelector(
@@ -25,9 +26,9 @@ function Rotas(): JSX.Element {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/forgotPassword" element={<Forgot />} />
-        <Route path="/createAccount" element={<Register />} />
-        <Route path="/createAccount/confirmEmail" element={<ConfirmEmail />} />
+        <Route path="/forgotpassword" element={<Forgot />} />
+        <Route path="/createaccount" element={<Register />} />
+        <Route path="/createcccount/confirmemail" element={<ConfirmEmail />} />
         <Route path="/cardapios" element={<Cardapios />} />
         <Route
           path="/tools"
@@ -38,7 +39,7 @@ function Rotas(): JSX.Element {
           }
         />
         <Route
-          path="/tools/AdmCardapios"
+          path="/tools/adm-cardapios"
           element={
             <Loggeding loggedin={loggedin}>
               <AdmCardapios />
@@ -46,10 +47,18 @@ function Rotas(): JSX.Element {
           }
         />
         <Route
-          path="/tools/AdmCardapios/CriarCardapios"
+          path="/tools/adm-cardapios/criar-cardapios"
           element={
             <Loggeding loggedin={loggedin}>
               <CriarCardapios />
+            </Loggeding>
+          }
+        />
+        <Route
+          path="/tools/adm-cardapios/atualizar-cardapios"
+          element={
+            <Loggeding loggedin={loggedin}>
+              <AtualizarCardapios />
             </Loggeding>
           }
         />

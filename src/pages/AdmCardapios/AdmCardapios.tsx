@@ -5,7 +5,7 @@ import Tool from '../../components/tool/tool';
 import PostAdd from '@mui/icons-material/PostAdd';
 import { States } from '../../store/globalTypes';
 import { useSelector } from 'react-redux';
-
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 function AdmCardapios(): JSX.Element {
   const [level, setLevel] = useState(0);
   const levelState = useSelector(
@@ -21,11 +21,20 @@ function AdmCardapios(): JSX.Element {
       <Main>
         <h4 style={{ textAlign: 'left' }}>Funcionalidades disponíveis: </h4>
 
-        <Tools>
+        <Tools
+          style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+        >
           <Tool
             text="Criar cardápio"
             icon={<PostAdd />}
-            to="/tools/AdmCardapios/CriarCardapios"
+            to="/tools/adm-cardapios/criar-cardapios"
+            level={level}
+            levelRequired={2}
+          />
+          <Tool
+            text="Atualizar cardápio"
+            icon={<AppRegistrationIcon />}
+            to="/tools/adm-cardapios/atualizar-cardapios"
             level={level}
             levelRequired={2}
           />

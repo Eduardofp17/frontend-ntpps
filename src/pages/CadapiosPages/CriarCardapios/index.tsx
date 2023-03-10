@@ -1,18 +1,18 @@
 import React from 'react';
 import { Main, Card } from './styled';
-import DenseHeader from '../../components/headers/dense';
+import DenseHeader from '../../../components/headers/dense';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { TextField } from '@mui/material';
-import ContainedButton from '../../components/buttons/contained';
-import axios from '../../services/axios';
-import { States } from '../../store/globalTypes';
+import ContainedButton from '../../../components/buttons/contained';
+import axios from '../../../services/axios';
+import { States } from '../../../store/globalTypes';
 import { useSelector } from 'react-redux';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-
+import { AxiosError } from 'axios';
 function CriarCardapios(): JSX.Element {
   const [weekDay, setWeekDay] = React.useState<string>('');
   const [weekNum, setWeekNum] = React.useState<number>(0);
@@ -34,34 +34,40 @@ function CriarCardapios(): JSX.Element {
       setTimeout(() => setError(false), 2500);
       return;
     }
-    axios.defaults.headers.Authorization = `Bearer ${token}`;
-    const response = await axios.post('/cardapio/', {
-      dayname: weekDay,
-      breakfast: snack,
-      lunch,
-      afternoonsnack: afternoonSnack,
-      weeknumber: weekNum,
-    });
+    try {
+      axios.defaults.headers.Authorization = `Bearer ${token}`;
+      const response = await axios.post('/cardapio/', {
+        dayname: weekDay,
+        breakfast: snack,
+        lunch,
+        afternoonsnack: afternoonSnack,
+        weeknumber: weekNum,
+      });
 
-    if (response.status === 400) {
+      if (response.status === 200) {
+        setSuccess(true);
+        if (response.data.msg === 'Successfully created') {
+          setSuccessMessage(`Cardápio criado com sucesso`);
+        }
+        setTimeout(() => setSuccess(false), 2500);
+        return;
+      }
+    } catch (e) {
+      const error = e as AxiosError;
       setError(true);
-      if (response.data === 'Cardapio already exist, plesa try to update it') {
-        setErrorMessage('Cardápio já existe, tente atualizá-lo.');
+      if (
+        error.response?.data ===
+        'Cardapio already exist, please try to update it'
+      ) {
+        setErrorMessage('Cardápio já existe, tente atualizá-lo');
       }
       setTimeout(() => setError(false), 2500);
-    }
-    if (response.status === 200) {
-      setSuccess(true);
-      if (response.data.msg === 'Successfully created') {
-        setSuccessMessage(`Cardápio criado com sucesso`);
-      }
-      setTimeout(() => setSuccess(false), 2500);
       return;
     }
   };
   return (
     <React.Fragment>
-      <DenseHeader text="Criar cardápio" to="/tools/AdmCardapios" />
+      <DenseHeader text="Criar cardápio" to="/tools/adm-cardapios" />
       <Main>
         <Alert
           severity="error"
@@ -90,7 +96,7 @@ function CriarCardapios(): JSX.Element {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              textAlign: 'center',
+              textAlign: 'left',
               justifyContent: 'center',
               gap: '20px',
             }}

@@ -24,7 +24,7 @@ function ToolsPage(): JSX.Element {
           <Tool
             text="Administrar cardápios"
             icon={<MenuBookIcon />}
-            to="/tools/AdmCardapios"
+            to="/tools/adm-cardapios"
             level={level}
             levelRequired={2}
           />

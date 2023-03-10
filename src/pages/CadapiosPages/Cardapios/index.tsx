@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import DenseHeader from '../../components/headers/dense';
-import Cardapio from '../../components/Cardapio/Cardapio';
-import { CardapioModel } from '../../store/globalTypes';
+import DenseHeader from '../../../components/headers/dense';
+import Cardapio from '../../../components/Cardapio/Cardapio';
+import { CardapioModel } from '../../../store/globalTypes';
 import { CardapiosContainer, Main } from './styled';
-import axios from '../../services/axios';
+import axios from '../../../services/axios';
 import { CircularProgress } from '@mui/material';
-import { darkGreen } from '../../config/collors/colors';
+import { darkGreen } from '../../../config/collors/colors';
 function Cardapios(): JSX.Element {
   const [CardapiosAPI, setCardapiosAPI] = useState([]);
   const [loading, setLoading] = useState(false);
