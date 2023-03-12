@@ -6,7 +6,6 @@ export const Main = styled.section`
   flex-direction: column;
   margin: auto;
   padding: 0px;
-  gap: 30px;
 `;
 export const Card = styled.div`
   display: flex;

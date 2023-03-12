@@ -7,27 +7,38 @@ import { AxiosError } from 'axios';
 import { CardapioModel } from '../../../store/globalTypes';
 import CircularProgress from '@mui/material/CircularProgress';
 import { darkGreen } from '../../../config/collors/colors';
+import { States } from '../../../store/globalTypes';
+import { useSelector } from 'react-redux';
 function AtualizarCardapios(): JSX.Element {
   const [CardapiosAPI, setCardapiosAPI] = React.useState<CardapioModel[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const loadingState = useSelector(
+    (state: States): boolean => state.deleteCardapioReducer.loading,
+  );
+  const loadingUpdateState = useSelector(
+    (state: States): boolean => state.updateCardapioReducer.loading,
+  );
+
+  const getCardapios = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get('/cardapio');
+      setLoading(false);
+      const { data } = response;
+      data.map((val: CardapioModel) => {
+        val.position = val.id;
+      });
+      setCardapiosAPI(data);
+    } catch (e) {
+      const err = e as AxiosError;
+      return err.response?.data;
+    }
+  };
+
   React.useEffect(() => {
-    const getCardapios = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get('/cardapio');
-        setLoading(false);
-        const { data } = response;
-        data.map((val: CardapioModel) => {
-          val.position = val.id;
-        });
-        setCardapiosAPI(data);
-      } catch (e) {
-        const err = e as AxiosError;
-        return err.response?.data;
-      }
-    };
     getCardapios();
-  }, []);
+    setLoading(loadingState);
+  }, [loading, loadingState, loadingUpdateState]);
 
   const days = [
     'Domingo',
