@@ -4,8 +4,8 @@ import { ModalBox } from './styled';
 interface Props {
   ModalOpen: boolean;
   title: string;
-  info: string;
-  id: number;
+  info?: string;
+  id?: number;
   button1: JSX.Element;
   button2: JSX.Element;
 }

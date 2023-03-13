@@ -1,5 +1,5 @@
 import { put, call } from 'redux-saga/effects';
-import { AuthFailure, AuthSuccess } from './index';
+import { AuthFailure, AuthSuccess, AuthLoggout } from './index';
 import axios from '../../../services/axios';
 import { get } from 'lodash';
 
@@ -21,4 +21,8 @@ export function persisRehydrate({ payload }) {
   const token = get(payload, 'auth.token');
   if (!token) return;
   axios.defaults.headers.Authorization = `Bearer ${token}`;
+}
+
+export function* authLoggoutRequest() {
+  yield put(AuthLoggout());
 }

@@ -32,7 +32,7 @@ function AdmCardapios(): JSX.Element {
             levelRequired={2}
           />
           <Tool
-            text="Atualizar cardápio"
+            text="Editar cardápio"
             icon={<AppRegistrationIcon />}
             to="/tools/adm-cardapios/atualizar-cardapios"
             level={level}

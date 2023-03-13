@@ -2,13 +2,53 @@ import React from 'react';
 import { Box, AppBar, Toolbar, IconButton } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { primaryGreen } from '../../config/collors/colors';
+import { AuthLoggoutRequest } from '../../store/modules/auth/index';
+import Modal from '../Modals/ModalButtons/index';
 interface Props {
   to: string;
 }
 function BasicHeader(props: Props): JSX.Element {
+  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+
   return (
     <React.Fragment>
       <header>
+        <Modal
+          ModalOpen={modalOpen}
+          title={`Você realmente deseja sair da sua conta?`}
+          button1={
+            <button
+              style={{
+                background: 'none',
+                color: '#9D0000',
+                borderRadius: '5px ',
+                border: `1px solid  #9D0000`,
+                fontSize: '15px',
+                fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+              }}
+              onClick={() => setModalOpen(false)}
+            >
+              Cancelar
+            </button>
+          }
+          button2={
+            <button
+              style={{
+                backgroundColor: '#9D0000',
+                color: '#fff',
+                borderRadius: '5px ',
+                fontSize: '15px',
+                fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+              }}
+            >
+              Confirmar
+            </button>
+          }
+        />
         <Box>
           <AppBar
             position="static"
@@ -22,15 +62,21 @@ function BasicHeader(props: Props): JSX.Element {
                 justifyContent: 'space-between',
               }}
             >
-              <img src="/images/logoFigueiredo.png" alt="Logo da instituição" />
               <IconButton
                 edge="start"
                 color="inherit"
                 aria-label="menu"
                 href={props.to}
               >
-                <LogoutIcon />
+                <img
+                  src="/images/logoFigueiredo.png"
+                  alt="Logo da instituição"
+                />
               </IconButton>
+
+              <div onClick={() => setModalOpen(true)}>
+                <LogoutIcon />
+              </div>
             </Toolbar>
           </AppBar>
         </Box>
