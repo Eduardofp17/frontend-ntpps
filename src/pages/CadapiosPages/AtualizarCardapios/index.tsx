@@ -55,14 +55,16 @@ function AtualizarCardapios(): JSX.Element {
   };
   return (
     <React.Fragment>
-      <DenseHeader to="/tools/adm-cardapios/" text="Atualizar cardápios" />
+      <DenseHeader to="/tools/adm-cardapios/" text="Editar cardápio" />
       <Main style={{ display: loading ? 'flex' : 'none' }}>
         <CircularProgress
           style={{ color: darkGreen, margin: 'auto', marginTop: '200px' }}
         />
       </Main>
       <Main style={{ display: loading ? 'none' : 'flex' }}>
-        <h1>Atualize aqui</h1>
+        <h2 style={{ padding: '5px' }}>
+          Esses são os cardápios dessa semana:{' '}
+        </h2>
         <CardapiosContainer>
           {CardapiosAPI.map((cardapio: CardapioModel) => (
             <CardapioEdit

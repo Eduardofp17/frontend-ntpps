@@ -2,6 +2,8 @@ export enum AuthTypes {
   AuthRequest = 'auth/AuthRequest',
   AuthSuccess = 'auth/AuthSuccess',
   AuthFailure = 'auth/AuthFailure',
+  AuthLoggoutRequest = 'auth/AuthLoggoutRequest',
+  AuthLoggout = 'auth/AuthLoggout',
 }
 
 export interface AuthState {

@@ -41,8 +41,25 @@ const authSlice = createSlice({
       state.loggedIn = false;
       state.errorMessage = [...action.payload];
     },
+    AuthLoggoutRequest: (state) => {
+      state.loading = true;
+    },
+    AuthLoggout: (state) => {
+      state.loading = false;
+      state.error = false;
+      state.token = '';
+      state.data = { email: '', password: '' };
+      state.loggedIn = false;
+      state.level = 0;
+    },
   },
 });
 
-export const { AuthRequest, AuthSuccess, AuthFailure } = authSlice.actions;
+export const {
+  AuthRequest,
+  AuthSuccess,
+  AuthFailure,
+  AuthLoggoutRequest,
+  AuthLoggout,
+} = authSlice.actions;
 export default authSlice.reducer;

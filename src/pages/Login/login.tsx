@@ -20,7 +20,6 @@ function Login(): JSX.Element {
     setLoading(loadingState);
     setLoggedIn(loggedInState);
   }, [loadingState, loadingState]);
-
   return (
     <React.Fragment>
       <DenseHeader to="/" text="Login" />
