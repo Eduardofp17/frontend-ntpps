@@ -9,4 +9,5 @@ export interface UpdateCardapioState {
   readonly error: boolean;
   readonly updated: boolean;
   readonly loading: boolean;
+  readonly id: number | null;
 }

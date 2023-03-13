@@ -34,13 +34,16 @@ function CardapioEdit(props: CardapioModel): JSX.Element {
   const [afterSnack, setAfterSnack] = React.useState<string | undefined>(
     props.afternoonsnack,
   );
-  const [openingDetails, setOpeningDetails] = React.useState<boolean>(false);
+
   const [loading, setLoading] = React.useState<boolean>(false);
   const [deleting, setDeleting] = React.useState<boolean>(false);
 
   const token = useSelector((state: States): string => state.authReducer.token);
   const loadingState = useSelector(
     (state: States): boolean => state.updateCardapioReducer.loading,
+  );
+  const uidState = useSelector(
+    (state: States): number | null => state.updateCardapioReducer.id,
   );
 
   const dispatch = useDispatch();
@@ -51,7 +54,10 @@ function CardapioEdit(props: CardapioModel): JSX.Element {
   };
 
   const getDay = new Date().getUTCDay();
-  const fullHour = `${new Date().getHours()}:${new Date().getMinutes()}`;
+  const zeroLeft = (n: number) => Math.floor(n).toString().padStart(2, '0');
+  const fullHour = `${zeroLeft(new Date().getHours() % 60)}:${zeroLeft(
+    new Date().getMinutes() % 60,
+  )}`;
   React.useEffect(() => {
     if (fullHour >= '07:00' && fullHour <= '09:30') {
       setLunch(false);
@@ -71,8 +77,14 @@ function CardapioEdit(props: CardapioModel): JSX.Element {
     setSnack(false);
     setLunch(false);
     setAfternoonSnack(false);
-    setLoading(loadingState);
-  }, [loading, loadingState]);
+  }, []);
+  React.useEffect(() => {
+    if (uidState === props.id) {
+      setLoading(loadingState);
+      return;
+    }
+    setTimeout(() => setLoading(false), 300);
+  }, [loading, loadingState, uidState]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -110,7 +122,24 @@ function CardapioEdit(props: CardapioModel): JSX.Element {
         button1={
           <button
             style={{
-              backgroundColor: darkGreen,
+              background: 'none',
+              color: '#9D0000',
+              borderRadius: '5px ',
+              border: `1px solid  #9D0000`,
+              fontSize: '15px',
+              fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+            }}
+            onClick={() => setDeleting(false)}
+          >
+            Cancelar
+          </button>
+        }
+        button2={
+          <button
+            style={{
+              backgroundColor: '#9D0000',
               color: '#fff',
               borderRadius: '5px ',
               fontSize: '15px',
@@ -121,23 +150,6 @@ function CardapioEdit(props: CardapioModel): JSX.Element {
             onClick={(e) => handleAction(e)}
           >
             Confirmar
-          </button>
-        }
-        button2={
-          <button
-            style={{
-              background: 'none',
-              color: darkGreen,
-              borderRadius: '5px ',
-              border: `1px solid ${darkGreen}`,
-              fontSize: '15px',
-              fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-            }}
-            onClick={() => setDeleting(false)}
-          >
-            Cancelar
           </button>
         }
       />
@@ -154,34 +166,29 @@ function CardapioEdit(props: CardapioModel): JSX.Element {
           display: loading ? 'none' : 'flex',
           backgroundColor: deleting ? '#FFF6F6' : '#FFFFFF',
         }}
-        onToggle={() => setOpeningDetails(!openingDetails)}
       >
         <summary>
           <div>
+            <div onClick={() => handleDelete()} style={{ color: '#9D0000' }}>
+              <DeleteIcon />
+            </div>
             <div
               style={{
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 width: '100%',
+                marginLeft: '5px',
               }}
             >
               {props.dayname}
               <ArrowForwardIosIcon
                 sx={{
                   color: darkGreen,
-                  marginRight: openingDetails ? '20px' : '',
                 }}
                 className="row"
               />
             </div>
-            {openingDetails ? (
-              <div onClick={() => handleDelete()} style={{ color: '#9D0000' }}>
-                <DeleteIcon />
-              </div>
-            ) : (
-              ''
-            )}
           </div>
         </summary>
         <table>
