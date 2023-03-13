@@ -11,7 +11,10 @@ function Cardapio(props: CardapioModel): JSX.Element {
   const [afternoonSnack, setAfternoonSnack] = useState(false);
 
   const getDay = new Date().getUTCDay();
-  const fullHour = `${new Date().getHours()}:${new Date().getMinutes()}`;
+  const zeroLeft = (n: number) => Math.floor(n).toString().padStart(2, '0');
+  const fullHour = `${zeroLeft(new Date().getHours() % 60)}:${zeroLeft(
+    new Date().getMinutes() % 60,
+  )}`;
   useEffect(() => {
     if (fullHour >= '07:00' && fullHour <= '09:30') {
       setLunch(false);
