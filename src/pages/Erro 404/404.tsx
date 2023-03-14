@@ -7,10 +7,11 @@ function Erro404(): JSX.Element {
     <React.Fragment>
       <CssBaseline />
       <Main>
-        <h1> Page not Found</h1>
-        <h3> 404 Error</h3>
+        <h1> Página não encontrada</h1>
+        <h3> Erro 404</h3>
 
         <ContainedButton textButton="Página Inicial" to="/" />
+        <ContainedButton textButton="Fazer Login" to="/login" />
       </Main>
     </React.Fragment>
   );
