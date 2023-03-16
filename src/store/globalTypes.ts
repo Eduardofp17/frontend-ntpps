@@ -23,3 +23,10 @@ export interface Response {
     level: number;
   };
 }
+
+export interface Request {
+  id: number;
+  nome: string;
+  sobrenome?: string;
+  verified: string;
+}

@@ -7,6 +7,7 @@ import { States } from '../../store/globalTypes';
 import { useSelector } from 'react-redux';
 import { CircularProgress } from '@mui/material';
 import { darkGreen } from '../../config/collors/colors';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 function ToolsPage(): JSX.Element {
   const [level, setLevel] = React.useState<number>(0);
@@ -42,6 +43,13 @@ function ToolsPage(): JSX.Element {
             to="/tools/adm-cardapios"
             level={level}
             levelRequired={2}
+          />
+          <Tool
+            text="Para gestores"
+            icon={<ManageAccountsIcon />}
+            to="/tools/gestores"
+            level={level}
+            levelRequired={3}
           />
         </Tools>
       </Main>

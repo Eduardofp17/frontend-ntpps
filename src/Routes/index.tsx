@@ -16,6 +16,8 @@ import Tools from '../pages/Tools/tools';
 import AdmCardapios from '../pages/AdmCardapios/AdmCardapios';
 import CriarCardapios from '../pages/CadapiosPages/CriarCardapios';
 import AtualizarCardapios from '../pages/CadapiosPages/AtualizarCardapios';
+import ParaGestores from '../pages/ParaGestores/ParaGestores';
+import PedidosDeAdesao from '../pages/ParaGestoresPages/PedidosDeAdesao';
 
 function Rotas(): JSX.Element {
   const loggedin = useSelector(
@@ -59,6 +61,22 @@ function Rotas(): JSX.Element {
           element={
             <Loggeding loggedin={loggedin}>
               <AtualizarCardapios />
+            </Loggeding>
+          }
+        />
+        <Route
+          path="/tools/gestores"
+          element={
+            <Loggeding loggedin={loggedin}>
+              <ParaGestores />
+            </Loggeding>
+          }
+        />
+        <Route
+          path="/tools/gestores/pedidos-de-adesao"
+          element={
+            <Loggeding loggedin={loggedin}>
+              <PedidosDeAdesao />
             </Loggeding>
           }
         />
