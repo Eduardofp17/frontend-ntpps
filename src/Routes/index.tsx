@@ -18,6 +18,8 @@ import CriarCardapios from '../pages/CadapiosPages/CriarCardapios';
 import AtualizarCardapios from '../pages/CadapiosPages/AtualizarCardapios';
 import ParaGestores from '../pages/ParaGestores/ParaGestores';
 import PedidosDeAdesao from '../pages/ParaGestoresPages/PedidosDeAdesao';
+import Frequencia from '../pages/FrequenciaPages/FrequenciaTools';
+import AtualizarFrequencia from '../pages/FrequenciaPages/UpdateFrequencia';
 
 function Rotas(): JSX.Element {
   const loggedin = useSelector(
@@ -77,6 +79,22 @@ function Rotas(): JSX.Element {
           element={
             <Loggeding loggedin={loggedin}>
               <PedidosDeAdesao />
+            </Loggeding>
+          }
+        />
+        <Route
+          path="/tools/frequencia"
+          element={
+            <Loggeding loggedin={loggedin}>
+              <Frequencia />
+            </Loggeding>
+          }
+        />
+        <Route
+          path="/tools/frequencia/atualizar-frequencia"
+          element={
+            <Loggeding loggedin={loggedin}>
+              <AtualizarFrequencia />
             </Loggeding>
           }
         />

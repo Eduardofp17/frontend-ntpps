@@ -7,7 +7,7 @@ interface Props {
 export const Card = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 10px rgba(11, 11, 11, 0.1);
-  border-radius: 15px;
+  border-radius: 12px;
   padding: 10px;
   text-align: left;
   display: ${(props: Props) =>

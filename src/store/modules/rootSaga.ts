@@ -9,6 +9,9 @@ import { UpdateCardapioTypes } from './UpdateCardapio/types';
 import { updateCardapioRequest } from './UpdateCardapio/sagas';
 import { AcceptRequestTypes } from './AcceptRequest/types';
 import { AcceptRequestRequest } from './AcceptRequest/sagas';
+import { RejectRequestTypes } from './RejectRequest/types';
+import { RejectRequestRequest } from './RejectRequest/sagas';
+
 export default function* rootSaga() {
   yield all([takeLatest(AuthTypes.AuthRequest, authRequest)]);
   yield all([takeLatest(AuthTypes.AuthLoggoutRequest, authLoggoutRequest)]);
@@ -28,5 +31,8 @@ export default function* rootSaga() {
   ]);
   yield all([
     takeLatest(AcceptRequestTypes.AcceptRequestRequest, AcceptRequestRequest),
+  ]);
+  yield all([
+    takeLatest(RejectRequestTypes.RejectRequestRequest, RejectRequestRequest),
   ]);
 }
