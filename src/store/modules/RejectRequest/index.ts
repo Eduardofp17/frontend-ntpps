@@ -1,7 +1,7 @@
-import { AcceptRequestState } from './types';
+import { RejectRequestState } from './types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const INITIAL_STATE: AcceptRequestState = {
+const INITIAL_STATE: RejectRequestState = {
   errorMessage: '',
   error: false,
   updated: false,
@@ -17,24 +17,24 @@ interface PayloadApi {
   email: string;
 }
 
-const AcceptRequestSlice = createSlice({
-  name: 'AcceptRequest',
+const RejectRequestSlice = createSlice({
+  name: 'RejectRequest',
   initialState: INITIAL_STATE,
   reducers: {
-    AcceptRequestRequest: (state, action: PayloadAction<PayloadApi>) => {
+    RejectRequestRequest: (state, action: PayloadAction<PayloadApi>) => {
       state.error = false;
       state.errorMessage = '';
       state.updated = false;
       state.loading = true;
     },
-    AcceptRequestSuccess: (state) => {
+    RejectRequestSuccess: (state) => {
       state.error = false;
       state.errorMessage = '';
       state.updated = true;
       state.loading = false;
       state.id = null;
     },
-    AcceptRequestFailure: (state, action: PayloadAction<Error>) => {
+    RejectRequestFailure: (state, action: PayloadAction<Error>) => {
       state.error = true;
       state.errorMessage = action.payload.error;
       state.updated = false;
@@ -45,8 +45,8 @@ const AcceptRequestSlice = createSlice({
 });
 
 export const {
-  AcceptRequestRequest,
-  AcceptRequestSuccess,
-  AcceptRequestFailure,
-} = AcceptRequestSlice.actions;
-export default AcceptRequestSlice.reducer;
+  RejectRequestRequest,
+  RejectRequestSuccess,
+  RejectRequestFailure,
+} = RejectRequestSlice.actions;
+export default RejectRequestSlice.reducer;
