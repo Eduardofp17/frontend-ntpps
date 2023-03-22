@@ -9,6 +9,7 @@ import { CircularProgress } from '@mui/material';
 import { darkGreen } from '../../config/collors/colors';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Student } from '@phosphor-icons/react';
+
 function ToolsPage(): JSX.Element {
   const [level, setLevel] = React.useState<number>(0);
   const [loading, setLoading] = React.useState<boolean>(false);
