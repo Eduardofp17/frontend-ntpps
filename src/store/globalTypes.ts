@@ -26,6 +26,7 @@ export interface Response {
   data: {
     token: string;
     level: number;
+    school_id: number;
   };
 }
 

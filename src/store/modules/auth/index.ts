@@ -13,6 +13,7 @@ const INITIAL_STATE: AuthState = {
   },
   loggedIn: false,
   level: 0,
+  school_id: -1,
 };
 
 const authSlice = createSlice({
@@ -30,6 +31,7 @@ const authSlice = createSlice({
       state.error = false;
       state.token = action.payload.data.token;
       state.level = action.payload.data.level;
+      state.school_id = action.payload.data.school_id;
       state.data = { email: '', password: '' };
       state.loggedIn = true;
     },
@@ -51,6 +53,7 @@ const authSlice = createSlice({
       state.data = { email: '', password: '' };
       state.loggedIn = false;
       state.level = 0;
+      state.school_id = -1;
     },
   },
 });

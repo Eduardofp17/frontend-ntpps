@@ -14,6 +14,7 @@ export interface AuthState {
   readonly loggedIn: boolean;
   readonly errorMessage: string[];
   readonly level: number;
+  readonly school_id: number;
 }
 
 export interface PayloadApi {
