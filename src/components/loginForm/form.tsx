@@ -135,7 +135,7 @@ function LoginForm(): JSX.Element {
         <Link
           component="a"
           variant="body2"
-          href="/forgotPassword"
+          href="/forgotpassword"
           style={{
             textAlign: 'right',
             color: darkGreen,
@@ -153,7 +153,7 @@ function LoginForm(): JSX.Element {
         <Link
           component="a"
           variant="body2"
-          href="/createAccount"
+          href="/createaccount"
           style={{
             textAlign: 'right',
             color: darkGreen,

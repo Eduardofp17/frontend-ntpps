@@ -32,7 +32,7 @@ function Rotas(): JSX.Element {
         <Route path="/login" element={<Login />} />
         <Route path="/forgotpassword" element={<Forgot />} />
         <Route path="/createaccount" element={<Register />} />
-        <Route path="/createcccount/confirmemail" element={<ConfirmEmail />} />
+        <Route path="/createaccount/confirmemail" element={<ConfirmEmail />} />
         <Route path="/cardapios" element={<Cardapios />} />
         <Route
           path="/tools"
