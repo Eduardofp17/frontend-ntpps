@@ -55,7 +55,7 @@ function ParaGestores(): JSX.Element {
   // };
   return (
     <React.Fragment>
-      <DenseHeader text="Para gestores" to="/tools" icon={<SettingsIcon />} />
+      <DenseHeader text="Para gestores" icon={<SettingsIcon />} />
 
       <div style={{ display: loading ? 'flex' : 'none' }}>
         <CircularProgress

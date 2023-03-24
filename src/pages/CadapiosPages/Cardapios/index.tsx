@@ -51,7 +51,7 @@ function Cardapios(): JSX.Element {
 
   return (
     <React.Fragment>
-      <DenseHeader to="/" text="Ver Cardápios" />
+      <DenseHeader text="Ver Cardápios" />
       <Main style={{ display: loading ? 'flex' : 'none' }}>
         <CircularProgress
           style={{ color: darkGreen, margin: 'auto', marginTop: '200px' }}

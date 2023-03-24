@@ -22,7 +22,7 @@ function Login(): JSX.Element {
   }, [loadingState, loadingState]);
   return (
     <React.Fragment>
-      <DenseHeader to="/" text="Login" />
+      <DenseHeader text="Login" />
       <div style={{ display: loading ? 'flex' : 'none' }}>
         <CircularProgress
           style={{ color: darkGreen, margin: 'auto', marginTop: '200px' }}

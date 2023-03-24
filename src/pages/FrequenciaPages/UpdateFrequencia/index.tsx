@@ -10,7 +10,7 @@ import { Request } from '../../../store/globalTypes';
 function AtualizarFrequencia(): JSX.Element {
   return (
     <React.Fragment>
-      <DenseHeader text="Atualizar frequência" to="/tools/frequencia" />
+      <DenseHeader text="Atualizar frequência" />
 
       <Main>
         <h2>Hi there</h2>

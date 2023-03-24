@@ -10,6 +10,7 @@ import { darkGreen, primaryGreen } from '../../config/collors/colors';
 import { Navigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+
 function Register(): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [commonUser, setCommonUser] = useState(false);
@@ -19,7 +20,6 @@ function Register(): JSX.Element {
   const registered: boolean = useSelector(
     (state: States): boolean => state.registerReducer.registered,
   );
-
   useEffect(() => {
     setLoading(loadingState);
   }, [loadingState]);
@@ -33,7 +33,7 @@ function Register(): JSX.Element {
   };
   return (
     <React.Fragment>
-      <DenseHeader to="/login" text="Solicitar conta" />
+      <DenseHeader text="Solicitar conta" />
 
       <Main style={{ display: loading ? 'flex' : 'none' }}>
         <CircularProgress

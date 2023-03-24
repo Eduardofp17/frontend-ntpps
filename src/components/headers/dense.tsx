@@ -3,15 +3,14 @@ import { Box, AppBar, Toolbar, Typography, IconButton } from '@mui/material';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import { primaryGreen } from '../../config/collors/colors';
 import ConfigComponent from '../Configuracao/config';
-
+import { useNavigate } from 'react-router-dom';
 interface Props {
-  to: string;
   text: string;
   icon?: JSX.Element;
 }
 function DenseHeader(props: Props): JSX.Element {
   const [openConfig, setOpenConfig] = React.useState<boolean>(false);
-
+  const navigate = useNavigate();
   const handleOpen = () => {
     setOpenConfig(!openConfig);
   };
@@ -32,7 +31,7 @@ function DenseHeader(props: Props): JSX.Element {
                 edge="start"
                 color="inherit"
                 aria-label="menu"
-                href={props.to}
+                onClick={() => navigate(-1)}
                 style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}
               >
                 <ArrowBackOutlinedIcon />

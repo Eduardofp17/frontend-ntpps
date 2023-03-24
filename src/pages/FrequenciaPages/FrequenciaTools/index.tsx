@@ -27,7 +27,7 @@ function Frequencia(): JSX.Element {
 
   return (
     <React.Fragment>
-      <DenseHeader text="Frequência" to="/tools" />
+      <DenseHeader text="Frequência" />
 
       <Main>
         <h4 style={{ textAlign: 'left' }}>Funcionalidades disponiveis: </h4>
