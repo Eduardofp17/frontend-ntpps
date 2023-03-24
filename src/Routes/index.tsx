@@ -20,6 +20,7 @@ import ParaGestores from '../pages/ParaGestores/ParaGestores';
 import PedidosDeAdesao from '../pages/ParaGestoresPages/PedidosDeAdesao';
 import Frequencia from '../pages/FrequenciaPages/FrequenciaTools';
 import AtualizarFrequencia from '../pages/FrequenciaPages/UpdateFrequencia';
+import RedefinePassword from '../pages/RedefinePassword';
 
 function Rotas(): JSX.Element {
   const loggedin = useSelector(
@@ -31,8 +32,12 @@ function Rotas(): JSX.Element {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgotpassword" element={<Forgot />} />
+        <Route
+          path="/forgotpassword/redefine-password/:v1?"
+          element={<RedefinePassword />}
+        />
         <Route path="/createaccount" element={<Register />} />
-        <Route path="/createcccount/confirmemail" element={<ConfirmEmail />} />
+        <Route path="/createaccount/confirmemail" element={<ConfirmEmail />} />
         <Route path="/cardapios" element={<Cardapios />} />
         <Route
           path="/tools"

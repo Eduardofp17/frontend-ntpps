@@ -67,7 +67,7 @@ function CriarCardapios(): JSX.Element {
   };
   return (
     <React.Fragment>
-      <DenseHeader text="Criar cardápio" to="/tools/adm-cardapios" />
+      <DenseHeader text="Criar cardápio" />
       <Main>
         <Alert
           severity="error"

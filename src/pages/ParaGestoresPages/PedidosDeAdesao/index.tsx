@@ -45,7 +45,7 @@ function PedidosDeAdesao(): JSX.Element {
   }, [loading, LoadingAcceptState, LoadingRejectState]);
   return (
     <React.Fragment>
-      <DenseHeader text="Pedidos de adesão" to="/tools/gestores" />
+      <DenseHeader text="Pedidos de adesão" />
       <Main style={{ display: loading ? 'flex' : 'none' }}>
         <CircularProgress
           style={{ color: darkGreen, margin: 'auto', marginTop: '200px' }}

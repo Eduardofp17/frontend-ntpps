@@ -17,7 +17,7 @@ function Forgot(): JSX.Element {
 
   return (
     <React.Fragment>
-      <DenseHeader to="/login" text="Esqueci minha senha" />
+      <DenseHeader text="Esqueci minha senha" />
       <Main style={{ display: loading ? 'flex' : 'none' }}>
         <CircularProgress
           style={{ color: darkGreen, margin: 'auto', marginTop: '200px' }}
@@ -26,7 +26,7 @@ function Forgot(): JSX.Element {
       <Main style={{ display: loading ? 'none' : 'flex' }}>
         <Container>
           <IMG
-            src="images/propaganda.png"
+            src="/images/propaganda.png"
             alt="Propaganda alusiva ao desperdício de Alimentos"
           />
           <P>Insira seu email para redefinir a sua senha:</P>

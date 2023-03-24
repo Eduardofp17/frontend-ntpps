@@ -55,7 +55,7 @@ function AtualizarCardapios(): JSX.Element {
   };
   return (
     <React.Fragment>
-      <DenseHeader to="/tools/adm-cardapios/" text="Editar cardápio" />
+      <DenseHeader text="Editar cardápio" />
       <Main style={{ display: loading ? 'flex' : 'none' }}>
         <CircularProgress
           style={{ color: darkGreen, margin: 'auto', marginTop: '200px' }}

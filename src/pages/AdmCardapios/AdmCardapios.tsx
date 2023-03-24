@@ -17,7 +17,7 @@ function AdmCardapios(): JSX.Element {
   }, [levelState]);
   return (
     <React.Fragment>
-      <DenseHeader text="Administrar Cardápios" to="/tools" />
+      <DenseHeader text="Administrar Cardápios" />
       <Main>
         <h4 style={{ textAlign: 'left' }}>Funcionalidades disponíveis: </h4>
 
