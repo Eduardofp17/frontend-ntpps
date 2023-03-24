@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 interface Props {
   text: string;
   icon?: JSX.Element;
+  to?: string;
 }
 function DenseHeader(props: Props): JSX.Element {
   const [openConfig, setOpenConfig] = React.useState<boolean>(false);
@@ -31,7 +32,7 @@ function DenseHeader(props: Props): JSX.Element {
                 edge="start"
                 color="inherit"
                 aria-label="menu"
-                onClick={() => navigate(-1)}
+                onClick={() => (props.to ? navigate(props.to) : navigate(-1))}
                 style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}
               >
                 <ArrowBackOutlinedIcon />
