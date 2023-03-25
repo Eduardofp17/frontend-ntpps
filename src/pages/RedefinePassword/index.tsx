@@ -64,7 +64,6 @@ function RedefinePassword() {
     if (!isValidPasswords()) return;
     try {
       await axios.put(`/users/redefine/${token}`, { password });
-      console.log('Password redefined');
     } catch (e) {
       console.log(e);
     }
@@ -75,7 +74,10 @@ function RedefinePassword() {
       <Main>
         <h3>Digite a sua nova senha: </h3>
         <FormHTML>
-          <div className="inputs">
+          <div
+            className="inputs"
+            style={{ display: 'flex', flexDirection: 'column' }}
+          >
             <FormControl
               sx={{ m: 1, width: '30ch' }}
               variant="standard"

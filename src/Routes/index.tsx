@@ -10,7 +10,7 @@ import Home from '../pages/Home/home';
 import Login from '../pages/Login/login';
 import Forgot from '../pages/ForgotPassword/Forgot';
 import Register from '../pages/Register/Register';
-import ConfirmEmail from '../pages/ConfirmEmail/Confirm';
+import RedirectToEmail from '../pages/RedirectToEmail/Redirect';
 import Cardapios from '../pages/CadapiosPages/Cardapios';
 import Tools from '../pages/Tools/tools';
 import AdmCardapios from '../pages/AdmCardapios/AdmCardapios';
@@ -21,6 +21,7 @@ import PedidosDeAdesao from '../pages/ParaGestoresPages/PedidosDeAdesao';
 import Frequencia from '../pages/FrequenciaPages/FrequenciaTools';
 import AtualizarFrequencia from '../pages/FrequenciaPages/UpdateFrequencia';
 import RedefinePassword from '../pages/RedefinePassword';
+import ConfirmEmail from '../pages/ConfirmEmail/Confirm';
 
 function Rotas(): JSX.Element {
   const loggedin = useSelector(
@@ -37,7 +38,14 @@ function Rotas(): JSX.Element {
           element={<RedefinePassword />}
         />
         <Route path="/createaccount" element={<Register />} />
-        <Route path="/createaccount/confirmemail" element={<ConfirmEmail />} />
+        <Route
+          path="/createaccount/confirmemail"
+          element={<RedirectToEmail />}
+        />
+        <Route
+          path="/createaccount/confirmemail/:v1?"
+          element={<ConfirmEmail />}
+        />
         <Route path="/cardapios" element={<Cardapios />} />
         <Route
           path="/tools"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, IMG, Main, P } from '../ConfirmEmail/styled';
+import { Container, IMG, Main, P } from '../RedirectToEmail/styled';
 import DenseHeader from '../../components/headers/dense';
 import Form from '../../components/forgotPassword/form';
 import { useSelector } from 'react-redux';

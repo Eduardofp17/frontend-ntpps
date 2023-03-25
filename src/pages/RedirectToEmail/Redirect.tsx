@@ -4,34 +4,17 @@ import ContainedButton from '../../components/buttons/contained';
 import Erro404 from '../Erro 404/404';
 import { useSelector } from 'react-redux';
 import { States } from '../../store/globalTypes';
-import axios from '../../services/axios';
-
-function ConfirmEmail(): JSX.Element {
-  const token = document.location.search.split('').slice(1).join('');
+function RedirectToEmail(): JSX.Element {
   const registered: boolean = useSelector(
     (state: States): boolean => state.registerReducer.registered,
   );
-
-  React.useEffect(() => {
-    async function getConfirm() {
-      try {
-        await axios.get(`/requests/confirm/${token}`);
-      } catch (e) {
-        return 'An error ocurred';
-      }
-    }
-    getConfirm();
-  }, []);
   return (
     <React.Fragment>
       {registered ? (
         <Main>
           <Container>
-            <h2>Email confirmado com sucesso!</h2>
-            <h3>
-              Agora você precisa apenas esperar a instiuição aceitar sua
-              solicitação.
-            </h3>
+            <h2>Enviamos um link no seu email.</h2>
+            <h3>Clicando nele você poderá confirmar que seu email é válido</h3>
             <ContainedButton textButton="Início" to="/" />
           </Container>
         </Main>
@@ -42,4 +25,4 @@ function ConfirmEmail(): JSX.Element {
   );
 }
 
-export default ConfirmEmail;
+export default RedirectToEmail;

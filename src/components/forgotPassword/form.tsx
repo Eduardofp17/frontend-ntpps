@@ -1,6 +1,5 @@
 import React from 'react';
 import isEmail from 'validator/lib/isEmail';
-import { useDispatch } from 'react-redux';
 import { TextField, FormControl, Link } from '@mui/material';
 
 import { FormHTML } from './styled';
@@ -8,9 +7,7 @@ import { darkGreen } from '../../config/collors/colors';
 import ContainedButton from '../buttons/contained';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import { useSelector } from 'react-redux';
-import { States } from '../../store/globalTypes';
-import { AuthRequest } from '../../store/modules/auth';
+import axios from '../../services/axios';
 
 function EmailForm(): JSX.Element {
   const [email, setEmail] = React.useState<string>('');
@@ -19,10 +16,6 @@ function EmailForm(): JSX.Element {
   const [alert, setAlert] = React.useState<boolean>(false);
   const [alertMessage, setAlertMessage] = React.useState<string>('');
   const [error, setError] = React.useState<boolean>(false);
-  const [errors, setErrors] = React.useState<string[]>([]);
-
-  const dispatch = useDispatch();
-  const err = useSelector((state: States) => state.authReducer.errorMessage);
 
   React.useEffect(() => {
     if (email.length > 0) {
@@ -31,25 +24,25 @@ function EmailForm(): JSX.Element {
     if (email.length === 0) setEmailError(false);
   }, [email]);
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      e.preventDefault();
 
-    if (!isInvalidEmail()) {
-      // dispatch(AuthRequest({ email, password: 'asda' }));
-      console.log('Redefinir senha');
-
-      if (err.length > 0) {
+      if (isInvalidEmail()) {
         setError(true);
-        setErrors(err);
+        setAlertMessage('Email inválido');
         setAlert(true);
         setTimeout(() => setError(false), 2500);
         return;
       }
+      await axios.post('/users/forgotPassword/', { email });
       setAlert(true);
       setAlertMessage(
         'Enviamos um link para o seu email, clicando nele você poderá redefinir sua senha',
       );
       setTimeout(() => setAlert(false), 2500);
+    } catch (e) {
+      return 'An error ocurred';
     }
   };
 
@@ -81,6 +74,7 @@ function EmailForm(): JSX.Element {
             label="Email"
             variant="standard"
             helperText={emailError ? emailErrorMessage : ''}
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             error={emailError}
           />
