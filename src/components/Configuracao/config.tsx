@@ -13,6 +13,9 @@ function ConfigComponent() {
   const schoolId = useSelector(
     (state: States): number => state.authReducer.school_id,
   );
+  const levelState = useSelector(
+    (state: States): number => state.authReducer.level,
+  );
   axios.defaults.headers.Authorization = `Bearer ${token}`;
   const getAllowRequest = async () => {
     try {
@@ -54,7 +57,10 @@ function ConfigComponent() {
         </div>
 
         <div className="Configs">
-          <div className="config1 config">
+          <div
+            className="config1 config"
+            style={{ display: levelState < 3 ? 'none' : 'flex' }}
+          >
             <p>Permitir solicitações: </p>
             <Switch
               value={allowRequest}
