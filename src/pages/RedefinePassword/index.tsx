@@ -64,7 +64,6 @@ function RedefinePassword() {
     if (!isValidPasswords()) return;
     try {
       await axios.put(`/users/redefine/${token}`, { password });
-      console.log('Password redefined');
     } catch (e) {
       console.log(e);
     }
