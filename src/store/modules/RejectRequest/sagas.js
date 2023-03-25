@@ -6,7 +6,7 @@ export function* RejectRequestRequest({ payload }) {
   try {
     const { email, token } = payload;
     axios.defaults.headers.Authorization = `Bearer ${token}`;
-    const response = yield call(axios.post, '/requests/accept/', {
+    const response = yield call(axios.post, '/requests/reject/', {
       email,
     });
     yield put(RejectRequestSuccess(response));
