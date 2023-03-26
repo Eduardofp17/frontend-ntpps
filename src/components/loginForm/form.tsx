@@ -31,7 +31,6 @@ function LoginForm(): JSX.Element {
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
   const [error, setError] = useState(false);
-  const [errors, setErrors] = React.useState<string[]>([]);
   const dispatch = useDispatch();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const err = useSelector((state: States) => state.authReducer.errorMessage);
@@ -57,7 +56,6 @@ function LoginForm(): JSX.Element {
       dispatch(AuthRequest({ email, password }));
       if (err.length > 0) {
         setError(true);
-        setErrors(err);
         setTimeout(() => setError(false), 2500);
       }
     }
@@ -86,7 +84,7 @@ function LoginForm(): JSX.Element {
           textAlign: 'center',
         }}
       >
-        <AlertTitle>{errors[0]}</AlertTitle>
+        <AlertTitle>Email ou senha inválidos</AlertTitle>
       </Alert>
       <FormHTML method="post">
         <FormControl sx={{ m: 1, width: '30ch' }} variant="standard">
