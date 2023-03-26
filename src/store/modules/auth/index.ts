@@ -41,7 +41,7 @@ const authSlice = createSlice({
       state.token = '';
       state.data = { email: '', password: '' };
       state.loggedIn = false;
-      state.errorMessage = [...action.payload];
+      state.errorMessage = [action.payload];
     },
     AuthLoggoutRequest: (state) => {
       state.loading = true;
