@@ -13,7 +13,7 @@ function Tools(): JSX.Element {
           alt="Propaganda alusiva ao desperdício de Alimentos"
         />
         <Stack spacing={2} direction="column">
-          <OutlinedButton textButton="Ver Cardápio" to="/cardapios" />
+          <OutlinedButton textButton="Ver Cardápios" to="/cardapios" />
           <ContainedButton textButton="Login" to="/login" />
         </Stack>
       </Main>
