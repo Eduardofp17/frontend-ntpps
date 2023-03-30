@@ -57,7 +57,7 @@ function ToolsPage(): JSX.Element {
             icon={<Student />}
             to="/tools/frequencia"
             level={level}
-            levelRequired={10000}
+            levelRequired={999}
           />
         </Tools>
       </Main>
