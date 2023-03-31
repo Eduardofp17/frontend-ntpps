@@ -22,7 +22,7 @@ import Frequencia from '../pages/FrequenciaPages/FrequenciaTools';
 import AtualizarFrequencia from '../pages/FrequenciaPages/UpdateFrequencia';
 import RedefinePassword from '../pages/RedefinePassword';
 import ConfirmEmail from '../pages/ConfirmEmail/Confirm';
-
+import ConfirmEmailSchool from '../pages/ConfirmEmail-School/Confirm';
 function Rotas(): JSX.Element {
   const loggedin = useSelector(
     (state: States): boolean => state.authReducer.loggedIn,
@@ -45,6 +45,10 @@ function Rotas(): JSX.Element {
         <Route
           path="/createaccount/confirmemail/:v1?"
           element={<ConfirmEmail />}
+        />
+        <Route
+          path="/createaccount/confirmemail-school/:v1?"
+          element={<ConfirmEmailSchool />}
         />
         <Route path="/cardapios" element={<Cardapios />} />
         <Route
