@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Main, Tools } from './styled';
 import DenseHeader from '../../components/headers/dense';
 import Tool from '../../components/tool/tool';
-import PostAdd from '@mui/icons-material/PostAdd';
+import { PostAdd } from '@mui/icons-material';
 import { States } from '../../store/globalTypes';
 import { useSelector } from 'react-redux';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';

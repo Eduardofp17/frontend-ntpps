@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from 'react-redux';
 import { AcceptRequestRequest } from '../../store/modules/AcceptRequest/index';
 import { RejectRequestRequest } from '../../store/modules/RejectRequest/index';
-import WarningIcon from '@mui/icons-material/Warning';
+import { Warning } from '@mui/icons-material';
 import ModalInfo from '../Modals/ModalInfo';
 
 interface Props {
@@ -68,7 +68,7 @@ function Request(props: Props): JSX.Element {
               }}
             >
               <ModalInfo
-                icon={<WarningIcon style={{ color: 'red' }} />}
+                icon={<Warning style={{ color: 'red' }} />}
                 title={`${props.nome} ${props.sobrenome} não pode ser aceito`}
                 description={`${props.nome} ${props.sobrenome} precisa validar o email. Essa verificação é necessária para evitar spam.`}
               />

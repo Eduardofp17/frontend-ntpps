@@ -10,7 +10,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { darkGreen } from '../../config/collors/colors';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Alert from '@mui/material/Alert';
-import SettingsIcon from '@mui/icons-material/Settings';
+import { Settings } from '@mui/icons-material';
 
 function ParaGestores(): JSX.Element {
   const [level, setLevel] = React.useState<number>(0);
@@ -55,7 +55,7 @@ function ParaGestores(): JSX.Element {
   // };
   return (
     <React.Fragment>
-      <DenseHeader text="Para gestores" icon={<SettingsIcon />} />
+      <DenseHeader text="Para gestores" icon={<Settings />} />
 
       <div style={{ display: loading ? 'flex' : 'none' }}>
         <CircularProgress
