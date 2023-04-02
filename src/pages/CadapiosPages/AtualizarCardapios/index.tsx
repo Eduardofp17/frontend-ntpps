@@ -1,7 +1,13 @@
 import React from 'react';
 import DenseHeader from '../../../components/headers/dense';
 import CardapioEdit from '../../../components/CardapioEdit/Cardapio';
-import { CardapiosContainer, Main } from './styled';
+import {
+  CardapiosContainer,
+  Main,
+  CardapiosEvenComponent,
+  CardapiosOddComponent,
+  CardapiosSection,
+} from './styled';
 import axios from '../../../services/axios';
 import { AxiosError } from 'axios';
 import { CardapioModel } from '../../../store/globalTypes';
@@ -9,26 +15,33 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { darkGreen } from '../../../config/collors/colors';
 import { States } from '../../../store/globalTypes';
 import { useSelector } from 'react-redux';
+import Semanas from '../../../utils/weekNumber';
 function AtualizarCardapios(): JSX.Element {
-  const [CardapiosAPI, setCardapiosAPI] = React.useState<CardapioModel[]>([]);
+  const [CardapiosEven, setCardapiosEven] = React.useState<CardapioModel[]>([]);
+  const [CardapiosOdd, setCardapiosOdd] = React.useState<CardapioModel[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [actualWeek, setActualWeek] = React.useState<number>(-1);
   const loadingState = useSelector(
     (state: States): boolean => state.deleteCardapioReducer.loading,
   );
   const loadingUpdateState = useSelector(
     (state: States): boolean => state.updateCardapioReducer.loading,
   );
-
+  const semana = new Semanas().pegarDataAtual();
   const getCardapios = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/cardapio');
+      const response = await axios.get('/cardapio/all');
       setLoading(false);
       const { data } = response;
+      const even: CardapioModel[] = [];
+      const odd: CardapioModel[] = [];
       data.map((val: CardapioModel) => {
-        val.position = val.id;
+        if (val.weeknumber === 0) even.push(val);
+        if (val.weeknumber === 1) odd.push(val);
       });
-      setCardapiosAPI(data);
+      setCardapiosEven(even);
+      setCardapiosOdd(odd);
     } catch (e) {
       const err = e as AxiosError;
       return err.response?.data;
@@ -38,21 +51,8 @@ function AtualizarCardapios(): JSX.Element {
   React.useEffect(() => {
     getCardapios();
     setLoading(loadingState);
+    setActualWeek(semana);
   }, [loading, loadingState, loadingUpdateState]);
-
-  const days = [
-    'Domingo',
-    'Segunda-feira',
-    'Terça-feira',
-    'Quarta-feira',
-    'Quinta-feira',
-    'Sexta-feira',
-    'Sábado',
-  ];
-  const position = (Day: string): number => {
-    const position: number = days.indexOf(Day);
-    return position;
-  };
   return (
     <React.Fragment>
       <DenseHeader text="Editar cardápio" />
@@ -63,21 +63,88 @@ function AtualizarCardapios(): JSX.Element {
       </Main>
       <Main style={{ display: loading ? 'none' : 'flex' }}>
         <h2 style={{ padding: '5px' }}>
-          Esses são os cardápios dessa semana:{' '}
+          Esses são os cardápios criados por sua instituição:{' '}
         </h2>
-        <CardapiosContainer>
-          {CardapiosAPI.map((cardapio: CardapioModel) => (
-            <CardapioEdit
-              id={cardapio.id}
-              dayname={cardapio.dayname}
-              breakfast={cardapio.breakfast}
-              lunch={cardapio.lunch}
-              afternoonsnack={cardapio.afternoonsnack}
-              position={position(cardapio.dayname)}
-              key={cardapio.id}
-            />
-          ))}
-        </CardapiosContainer>
+        <CardapiosSection>
+          <CardapiosOddComponent>
+            <h3
+              style={{
+                width: '90%',
+                margin: 'auto',
+                padding: '5px 10px',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                backgroundColor: actualWeek === 1 ? '#b4f5c6' : '',
+                borderRadius: '5px',
+              }}
+            >
+              Semanas 1 e 3:{' '}
+              <span
+                style={{
+                  display: actualWeek === 1 ? 'flex' : 'none',
+                  width: '10px',
+                  height: '10px',
+                  borderRadius: '50px',
+                  backgroundColor: 'green',
+                }}
+              ></span>
+            </h3>
+            <CardapiosContainer>
+              {CardapiosOdd.map((cardapio: CardapioModel) => (
+                <CardapioEdit
+                  id={cardapio.id}
+                  dayname={cardapio.dayname}
+                  breakfast={cardapio.breakfast}
+                  lunch={cardapio.lunch}
+                  afternoonsnack={cardapio.afternoonsnack}
+                  position={cardapio.id}
+                  key={cardapio.id}
+                />
+              ))}
+            </CardapiosContainer>
+          </CardapiosOddComponent>
+          <CardapiosEvenComponent>
+            <h3
+              style={{
+                width: '90%',
+                margin: 'auto',
+                padding: '5px 10px',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                backgroundColor: actualWeek === 0 ? '#b4f5c6' : '',
+                borderRadius: '5px',
+              }}
+            >
+              Semanas 2 e 4:{' '}
+              <span
+                style={{
+                  display: actualWeek === 0 ? 'flex' : 'none',
+                  width: '10px',
+                  height: '10px',
+                  borderRadius: '50px',
+                  backgroundColor: 'green',
+                }}
+              ></span>
+            </h3>
+            <CardapiosContainer>
+              {CardapiosEven.map((cardapio: CardapioModel) => (
+                <CardapioEdit
+                  id={cardapio.id}
+                  dayname={cardapio.dayname}
+                  breakfast={cardapio.breakfast}
+                  lunch={cardapio.lunch}
+                  afternoonsnack={cardapio.afternoonsnack}
+                  position={cardapio.id}
+                  key={cardapio.id}
+                />
+              ))}
+            </CardapiosContainer>
+          </CardapiosEvenComponent>
+        </CardapiosSection>
       </Main>
     </React.Fragment>
   );

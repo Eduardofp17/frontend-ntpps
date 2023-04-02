@@ -4,7 +4,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { primaryGreen } from '../../config/collors/colors';
 import { AuthLoggoutRequest } from '../../store/modules/auth/index';
 import { useDispatch } from 'react-redux';
-
+import { useNavigate } from 'react-router-dom';
 import Modal from '../Modals/ModalButtons/index';
 interface Props {
   to: string;
@@ -13,9 +13,10 @@ interface Props {
 function BasicHeader(props: Props): JSX.Element {
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
-
+  const navigate = useNavigate();
   const handleLogout = () => {
     dispatch(AuthLoggoutRequest());
+    navigate('/login');
   };
   return (
     <React.Fragment>
@@ -23,7 +24,7 @@ function BasicHeader(props: Props): JSX.Element {
         <Modal
           ModalOpen={modalOpen}
           title={`Você realmente deseja sair da sua conta?`}
-          info={`Ao clicar em "Confirmar" você sairá da sua conta e será redirecionado para uma página de erro 404.`}
+          info={`Ao clicar em "Confirmar" você sairá da sua conta e será redirecionado para a página de login.`}
           button1={
             <button
               style={{
