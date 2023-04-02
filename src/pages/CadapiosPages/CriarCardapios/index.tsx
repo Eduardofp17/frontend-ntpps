@@ -14,6 +14,7 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { AxiosError } from 'axios';
 function CriarCardapios(): JSX.Element {
+  document.title = 'Criar cardápio';
   const [weekDay, setWeekDay] = React.useState<string>('');
   const [weekNum, setWeekNum] = React.useState<number>(0);
   const [snack, setSnack] = React.useState<string>('');

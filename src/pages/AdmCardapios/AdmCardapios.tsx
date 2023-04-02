@@ -7,6 +7,7 @@ import { States } from '../../store/globalTypes';
 import { useSelector } from 'react-redux';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 function AdmCardapios(): JSX.Element {
+  document.title = 'Administrar cardápios';
   const [level, setLevel] = useState(0);
   const levelState = useSelector(
     (state: States): number => state.authReducer.level,

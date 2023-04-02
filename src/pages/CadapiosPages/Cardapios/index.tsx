@@ -7,6 +7,7 @@ import axios from '../../../services/axios';
 import { CircularProgress } from '@mui/material';
 import { darkGreen } from '../../../config/collors/colors';
 function Cardapios(): JSX.Element {
+  document.title = 'Ver cardápios';
   const [CardapiosAPI, setCardapiosAPI] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {

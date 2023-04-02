@@ -13,6 +13,7 @@ import ContainedButton from '../../components/buttons/contained';
 import axios from '../../services/axios';
 
 function RedefinePassword() {
+  document.title = 'Redefinir senha';
   const token = document.location.search.split('').slice(1).join('');
   const [showPassword, setShowPassword] = React.useState(false);
   const [password, setPassword] = React.useState<string>('');

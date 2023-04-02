@@ -13,6 +13,7 @@ import Alert from '@mui/material/Alert';
 import { Settings } from '@mui/icons-material';
 
 function ParaGestores(): JSX.Element {
+  document.title = 'Para gestores';
   const [level, setLevel] = React.useState<number>(0);
   const [schoolId, setSchoolId] = React.useState<number>(-1);
   const [code, setCode] = React.useState<string>('');

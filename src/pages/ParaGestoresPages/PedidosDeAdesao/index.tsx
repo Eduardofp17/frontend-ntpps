@@ -10,6 +10,7 @@ import { CircularProgress } from '@mui/material';
 import { darkGreen } from '../../../config/collors/colors';
 
 function PedidosDeAdesao(): JSX.Element {
+  document.title = 'Pedidos de adesão';
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = React.useState<boolean>(true);
 

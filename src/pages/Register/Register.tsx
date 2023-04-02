@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
 function Register(): JSX.Element {
+  document.title = 'Solicitar conta';
   const [loading, setLoading] = useState(false);
   const [commonUser, setCommonUser] = useState(false);
   const loadingState = useSelector(
