@@ -8,3 +8,6 @@ body{
   padding: 0px;
 }
 
+main{
+  min-height: 80vh;
+}
