@@ -20,6 +20,7 @@ export interface CardapioModel {
   lunch?: string;
   afternoonsnack?: string;
   position: number;
+  weeknumber?: number;
 }
 
 export interface Response {

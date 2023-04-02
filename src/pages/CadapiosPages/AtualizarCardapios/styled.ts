@@ -6,6 +6,12 @@ export const Main = styled.main`
   flex-direction: column;
   margin: auto;
   padding: 0px;
+  padding-bottom: 20px;
+`;
+export const CardapiosSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 `;
 export const Card = styled.div`
   display: flex;
@@ -22,4 +28,17 @@ export const CardapiosContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
+`;
+
+export const CardapiosEvenComponent = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 10px;
+`;
+export const CardapiosOddComponent = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 10px;
 `;
