@@ -8,6 +8,7 @@ import { CircularProgress } from '@mui/material';
 import { darkGreen } from '../../config/collors/colors';
 import { Navigate } from 'react-router-dom';
 function Login(): JSX.Element {
+  document.title = 'Login';
   const loadingState = useSelector(
     (state: States): boolean => state.authReducer.loading,
   );

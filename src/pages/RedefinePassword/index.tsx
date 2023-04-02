@@ -7,12 +7,13 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Visibility } from '@mui/icons-material';
+import { VisibilityOff } from '@mui/icons-material';
 import ContainedButton from '../../components/buttons/contained';
 import axios from '../../services/axios';
 
 function RedefinePassword() {
+  document.title = 'Redefinir senha';
   const token = document.location.search.split('').slice(1).join('');
   const [showPassword, setShowPassword] = React.useState(false);
   const [password, setPassword] = React.useState<string>('');

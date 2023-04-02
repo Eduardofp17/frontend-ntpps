@@ -11,6 +11,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Student } from '@phosphor-icons/react';
 
 function ToolsPage(): JSX.Element {
+  document.title = 'Homepage';
   const [level, setLevel] = React.useState<number>(0);
   const [loading, setLoading] = React.useState<boolean>(false);
 

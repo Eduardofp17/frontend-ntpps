@@ -8,8 +8,8 @@ import {
   FormHelperText,
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Visibility } from '@mui/icons-material';
+import { VisibilityOff } from '@mui/icons-material';
 import { FormHTML, P } from './styled';
 import isEmail from 'validator/lib/isEmail';
 import ContainedButton from '../buttons/contained';

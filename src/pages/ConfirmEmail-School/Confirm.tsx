@@ -16,6 +16,7 @@ function ConfirmEmailSchool(): JSX.Element {
     async function getConfirm() {
       try {
         await axios.get(`/school/confirm/${token}`);
+        document.title = 'Email confirmado';
       } catch (e) {
         return 'An error ocurred';
       }

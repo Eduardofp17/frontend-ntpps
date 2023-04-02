@@ -5,6 +5,7 @@ import Erro404 from '../Erro 404/404';
 import { useSelector } from 'react-redux';
 import { States } from '../../store/globalTypes';
 function RedirectToEmail(): JSX.Element {
+  document.title = 'Email enviado!';
   const registered: boolean = useSelector(
     (state: States): boolean => state.registerReducer.registered,
   );

@@ -7,6 +7,7 @@ import { States } from '../../store/globalTypes';
 import { CircularProgress } from '@mui/material';
 import { darkGreen } from '../../config/collors/colors';
 function Forgot(): JSX.Element {
+  document.title = 'Esqueci minha senha';
   const loadingState = useSelector(
     (state: States): boolean => state.authReducer.loading,
   );
@@ -23,7 +24,12 @@ function Forgot(): JSX.Element {
           style={{ color: darkGreen, margin: 'auto', marginTop: '200px' }}
         />
       </Main>
-      <Main style={{ display: loading ? 'none' : 'flex' }}>
+      <Main
+        style={{
+          display: loading ? 'none' : 'flex',
+          marginTop: '0px',
+        }}
+      >
         <Container>
           <IMG
             src="/images/propaganda.png"

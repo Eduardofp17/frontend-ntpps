@@ -15,6 +15,10 @@ export const IMG = styled.img`
 export const Main = styled.main`
   width: 100%;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: red;
 `;
 
 export const P = styled.p`

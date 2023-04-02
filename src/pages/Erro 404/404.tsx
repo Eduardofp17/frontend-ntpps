@@ -3,6 +3,7 @@ import { CssBaseline } from '@mui/material';
 import { Main } from './styled';
 import ContainedButton from '../../components/buttons/contained';
 function Erro404(): JSX.Element {
+  document.title = 'Erro 404';
   return (
     <React.Fragment>
       <CssBaseline />

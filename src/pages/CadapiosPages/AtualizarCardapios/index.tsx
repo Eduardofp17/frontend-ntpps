@@ -17,6 +17,7 @@ import { States } from '../../../store/globalTypes';
 import { useSelector } from 'react-redux';
 import Semanas from '../../../utils/weekNumber';
 function AtualizarCardapios(): JSX.Element {
+  document.title = 'Editar cardápio';
   const [CardapiosEven, setCardapiosEven] = React.useState<CardapioModel[]>([]);
   const [CardapiosOdd, setCardapiosOdd] = React.useState<CardapioModel[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
