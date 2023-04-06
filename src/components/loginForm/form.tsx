@@ -86,8 +86,8 @@ function LoginForm(): JSX.Element {
       >
         <AlertTitle>Email ou senha inválidos</AlertTitle>
       </Alert>
-      <FormHTML method="post">
-        <FormControl sx={{ m: 1, width: '30ch' }} variant="standard">
+      <FormHTML method="post" style={{ justifyContent: 'center' }}>
+        <FormControl sx={{ m: 1, width: '95%' }} variant="standard">
           <TextField
             type="email"
             id="email-basic"
@@ -99,7 +99,7 @@ function LoginForm(): JSX.Element {
           />
         </FormControl>
         <FormControl
-          sx={{ m: 1, width: '30ch' }}
+          sx={{ m: 1, width: '95%' }}
           variant="standard"
           error={passwordError}
         >

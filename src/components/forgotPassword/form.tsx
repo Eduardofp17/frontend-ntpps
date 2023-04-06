@@ -66,8 +66,8 @@ function EmailForm(): JSX.Element {
       >
         <AlertTitle>{alertMessage}</AlertTitle>
       </Alert>
-      <FormHTML method="post">
-        <FormControl sx={{ m: 1, width: '30ch' }} variant="standard">
+      <FormHTML method="post" style={{ minWidth: '100%' }}>
+        <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
           <TextField
             type="email"
             id="email-basic"

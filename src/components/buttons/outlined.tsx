@@ -16,6 +16,7 @@ function OutlinedButton(props: Props): JSX.Element {
         fontStyle: 'normal',
         fontWeight: 700,
         borderColor: primaryGreen,
+        width: '100%',
       }}
     >
       {props.textButton}

@@ -10,7 +10,8 @@ export const Main = styled.main`
   padding-bottom: 25%;
 `;
 export const IMG = styled.img`
-  width: 210px;
+  width: 70%;
+  max-width: 210px;
   margin: auto;
   margin-top: 40px;
 `;

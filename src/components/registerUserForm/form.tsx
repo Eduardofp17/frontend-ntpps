@@ -195,7 +195,7 @@ function UserForm(): JSX.Element {
         <AlertTitle>{errors}</AlertTitle>
       </Alert>
       <FormHTML method="post" style={{ marginTop: error ? '10px' : '-20px' }}>
-        <FormControl sx={{ m: 1, width: '30ch' }}>
+        <FormControl sx={{ m: 1, width: '95%' }}>
           <TextField
             type="text"
             id="name-basic"
@@ -207,7 +207,7 @@ function UserForm(): JSX.Element {
             error={nameError}
           />
         </FormControl>
-        <FormControl sx={{ m: 1, width: '30ch' }}>
+        <FormControl sx={{ m: 1, width: '95%' }}>
           <TextField
             type="text"
             id="lastName-basic"
@@ -219,7 +219,7 @@ function UserForm(): JSX.Element {
             error={lastnameError}
           />
         </FormControl>
-        <FormControl sx={{ m: 1, width: '30ch' }}>
+        <FormControl sx={{ m: 1, width: '95%' }}>
           <TextField
             type="email"
             id="email-basic"
@@ -230,7 +230,7 @@ function UserForm(): JSX.Element {
             error={emailError}
           />
         </FormControl>
-        <FormControl sx={{ m: 1, width: '30ch' }}>
+        <FormControl sx={{ m: 1, width: '95%' }}>
           <TextField
             type="text"
             id="code-basic"
@@ -244,7 +244,7 @@ function UserForm(): JSX.Element {
           />
         </FormControl>
         <FormControl
-          sx={{ m: 1, width: '30ch' }}
+          sx={{ m: 1, width: '95%' }}
           variant="standard"
           error={passwordError}
         >
@@ -275,7 +275,7 @@ function UserForm(): JSX.Element {
           </FormHelperText>
         </FormControl>
         <FormControl
-          sx={{ m: 1, width: '30ch' }}
+          sx={{ m: 1, width: '95%' }}
           variant="standard"
           error={repeatPasswordError}
         >
