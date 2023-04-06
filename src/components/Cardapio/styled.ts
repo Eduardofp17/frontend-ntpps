@@ -9,10 +9,10 @@ export const Details = styled.details`
   height: auto;
   transition: 3s;
   summary {
-    list-style: none;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    list-style: none;
     cursor: pointer;
     font-weight: bold;
   }

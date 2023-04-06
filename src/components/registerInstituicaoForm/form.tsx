@@ -163,7 +163,7 @@ function RegisterForm(): JSX.Element {
         <AlertTitle>{errors}</AlertTitle>
       </Alert>
       <FormHTML method="post">
-        <FormControl sx={{ m: 1, width: '30ch' }}>
+        <FormControl sx={{ m: 1, width: '95%' }}>
           <TextField
             type="text"
             id="name-basic"
@@ -174,7 +174,7 @@ function RegisterForm(): JSX.Element {
             helperText={nameError ? nameErrorMessage : ''}
           />
         </FormControl>
-        <FormControl sx={{ m: 1, width: '30ch' }}>
+        <FormControl sx={{ m: 1, width: '95%' }}>
           <TextField
             type="email"
             id="email-basic"
@@ -185,7 +185,7 @@ function RegisterForm(): JSX.Element {
             error={emailError}
           />
         </FormControl>
-        <FormControl sx={{ m: 1, width: '30ch' }}>
+        <FormControl sx={{ m: 1, width: '95%' }}>
           <TextField
             type="text"
             id="cnpj-basic"
@@ -198,7 +198,7 @@ function RegisterForm(): JSX.Element {
           />
         </FormControl>
         <FormControl
-          sx={{ m: 1, width: '30ch' }}
+          sx={{ m: 1, width: '95%' }}
           variant="standard"
           error={passwordError}
         >
@@ -229,7 +229,7 @@ function RegisterForm(): JSX.Element {
           </FormHelperText>
         </FormControl>
         <FormControl
-          sx={{ m: 1, width: '30ch' }}
+          sx={{ m: 1, width: '95%' }}
           variant="standard"
           error={repeatPasswordError}
         >

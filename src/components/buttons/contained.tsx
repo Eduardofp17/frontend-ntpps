@@ -18,6 +18,7 @@ function ContainedButton(props: Props): JSX.Element {
         fontStyle: 'normal',
         fontWeight: 700,
         backgroundColor: primaryGreen,
+        width: '100%',
       }}
     >
       {props.textButton}
