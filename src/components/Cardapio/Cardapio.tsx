@@ -39,7 +39,7 @@ function Cardapio(props: CardapioModel): JSX.Element {
   return (
     <React.Fragment>
       <Details>
-        <summary style={{ listStyle: 'none' }}>
+        <summary>
           {props.dayname}
           {<ArrowForwardIosIcon sx={{ color: darkGreen }} className="row" />}
         </summary>
