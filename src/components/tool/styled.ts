@@ -16,6 +16,7 @@ export const Card = styled.div`
   justify-content: space-between;
   max-height: 120px;
   gap: 10px;
+  width: 100%;
 `;
 export const Icon = styled.div`
   svg {

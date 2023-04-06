@@ -28,7 +28,8 @@ export default function ModalInfo(props: Props) {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: 330,
+            width: '100%',
+            maxWidth: '330px',
             backgroundColor: '#fff',
             padding: 10,
           }}

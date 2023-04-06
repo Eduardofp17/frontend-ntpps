@@ -13,8 +13,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <Router>
-          <CssBaseline />
           <Routes />
+          <CssBaseline />
           <Footer />
         </Router>
       </PersistGate>
