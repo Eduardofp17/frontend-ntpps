@@ -38,3 +38,9 @@ export interface Request {
   verified: boolean;
   email: string;
 }
+
+export interface Class {
+  id: number;
+  name: string;
+  amount: number;
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,6 +10,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableFooter from '@mui/material/TableFooter';
 import { primaryOrange } from '../../config/collors/colors';
+import { Class } from '../../store/globalTypes';
+import { States } from '../../store/globalTypes';
+interface Props {
+  ClassPayload: Class[];
+}
 
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,31 +37,24 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(room: string, amount: number) {
-  return { room, amount };
-}
-
-const rows = [
-  createData('Sala 01', 14),
-  createData('Sala 02', 37),
-  createData('Sala 03', 26),
-  createData('Sala 04', 30),
-  createData('Sala 05', 35),
-];
-interface Props {
-  PupilAmount: number[];
-}
 export default function TableComponent(props: Props): JSX.Element {
   const [total, setTotal] = React.useState<number>(0);
-
+  const levelState = useSelector(
+    (state: States): number => state.authReducer.level,
+  );
   React.useEffect(() => {
-    const sum = props.PupilAmount.reduce(
-      (total: number, item: number) => total + item,
-    );
-    setTotal(sum);
+    let total = 0;
+    props.ClassPayload.map((room) => {
+      total += room.amount;
+    });
+    setTotal(total);
   }, []);
+
+  const alterClassAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+  };
   return (
-    <React.Fragment>
+    <>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 300 }} aria-label="customized table">
           <TableHead>
@@ -67,12 +66,23 @@ export default function TableComponent(props: Props): JSX.Element {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.room}>
+            {props.ClassPayload.map((row) => (
+              <StyledTableRow key={row.name}>
                 <StyledTableCell component="th" scope="row">
-                  {row.room}
+                  {row.name}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.amount}</StyledTableCell>
+                {levelState > 1 ? (
+                  <StyledTableCell align="right">
+                    <input
+                      type="number"
+                      value={row.amount}
+                      style={{ textAlign: 'center' }}
+                      onChange={(e) => alterClassAmount(e)}
+                    />
+                  </StyledTableCell>
+                ) : (
+                  <StyledTableCell align="right">{row.amount}</StyledTableCell>
+                )}
               </StyledTableRow>
             ))}
           </TableBody>
@@ -96,6 +106,6 @@ export default function TableComponent(props: Props): JSX.Element {
           </TableFooter>
         </Table>
       </TableContainer>
-    </React.Fragment>
+    </>
   );
 }
