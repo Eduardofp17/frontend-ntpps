@@ -11,11 +11,11 @@ function AtualizarFrequencia(): JSX.Element {
       <Main>
         <TableComponent
           ClassPayload={[
-            { id: 0, name: 'Sala 01', amount: 39 },
-            { id: 1, name: 'Sala 02', amount: 50 },
-            { id: 2, name: 'Sala 03', amount: 25 },
-            { id: 3, name: 'Sala 04', amount: 10 },
-            { id: 4, name: 'Sala 05', amount: 9 },
+            { id: 0, name: 'Sala 01', amount: 39, selected: false },
+            { id: 1, name: 'Sala 02', amount: 50, selected: false },
+            { id: 2, name: 'Sala 03', amount: 25, selected: false },
+            { id: 3, name: 'Sala 04', amount: 10, selected: false },
+            { id: 4, name: 'Sala 05', amount: 9, selected: false },
           ]}
         />
       </Main>

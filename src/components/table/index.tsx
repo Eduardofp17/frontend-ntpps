@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,7 +10,8 @@ import Paper from '@mui/material/Paper';
 import TableFooter from '@mui/material/TableFooter';
 import { primaryOrange } from '../../config/collors/colors';
 import { Class } from '../../store/globalTypes';
-import { States } from '../../store/globalTypes';
+import ModeIcon from '@mui/icons-material/Mode';
+import CloseIcon from '@mui/icons-material/Close';
 interface Props {
   ClassPayload: Class[];
 }
@@ -39,19 +39,42 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableComponent(props: Props): JSX.Element {
   const [total, setTotal] = React.useState<number>(0);
-  const levelState = useSelector(
-    (state: States): number => state.authReducer.level,
+  const [classPayload, setClassPayload] = React.useState<Class[]>(
+    props.ClassPayload,
   );
   React.useEffect(() => {
     let total = 0;
-    props.ClassPayload.map((room) => {
+    classPayload.map((room) => {
       total += room.amount;
     });
     setTotal(total);
-  }, []);
+  }, [classPayload]);
 
-  const alterClassAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+  const alterClassAmount = (
+    id: number,
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const amount = e.target.value.toString().replace(/^0+/, '');
+
+    const novaClassPayload = classPayload.map((sala) => {
+      if (sala.id === id) {
+        return { ...sala, amount: Number(amount) };
+      }
+      return sala;
+    });
+
+    setClassPayload(novaClassPayload);
+  };
+
+  const alterSelectedInput = (id: number) => {
+    const novaClassPayload = classPayload.map((sala) => {
+      if (sala.id === id) {
+        return { ...sala, selected: !sala.selected };
+      }
+      return sala;
+    });
+
+    setClassPayload(novaClassPayload);
   };
   return (
     <>
@@ -66,22 +89,67 @@ export default function TableComponent(props: Props): JSX.Element {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.ClassPayload.map((row) => (
+            {classPayload.map((row) => (
               <StyledTableRow key={row.name}>
                 <StyledTableCell component="th" scope="row">
                   {row.name}
                 </StyledTableCell>
-                {levelState > 1 ? (
-                  <StyledTableCell align="right">
+                {row.selected ? (
+                  <StyledTableCell
+                    align="right"
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: '15px',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
                     <input
                       type="number"
                       value={row.amount}
-                      style={{ textAlign: 'center' }}
-                      onChange={(e) => alterClassAmount(e)}
+                      style={{ textAlign: 'center', maxWidth: '50px' }}
+                      onChange={(e) => alterClassAmount(row.id, e)}
                     />
+                    <span
+                      className="selectInput"
+                      onClick={() => alterSelectedInput(row.id)}
+                    >
+                      {row.selected ? (
+                        <CloseIcon style={{ fontSize: '25px', color: 'red' }} />
+                      ) : (
+                        <ModeIcon
+                          style={{ fontSize: '19px', color: primaryOrange }}
+                        />
+                      )}
+                    </span>
                   </StyledTableCell>
                 ) : (
-                  <StyledTableCell align="right">{row.amount}</StyledTableCell>
+                  <StyledTableCell
+                    align="right"
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: '15px',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
+                    {row.amount}{' '}
+                    <span
+                      className="selectInput"
+                      onClick={() => alterSelectedInput(row.id)}
+                    >
+                      {' '}
+                      {row.selected ? (
+                        <CloseIcon style={{ fontSize: '25px', color: 'red' }} />
+                      ) : (
+                        <ModeIcon
+                          style={{ fontSize: '19px', color: primaryOrange }}
+                        />
+                      )}
+                    </span>
+                  </StyledTableCell>
                 )}
               </StyledTableRow>
             ))}

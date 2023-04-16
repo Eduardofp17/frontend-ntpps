@@ -29,6 +29,7 @@
     "redux-saga": "^1.2.2",
     "styled-components": "^5.3.6",
     "typesafe-actions": "^5.1.0",
+    "@iconify/react": "^4.1.0",
     "validator": "^13.9.0"
   },
   "devDependencies": {
