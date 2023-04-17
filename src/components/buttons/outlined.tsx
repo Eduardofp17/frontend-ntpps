@@ -4,6 +4,7 @@ import { primaryGreen } from '../../config/collors/colors';
 interface Props {
   textButton: string;
   to?: string;
+  width?: string;
 }
 function OutlinedButton(props: Props): JSX.Element {
   return (
@@ -16,7 +17,7 @@ function OutlinedButton(props: Props): JSX.Element {
         fontStyle: 'normal',
         fontWeight: 700,
         borderColor: primaryGreen,
-        width: '100%',
+        width: props.width ? props.width : '100%',
       }}
     >
       {props.textButton}

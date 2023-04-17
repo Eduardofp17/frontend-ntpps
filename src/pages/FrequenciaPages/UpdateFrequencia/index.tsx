@@ -14,8 +14,7 @@ function AtualizarFrequencia(): JSX.Element {
             { id: 0, name: 'Sala 01', amount: 39, selected: false },
             { id: 1, name: 'Sala 02', amount: 50, selected: false },
             { id: 2, name: 'Sala 03', amount: 25, selected: false },
-            { id: 3, name: 'Sala 04', amount: 10, selected: false },
-            { id: 4, name: 'Sala 05', amount: 9, selected: false },
+            { id: 3, name: 'Sala 04', amount: 30, selected: false },
           ]}
         />
       </Main>

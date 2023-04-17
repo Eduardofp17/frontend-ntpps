@@ -12,6 +12,9 @@ import { primaryOrange } from '../../config/collors/colors';
 import { Class } from '../../store/globalTypes';
 import ModeIcon from '@mui/icons-material/Mode';
 import CloseIcon from '@mui/icons-material/Close';
+import ContainedButton from '../buttons/contained';
+import OutlinedButton from '../buttons/outlined';
+
 interface Props {
   ClassPayload: Class[];
 }
@@ -39,6 +42,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TableComponent(props: Props): JSX.Element {
   const [total, setTotal] = React.useState<number>(0);
+  const [isAChange, setIsAChange] = React.useState<boolean>(false);
   const [classPayload, setClassPayload] = React.useState<Class[]>(
     props.ClassPayload,
   );
@@ -47,6 +51,13 @@ export default function TableComponent(props: Props): JSX.Element {
     classPayload.map((room) => {
       total += room.amount;
     });
+    if (
+      classPayload.find((e) => e.amount !== props.ClassPayload[e.id].amount)
+    ) {
+      setIsAChange(true);
+    } else {
+      setIsAChange(false);
+    }
     setTotal(total);
   }, [classPayload]);
 
@@ -78,7 +89,10 @@ export default function TableComponent(props: Props): JSX.Element {
   };
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer
+        component={Paper}
+        style={{ display: 'flex', flexDirection: 'column' }}
+      >
         <Table sx={{ minWidth: 300 }} aria-label="customized table">
           <TableHead>
             <TableRow>
@@ -173,6 +187,18 @@ export default function TableComponent(props: Props): JSX.Element {
             </TableRow>
           </TableFooter>
         </Table>
+        <div
+          className="buttons"
+          style={{
+            display: isAChange ? 'flex' : 'none',
+            flexDirection: 'column',
+            gap: '10px',
+            padding: '20px',
+          }}
+        >
+          <ContainedButton textButton="Confirmar Mudanças" />
+          <OutlinedButton textButton="Descartar Mudanças" />
+        </div>
       </TableContainer>
     </>
   );

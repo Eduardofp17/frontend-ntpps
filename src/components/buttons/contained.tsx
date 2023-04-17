@@ -6,6 +6,7 @@ interface Props {
   textButton: string;
   to?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  width?: string;
 }
 function ContainedButton(props: Props): JSX.Element {
   return (
@@ -18,7 +19,7 @@ function ContainedButton(props: Props): JSX.Element {
         fontStyle: 'normal',
         fontWeight: 700,
         backgroundColor: primaryGreen,
-        width: '100%',
+        width: props.width ? props.width : '100%',
       }}
     >
       {props.textButton}
