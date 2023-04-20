@@ -76,6 +76,7 @@ function Cardapios(): JSX.Element {
           ))}
         </CardapiosContainer>
         <ContainedFixedButton
+          to="/cardapios/feedback-cardapios"
           icon={
             <Icon
               icon="fluent:person-feedback-16-regular"

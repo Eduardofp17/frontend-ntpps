@@ -11,6 +11,7 @@ interface Props {
 function ContainedButton(props: Props): JSX.Element {
   return (
     <Button
+      type="submit"
       variant="contained"
       href={props.to}
       onClick={props.onClick}

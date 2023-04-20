@@ -11,53 +11,61 @@ import IconButton from '@mui/material/IconButton';
 import { Visibility } from '@mui/icons-material';
 import { VisibilityOff } from '@mui/icons-material';
 import { FormHTML, P } from './styled';
-import { useDispatch } from 'react-redux';
-import { RegisterRequest } from '../../store/modules/register/index';
-import ContainedButton from '../buttons/contained';
 import isEmail from 'validator/lib/isEmail';
+import ContainedButton from '../../buttons/contained';
+import { useDispatch } from 'react-redux';
+import { RegisterRequest } from '../../../store/modules/register/index';
+import { States } from '../../../store/globalTypes';
+import { RegisterErrors } from '../../../store/modules/register/types';
 import { useSelector } from 'react-redux';
-import { States } from '../../store/globalTypes';
+
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import { RegisterErrors } from '../../store/modules/register/types';
-function RegisterForm(): JSX.Element {
-  const dispatch = useDispatch();
+function UserForm(): JSX.Element {
   const [showPassword, setShowPassword] = useState(false);
 
   const [name, setName] = useState('');
+  const [lastname, setLastame] = useState('');
   const [email, setEmail] = useState('');
-  const [cnpj, setCnpj] = useState('');
+  const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
 
-  const [cnpjError, setCnpjError] = useState(false);
   const [nameError, setNameError] = useState(false);
+  const [lastnameError, setLastnameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
+  const [codeError, setCodeError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [repeatPasswordError, setRepeatPasswordError] = useState(false);
   const [error, setError] = useState(false);
 
   const [errors, setErrors] = useState('');
-  const [cnpjErrorMessage, setCnpjErrorMessage] = useState('');
   const [nameErrorMessage, setNameErrorMessage] = useState('');
+  const [lastnameErrorMessage, setLastnameErrorMessage] = useState('');
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
+  const [codeErrorMessage, setCodeErrorMessage] = useState('');
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
   const [repeatPasswordErrorMessage, setRepeatPasswordErrorMessage] =
     useState('');
-
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const dispatch = useDispatch();
   const err: RegisterErrors = useSelector(
     (state: States): RegisterErrors => state.registerReducer.errorMessage,
   );
+
   useEffect(() => {
     if (name.length > 0) {
       setNameError(isInvalidName());
     }
+    if (lastname.length > 0) {
+      setLastnameError(isInvalidLastname());
+    }
     if (email.length > 0) {
       setEmailError(isInvalidEmail());
     }
-    if (cnpj.length > 0) {
-      setCnpjError(isInvalidCnpj());
+    if (code.length > 1) {
+      setCodeError(isInvalidCode());
+      setCode(code.split(' ').join(''));
     }
     if (password.length > 0) {
       setPasswordError(isInvalidPassword());
@@ -68,11 +76,36 @@ function RegisterForm(): JSX.Element {
       setRepeatPasswordError(isInvalidRePassword());
       setRepeatPassword(repeatPassword.split(' ').join(''));
     }
+
     if (name.length === 0) setNameError(false);
+    if (lastname.length === 0) setLastnameError(false);
     if (email.length === 0) setEmailError(false);
+    if (code.length === 0) {
+      setCodeError(false);
+      setCode('#');
+    }
     if (password.length === 0) setPasswordError(false);
     if (repeatPassword.length === 0) setRepeatPasswordError(false);
-  }, [name, email, cnpj, password, repeatPassword]);
+  }, [name, lastname, email, code, password, repeatPassword]);
+
+  useEffect(() => {
+    if (err.msg.length > 0) {
+      setError(true);
+      if (err.msg === 'School is not accepting new accounts') {
+        setErrors('A instituição não está aceitando novas contas');
+      }
+      if (err.msg === "School don't exist") {
+        setErrors('A instituição não existe');
+      }
+      if (err.msg === 'Request already exist') {
+        setErrors('A solicitação já existe');
+      }
+      if (err.msg === 'User already exist') {
+        setErrors('Usuário já existe');
+      }
+      setTimeout(() => setError(false), 4500);
+    }
+  }, [err, errors]);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
@@ -86,6 +119,14 @@ function RegisterForm(): JSX.Element {
     }
     return false;
   };
+  const isInvalidLastname = (): boolean => {
+    if (lastname.length < 3) {
+      setLastnameErrorMessage('O sobrenome deve ter no mínimo 3 caracteres.');
+      return true;
+    }
+    return false;
+  };
+
   const isInvalidEmail = (): boolean => {
     if (!isEmail(email)) {
       setEmailErrorMessage('Email inválido.');
@@ -93,14 +134,17 @@ function RegisterForm(): JSX.Element {
     }
     return false;
   };
-  const isInvalidCnpj = (): boolean => {
-    if (cnpj.length < 14) {
-      setCnpjErrorMessage('Cnpj inválido.');
+  const isInvalidCode = (): boolean => {
+    if (code.length < 12) {
+      setCodeErrorMessage('Código inválido.');
+      return true;
+    }
+    if (code.length > 12) {
+      setCodeErrorMessage('Código inválido');
       return true;
     }
     return false;
   };
-
   const isInvalidPassword = (): boolean => {
     if (password.length < 6) {
       setPasswordErrorMessage('A senha deve ter no mínimo 6 caracteres');
@@ -124,54 +168,55 @@ function RegisterForm(): JSX.Element {
     }
     return false;
   };
-
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (
       !isInvalidName() &&
+      !isInvalidLastname() &&
       !isInvalidEmail() &&
-      !isInvalidCnpj() &&
+      !isInvalidCode() &&
       !isInvalidPassword()
     ) {
-      dispatch(RegisterRequest({ name, email, cnpj, password }));
-      if (err) {
-        setError(true);
-        if (err.msg === 'School already exist') {
-          setErrors('Instituição já cadastrada, tente efetuar login');
-        }
-        if (err.msg === 'Invalid Cnpj') {
-          setErrors(
-            'Cnpj inválido. Envie ele nesse formato: 99.999.999/9999-99',
-          );
-        }
-
-        setTimeout(() => setError(false), 4500);
-      }
+      dispatch(RegisterRequest({ name, lastname, email, code, password }));
     }
   };
   return (
     <React.Fragment>
-      <P>Insira as informações de sua instituição: </P>
+      <P>Insira sua informações para solicitar uma conta: </P>
       <Alert
         severity="error"
         style={{
           maxWidth: '300px',
           display: error ? 'flex' : 'none',
           textAlign: 'center',
+          margin: 'auto',
         }}
       >
         <AlertTitle>{errors}</AlertTitle>
       </Alert>
-      <FormHTML method="post">
+      <FormHTML method="post" style={{ marginTop: error ? '10px' : '-20px' }}>
         <FormControl sx={{ m: 1, width: '95%' }}>
           <TextField
             type="text"
             id="name-basic"
             label="Nome"
             variant="standard"
+            placeholder="João"
             onChange={(e) => setName(e.target.value)}
-            error={nameError}
             helperText={nameError ? nameErrorMessage : ''}
+            error={nameError}
+          />
+        </FormControl>
+        <FormControl sx={{ m: 1, width: '95%' }}>
+          <TextField
+            type="text"
+            id="lastName-basic"
+            label="Sobrenome"
+            variant="standard"
+            placeholder="Silva"
+            onChange={(e) => setLastame(e.target.value)}
+            helperText={lastnameError ? lastnameErrorMessage : ''}
+            error={lastnameError}
           />
         </FormControl>
         <FormControl sx={{ m: 1, width: '95%' }}>
@@ -188,13 +233,14 @@ function RegisterForm(): JSX.Element {
         <FormControl sx={{ m: 1, width: '95%' }}>
           <TextField
             type="text"
-            id="cnpj-basic"
-            label="Cnpj"
-            placeholder="99.999.999/9999-99"
+            id="code-basic"
+            label="Código"
             variant="standard"
-            onChange={(e) => setCnpj(e.target.value)}
-            error={cnpjError}
-            helperText={cnpjError ? cnpjErrorMessage : ''}
+            placeholder="#EX4Mpl3"
+            onChange={(e) => setCode(e.target.value)}
+            helperText={codeError ? codeErrorMessage : ''}
+            error={codeError}
+            value={code}
           />
         </FormControl>
         <FormControl
@@ -270,4 +316,4 @@ function RegisterForm(): JSX.Element {
   );
 }
 
-export default RegisterForm;
+export default UserForm;

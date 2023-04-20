@@ -45,3 +45,13 @@ export interface Class {
   amount: number;
   selected: boolean;
 }
+
+export interface School {
+  id: number;
+  name: string;
+  email: string;
+  cnpj: string;
+  code: string;
+  accepting_accounts: boolean;
+  cardapios: CardapioModel[];
+}

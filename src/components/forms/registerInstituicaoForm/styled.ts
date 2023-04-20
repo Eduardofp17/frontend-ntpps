@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import { lightGreen } from '../../config/collors/colors';
+import { lightGreen } from '../../../config/collors/colors';
 export const FormHTML = styled.form`
   display: flex;
   flex-direction: column;
   margin: auto;
-  margin-top: -30px;
 `;
 export const P = styled.p`
   color: ${lightGreen};
