@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Main } from './styled';
 import DenseHeader from '../../components/headers/dense';
-import FormUser from '../../components/registerUserForm/form';
-import FormInstituicao from '../../components/registerInstituicaoForm/form';
+import FormUser from '../../components/forms/registerUserForm/form';
+import FormInstituicao from '../../components/forms/registerInstituicaoForm/form';
 import { useSelector } from 'react-redux';
 import { States } from '../../store/globalTypes';
 import { CircularProgress } from '@mui/material';

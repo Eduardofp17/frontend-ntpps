@@ -9,6 +9,15 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableFooter from '@mui/material/TableFooter';
 import { primaryOrange } from '../../config/collors/colors';
+import { Class } from '../../store/globalTypes';
+import ModeIcon from '@mui/icons-material/Mode';
+import CloseIcon from '@mui/icons-material/Close';
+import ContainedButton from '../buttons/contained';
+import OutlinedButton from '../buttons/outlined';
+
+interface Props {
+  ClassPayload: Class[];
+}
 
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,32 +40,59 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(room: string, amount: number) {
-  return { room, amount };
-}
-
-const rows = [
-  createData('Sala 01', 14),
-  createData('Sala 02', 37),
-  createData('Sala 03', 26),
-  createData('Sala 04', 30),
-  createData('Sala 05', 35),
-];
-interface Props {
-  PupilAmount: number[];
-}
 export default function TableComponent(props: Props): JSX.Element {
   const [total, setTotal] = React.useState<number>(0);
-
+  const [isAChange, setIsAChange] = React.useState<boolean>(false);
+  const [classPayload, setClassPayload] = React.useState<Class[]>(
+    props.ClassPayload,
+  );
   React.useEffect(() => {
-    const sum = props.PupilAmount.reduce(
-      (total: number, item: number) => total + item,
-    );
-    setTotal(sum);
-  }, []);
+    let total = 0;
+    classPayload.map((room) => {
+      total += room.amount;
+    });
+    if (
+      classPayload.find((e) => e.amount !== props.ClassPayload[e.id].amount)
+    ) {
+      setIsAChange(true);
+    } else {
+      setIsAChange(false);
+    }
+    setTotal(total);
+  }, [classPayload]);
+
+  const alterClassAmount = (
+    id: number,
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const amount = e.target.value.toString().replace(/^0+/, '');
+
+    const novaClassPayload = classPayload.map((sala) => {
+      if (sala.id === id) {
+        return { ...sala, amount: Number(amount) };
+      }
+      return sala;
+    });
+
+    setClassPayload(novaClassPayload);
+  };
+
+  const alterSelectedInput = (id: number) => {
+    const novaClassPayload = classPayload.map((sala) => {
+      if (sala.id === id) {
+        return { ...sala, selected: !sala.selected };
+      }
+      return sala;
+    });
+
+    setClassPayload(novaClassPayload);
+  };
   return (
-    <React.Fragment>
-      <TableContainer component={Paper}>
+    <>
+      <TableContainer
+        component={Paper}
+        style={{ display: 'flex', flexDirection: 'column' }}
+      >
         <Table sx={{ minWidth: 300 }} aria-label="customized table">
           <TableHead>
             <TableRow>
@@ -67,12 +103,68 @@ export default function TableComponent(props: Props): JSX.Element {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.room}>
+            {classPayload.map((row) => (
+              <StyledTableRow key={row.name}>
                 <StyledTableCell component="th" scope="row">
-                  {row.room}
+                  {row.name}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.amount}</StyledTableCell>
+                {row.selected ? (
+                  <StyledTableCell
+                    align="right"
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: '15px',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
+                    <input
+                      type="number"
+                      value={row.amount}
+                      style={{ textAlign: 'center', maxWidth: '50px' }}
+                      onChange={(e) => alterClassAmount(row.id, e)}
+                    />
+                    <span
+                      className="selectInput"
+                      onClick={() => alterSelectedInput(row.id)}
+                    >
+                      {row.selected ? (
+                        <CloseIcon style={{ fontSize: '25px', color: 'red' }} />
+                      ) : (
+                        <ModeIcon
+                          style={{ fontSize: '19px', color: primaryOrange }}
+                        />
+                      )}
+                    </span>
+                  </StyledTableCell>
+                ) : (
+                  <StyledTableCell
+                    align="right"
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: '15px',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
+                    {row.amount}{' '}
+                    <span
+                      className="selectInput"
+                      onClick={() => alterSelectedInput(row.id)}
+                    >
+                      {' '}
+                      {row.selected ? (
+                        <CloseIcon style={{ fontSize: '25px', color: 'red' }} />
+                      ) : (
+                        <ModeIcon
+                          style={{ fontSize: '19px', color: primaryOrange }}
+                        />
+                      )}
+                    </span>
+                  </StyledTableCell>
+                )}
               </StyledTableRow>
             ))}
           </TableBody>
@@ -95,7 +187,19 @@ export default function TableComponent(props: Props): JSX.Element {
             </TableRow>
           </TableFooter>
         </Table>
+        <div
+          className="buttons"
+          style={{
+            display: isAChange ? 'flex' : 'none',
+            flexDirection: 'column',
+            gap: '10px',
+            padding: '20px',
+          }}
+        >
+          <ContainedButton textButton="Confirmar Mudanças" />
+          <OutlinedButton textButton="Descartar Mudanças" />
+        </div>
       </TableContainer>
-    </React.Fragment>
+    </>
   );
 }

@@ -46,14 +46,11 @@ function ParaGestores(): JSX.Element {
     getCode();
   }, [code, schoolId === -1]);
 
-  /***
-   * Enable the copy to clipboard when be ssl in the server
-   */
-  // const handleCopy = (code: string) => {
-  //   navigator.clipboard.writeText(code);
-  //   setAlertOpen(true);
-  //   setTimeout(() => setAlertOpen(false), 1500);
-  // };
+  const handleCopy = (code: string) => {
+    navigator.clipboard.writeText(code);
+    setAlertOpen(true);
+    setTimeout(() => setAlertOpen(false), 1500);
+  };
   return (
     <React.Fragment>
       <DenseHeader text="Para gestores" icon={<Settings />} />
@@ -64,12 +61,12 @@ function ParaGestores(): JSX.Element {
         />
       </div>
       <Main style={{ display: loading ? 'none' : 'flex' }}>
-        {/* <Alert
+        <Alert
           style={{ display: alertOpen ? 'flex' : 'none' }}
           severity="success"
         >
           Código copiado com sucesso
-        </Alert> */}
+        </Alert>
         <h4 style={{ textAlign: 'left' }}>
           Código da sua instituição:{' '}
           <span
@@ -78,9 +75,9 @@ function ParaGestores(): JSX.Element {
           >
             {code}
           </span>
-          {/* <span onClick={() => handleCopy(code)}>
+          <span onClick={() => handleCopy(code)}>
             <ContentCopyIcon style={{ fontSize: '20px', paddingLeft: '3px' }} />
-          </span> */}
+          </span>
         </h4>
         <div
           className="line"

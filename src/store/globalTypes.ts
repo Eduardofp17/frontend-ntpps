@@ -38,3 +38,20 @@ export interface Request {
   verified: boolean;
   email: string;
 }
+
+export interface Class {
+  id: number;
+  name: string;
+  amount: number;
+  selected: boolean;
+}
+
+export interface School {
+  id: number;
+  name: string;
+  email: string;
+  cnpj: string;
+  code: string;
+  accepting_accounts: boolean;
+  cardapios: CardapioModel[];
+}
