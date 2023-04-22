@@ -14,6 +14,7 @@ import {
 import ContainedButton from '../../../components/buttons/contained';
 import axios from '../../../services/axios';
 import { School } from '../../../store/globalTypes';
+
 const FormSchema = z.object({
   fullName: z.string().nonempty('Seu nome completo é obrigatório'),
   email: z.string().nonempty('Seu email é obrigatório').email('Email inválido'),
@@ -23,7 +24,6 @@ const FormSchema = z.object({
     .nonempty('Seu feedback precisa ter ao menos 15 caracteres')
     .min(15, 'Seu feedback precisa ter ao menos 15 caracteres'),
 });
-
 function CardapioFeedback(): JSX.Element {
   const [output, setOutput] = useState('');
   const [schools, setSchools] = useState<School[]>([]);
@@ -37,9 +37,45 @@ function CardapioFeedback(): JSX.Element {
   });
 
   //eslint-disable-next-line
-  const SendFeedback = (data: any) => {
-    setOutput(JSON.stringify(data));
-    console.log(output);
+  const SendFeedback = async (data: any) => {
+    try {
+      setOutput(JSON.stringify(data));
+      const instituicao = schools.find((school) => school.email === data.email);
+      await axios.post('/email/', {
+        email: data.instituicao,
+        subject: 'Feedback sobre a alimentação',
+        html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Feedback</title>
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+          </head>
+          <body>
+        <main style="color: #000; font-family: 'Roboto', sans-serif; padding: 10px 20px; margin: auto">
+         <div class="Header" style="width: 100%; text-align: left; margin: auto">
+
+           <h2 style="color: #000"> Saudações, ${instituicao?.name}. Esta é uma mensangem repassando o feedback de um usuário. </h2>
+           <h3 style="color: #000"> Informações do remetente abaixo:  </h3>
+           <div class="card-remetente-info" style="flex-wrap: wrap; width: 100%; background-color: #fbfbfb; margin: auto; padding: 5px 10px; border-radius: 5px; color: #000">
+             <p style=" font-weight: bold"> Nome completo do remetente: <span style="text-align: justify; padding-left: 10px; font-weight: normal"> ${data.fullName} <span/> </p>
+
+          <p style=" font-weight: bold"> Email do remetente: <span style="text-align: justify; padding-left: 10px; font-weight: normal"> ${data.email} <span/> </p>
+
+             <p style="font-weight: bold"> Feedback do remetente: <span style="text-align: justify; padding-left: 10px; font-weight: normal"> ${data.feedback} <span/> </p>
+          </p>
+           </div>
+           </div>
+        </main>
+          </body>
+        </html>
+        `,
+      });
+    } catch (e) {}
   };
   useEffect(() => {
     (async function getData() {
@@ -95,16 +131,16 @@ function CardapioFeedback(): JSX.Element {
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
               label="Instituição"
-              style={{ textAlign: 'left', fontSize: '14px', maxWidth: '274px' }}
+              style={{ textAlign: 'left', fontSize: '14px', width: '76vw' }}
               {...register('instituicao')}
               error={Boolean(errors.instituicao)}
               value={selectValue}
               onChange={(e) => setSelectValue(e.target.value)}
             >
               {schools.map((school) =>
-                school.id !== 2 ? (
+                school.id !== 20 ? (
                   <MenuItem
-                    value={school.name}
+                    value={school.email}
                     key={school.id}
                     style={{
                       textAlign: 'left',
