@@ -8,12 +8,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableFooter from '@mui/material/TableFooter';
-import { primaryOrange } from '../../config/collors/colors';
-import { Class } from '../../store/globalTypes';
+import { primaryOrange } from '../../../config/collors/colors';
+import { Class } from '../../../store/globalTypes';
 import ModeIcon from '@mui/icons-material/Mode';
 import CloseIcon from '@mui/icons-material/Close';
-import ContainedButton from '../buttons/contained';
-import OutlinedButton from '../buttons/outlined';
+import ContainedButton from '../../buttons/contained';
+import OutlinedButton from '../../buttons/outlined';
 
 interface Props {
   ClassPayload: Class[];

@@ -24,6 +24,8 @@ import RedefinePassword from '../pages/RedefinePassword';
 import ConfirmEmail from '../pages/ConfirmEmail/Confirm';
 import ConfirmEmailSchool from '../pages/ConfirmEmail-School/Confirm';
 import CardapioFeedback from '../pages/CadapiosPages/CardapioFeedback';
+import AdministrarSalas from '../pages/FrequenciaPages/AdministrarSalas';
+
 function Rotas(): JSX.Element {
   const loggedin = useSelector(
     (state: States): boolean => state.authReducer.loggedIn,
@@ -52,10 +54,10 @@ function Rotas(): JSX.Element {
           element={<ConfirmEmailSchool />}
         />
         <Route path="/cardapios" element={<Cardapios />} />
-        <Route
+        {/* <Route
           path="/cardapios/feedback-cardapios"
           element={<CardapioFeedback />}
-        />
+        /> */}
         <Route
           path="/tools"
           element={
@@ -117,6 +119,14 @@ function Rotas(): JSX.Element {
           element={
             <Loggeding loggedin={loggedin}>
               <AtualizarFrequencia />
+            </Loggeding>
+          }
+        />
+        <Route
+          path="/tools/frequencia/administrar-salas"
+          element={
+            <Loggeding loggedin={loggedin}>
+              <AdministrarSalas />
             </Loggeding>
           }
         />

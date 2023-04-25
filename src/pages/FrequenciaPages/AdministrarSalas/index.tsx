@@ -1,15 +1,15 @@
 import React from 'react';
 import DenseHeader from '../../../components/headers/dense';
 import { Main } from './styled';
-import TableComponent from '../../../components/tables/table';
-
-function AtualizarFrequencia(): JSX.Element {
+import TableSalas from '../../../components/tables/tableSalas';
+function AdministrarSalas(): JSX.Element {
   return (
     <React.Fragment>
       <DenseHeader text="Atualizar frequência" />
 
       <Main style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        <TableComponent
+        <h2>Suas salas abaixo: </h2>
+        <TableSalas
           ClassPayload={[
             { id: 0, name: 'Sala 01', amount: 39, selected: false },
             { id: 1, name: 'Sala 02', amount: 50, selected: false },
@@ -24,4 +24,4 @@ function AtualizarFrequencia(): JSX.Element {
   );
 }
 
-export default AtualizarFrequencia;
+export default AdministrarSalas;
