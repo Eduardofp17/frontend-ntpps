@@ -14,7 +14,7 @@ import {
 import ContainedButton from '../../../components/buttons/contained';
 import axios from '../../../services/axios';
 import { School } from '../../../store/globalTypes';
-
+import Alert from '@mui/material/Alert';
 const FormSchema = z.object({
   fullName: z.string().nonempty('Seu nome completo é obrigatório'),
   email: z.string().nonempty('Seu email é obrigatório').email('Email inválido'),
@@ -25,9 +25,11 @@ const FormSchema = z.object({
     .min(15, 'Seu feedback precisa ter ao menos 15 caracteres'),
 });
 function CardapioFeedback(): JSX.Element {
-  const [output, setOutput] = useState('');
   const [schools, setSchools] = useState<School[]>([]);
   const [selectValue, setSelectValue] = useState('');
+  const [error, setError] = useState<boolean>(false);
+  const [alert, setAlert] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
   const {
     register,
     handleSubmit,
@@ -39,9 +41,8 @@ function CardapioFeedback(): JSX.Element {
   //eslint-disable-next-line
   const SendFeedback = async (data: any) => {
     try {
-      setOutput(JSON.stringify(data));
       const instituicao = schools.find((school) => school.email === data.email);
-      await axios.post('/email/', {
+      const response = await axios.post('/email/', {
         email: data.instituicao,
         subject: 'Feedback sobre a alimentação',
         html: `
@@ -75,7 +76,39 @@ function CardapioFeedback(): JSX.Element {
         </html>
         `,
       });
-    } catch (e) {}
+      if (response.status === 200) {
+        setError(false);
+        setAlertMessage(
+          `Feedback enviado com sucesso para:  ${instituicao?.name}`,
+        );
+        setAlert(true);
+        setTimeout(() => {
+          setAlert(false);
+          setAlertMessage('');
+        }, 2000);
+
+        return;
+      }
+      setError(true);
+      setAlertMessage(
+        'Algum erro ocorreu, verifique se preencheu os campos corretamente',
+      );
+      setAlert(true);
+      setTimeout(() => {
+        setAlert(false);
+        setAlertMessage('');
+      }, 2000);
+      return;
+    } catch (e) {
+      setError(true);
+      setAlertMessage('Algum erro interno ocorreu');
+      setAlert(true);
+      setTimeout(() => {
+        setAlert(false);
+        setAlertMessage('');
+      }, 2000);
+      return;
+    }
   };
   useEffect(() => {
     (async function getData() {
@@ -86,12 +119,29 @@ function CardapioFeedback(): JSX.Element {
   return (
     <>
       <DenseHeader text="Feedback" />
-      <main style={{ display: 'flex', flexDirection: 'column' }}>
+      <main
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: alert ? '20px' : '0px',
+        }}
+      >
         <h2>Envie seu feedback para sua instituição</h2>
         <p style={{ maxWidth: '90%', margin: 'auto', marginBottom: '20px' }}>
           Após preencher os campos e clicar em &quot;ENVIAR FEEDBACK&quot;,
           enviaremos seu feedback para a instuição selecionada
         </p>
+        <Alert
+          variant="outlined"
+          severity={error ? 'error' : 'success'}
+          style={{
+            display: alert ? 'flex' : 'none',
+            width: '80%',
+            margin: 'auto',
+          }}
+        >
+          {alertMessage}
+        </Alert>
         <form
           style={{ width: '80%', margin: 'auto' }}
           onSubmit={handleSubmit(SendFeedback)}

@@ -52,10 +52,10 @@ function Rotas(): JSX.Element {
           element={<ConfirmEmailSchool />}
         />
         <Route path="/cardapios" element={<Cardapios />} />
-        <Route
+        {/* <Route
           path="/cardapios/feedback-cardapios"
           element={<CardapioFeedback />}
-        />
+        /> */}
         <Route
           path="/tools"
           element={
