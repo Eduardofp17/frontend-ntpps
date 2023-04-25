@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DenseHeader from '../../../components/headers/dense';
 import { Main, Tools } from './styled';
-import RequestComponent from '../../../components/Request';
-import axios from '../../../services/axios';
+
 import { useSelector } from 'react-redux';
 import { States } from '../../../store/globalTypes';
-import { Request } from '../../../store/globalTypes';
+
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import Tool from '../../../components/tool/tool';
-
+import { RoomPreferences } from '@mui/icons-material';
 function Frequencia(): JSX.Element {
-  const [level, setLevel] = React.useState<number>(0);
-  const [loading, setLoading] = React.useState<boolean>(false);
+  const [level, setLevel] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const levelState = useSelector(
     (state: States): number => state.authReducer.level,
@@ -20,13 +19,13 @@ function Frequencia(): JSX.Element {
     (state: States): boolean => state.authReducer.loading,
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     setLevel(levelState);
     setLoading(loadingState);
   }, [levelState, loadingState]);
 
   return (
-    <React.Fragment>
+    <>
       <DenseHeader text="Frequência" />
 
       <Main>
@@ -40,9 +39,16 @@ function Frequencia(): JSX.Element {
             level={level}
             levelRequired={2}
           />
+          <Tool
+            text="Administrar salas"
+            to="/tools/frequencia/administrar-salas"
+            icon={<RoomPreferences />}
+            level={level}
+            levelRequired={999}
+          />
         </Tools>
       </Main>
-    </React.Fragment>
+    </>
   );
 }
 
