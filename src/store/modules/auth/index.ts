@@ -14,6 +14,8 @@ const INITIAL_STATE: AuthState = {
   loggedIn: false,
   level: 0,
   school_id: -1,
+  creation: 0,
+  expiration: 0,
 };
 
 const authSlice = createSlice({
@@ -34,6 +36,8 @@ const authSlice = createSlice({
       state.school_id = action.payload.data.school_id;
       state.data = { email: '', password: '' };
       state.loggedIn = true;
+      state.creation = Number(new Date().getTime());
+      state.expiration = Number(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
     },
     AuthFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
@@ -42,6 +46,8 @@ const authSlice = createSlice({
       state.data = { email: '', password: '' };
       state.loggedIn = false;
       state.errorMessage = [action.payload];
+      state.creation = 0;
+      state.expiration = 0;
     },
     AuthLoggoutRequest: (state) => {
       state.loading = true;
@@ -54,6 +60,9 @@ const authSlice = createSlice({
       state.loggedIn = false;
       state.level = 0;
       state.school_id = -1;
+      window.location.href = 'https://nourishnet.net/login';
+      state.creation = 0;
+      state.expiration = 0;
     },
   },
 });
