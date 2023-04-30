@@ -8,10 +8,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Class } from '../../../store/globalTypes';
+import { primaryOrange } from '../../../config/collors/colors';
+import { Mode, Close } from '@mui/icons-material';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: primaryOrange,
+    color: '#000',
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -35,6 +39,17 @@ export default function TableSalas(props: Props) {
   useEffect(() => {
     setClassPayload(props.ClassPayload);
   }, []);
+
+  const alterSelectedInput = (id: number) => {
+    const novaClassPayload = classPayload.map((sala) => {
+      if (sala.id === id) {
+        return { ...sala, selected: !sala.selected };
+      }
+      return sala;
+    });
+
+    setClassPayload(novaClassPayload);
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 200 }} aria-label="customized table">
@@ -48,8 +63,27 @@ export default function TableSalas(props: Props) {
         <TableBody>
           {classPayload.map((room, index) => (
             <StyledTableRow key={index}>
-              <StyledTableCell component="th" scope="row" align='left'>
-                {room.name}
+              <StyledTableCell component="th" scope="row" align="left">
+                <span
+                  className="selectInput"
+                  onClick={() => alterSelectedInput(room.id)}
+                >
+                  {' '}
+                  {room.selected ? (
+                    <Close style={{ fontSize: '25px', color: 'red' }} />
+                  ) : (
+                    <Mode style={{ fontSize: '19px', color: primaryOrange }} />
+                  )}
+                </span>
+
+                {room.selected ? (
+                  <input type="text" value={room.name} />
+                ) : (
+                  room.name
+                )}
+              </StyledTableCell>
+              <StyledTableCell align="right">
+                <DeleteOutlineIcon />
               </StyledTableCell>
             </StyledTableRow>
           ))}
