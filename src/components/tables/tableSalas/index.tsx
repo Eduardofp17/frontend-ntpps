@@ -86,11 +86,12 @@ export default function TableSalas(props: Props) {
     <>
       <TableContainer
         component={Paper}
-        onClick={(e: any) => {
-          if (!e.target.classList.contains('ModalCreating') && creating) {
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+          const target = e.target as HTMLElement;
+          if (!target.classList.contains('ModalCreating') && creating) {
             return setCreating(false);
           } else if (
-            !e.target.classList.contains('ModalWithTwoButtons') &&
+            !target.classList.contains('ModalWithTwoButtons') &&
             deleting
           ) {
             return setDeleting(false);
