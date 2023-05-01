@@ -13,13 +13,13 @@ function ModalWithTwoButtons(props: Props): JSX.Element {
   return (
     <React.Fragment>
       <ModalBox style={{ display: props.ModalOpen ? 'flex' : 'none' }}>
-        <div className="box">
-          <div className="content">
-            <div className="texts">
-              <h2>{props.title}</h2>
-              <p>{props.info}</p>
+        <div className="box ModalWithTwoButtons" style={{ zIndex: 10 }}>
+          <div className="content ModalWithTwoButtons">
+            <div className="texts ModalWithTwoButtons">
+              <h2 className="ModalWithTwoButtons">{props.title}</h2>
+              <p className="ModalWithTwoButtons">{props.info}</p>
             </div>
-            <div className="buttons">
+            <div className="buttons ModalWithTwoButtons">
               {props.button1}
               {props.button2}
             </div>

@@ -44,7 +44,7 @@ function Frequencia(): JSX.Element {
             to="/tools/frequencia/administrar-salas"
             icon={<RoomPreferences />}
             level={level}
-            levelRequired={999}
+            levelRequired={2}
           />
         </Tools>
       </Main>
