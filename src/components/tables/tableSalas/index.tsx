@@ -18,6 +18,8 @@ import ContainedFixedButton from '../../buttons/containedFixed';
 import { Add } from '@mui/icons-material';
 import ModalWithTwoInputs from '../../Modals/ModalWithInputs';
 import { FormControl, TextField } from '@mui/material';
+import axios from '../../../services/axios';
+
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: primaryOrange,
@@ -39,18 +41,34 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 type Props = {
   ClassPayload: Class[];
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
 export default function TableSalas(props: Props) {
   const [classPayload, setClassPayload] = useState<Class[]>([]);
   const [isAChange, setIsAChange] = useState<boolean>(false);
   const [deletingId, setDeletingId] = useState<number>();
   const [deleting, setDeleting] = useState<boolean>(false);
   const [creating, setCreating] = useState<boolean>(false);
+  const [newRoom, setNewRoom] = useState<string>('');
+
   useEffect(() => {
-    setClassPayload(props.ClassPayload);
-  }, []);
+    (async () => {
+      try {
+        setClassPayload(props.ClassPayload);
+      } catch (e) {
+        console.log('error: ');
+      }
+    })();
+  }, [props.ClassPayload]);
   useEffect(() => {
-    if (classPayload.find((e) => e.name !== props.ClassPayload[e.id].name)) {
+    if (
+      classPayload.find(
+        (element, index) =>
+          JSON.stringify(element.sala) !==
+          JSON.stringify(props.ClassPayload[index].sala),
+      )
+    ) {
       setIsAChange(true);
     } else {
       setIsAChange(false);
@@ -68,10 +86,10 @@ export default function TableSalas(props: Props) {
   };
 
   const handleInput = (id: number, e: React.ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.value.toString();
+    const room = e.target.value.toString();
     const novaClassPayload = classPayload.map((sala) => {
       if (sala.id === id) {
-        return { ...sala, name: name };
+        return { ...sala, sala: room };
       }
       return sala;
     });
@@ -82,6 +100,46 @@ export default function TableSalas(props: Props) {
     setDeletingId(id);
     setDeleting(true);
   };
+
+  const createRoom = async () => {
+    try {
+      props.setLoading(true);
+      await axios.post('/frequencia', { sala: newRoom, qtd_presentes: 0 });
+      setCreating(false);
+      props.setLoading(false);
+    } catch (e) {
+      //
+    }
+  };
+
+  const updateRoom = async () => {
+    try {
+      const differentElements = classPayload.filter(
+        (element, index) =>
+          JSON.stringify(element.sala) !==
+          JSON.stringify(props.ClassPayload[index]?.sala),
+      );
+      differentElements.map(async (newRoom) => {
+        props.setLoading(true);
+        await axios.put(`/frequencia/${newRoom.id}`, { sala: newRoom.sala }),
+          props.setLoading(false);
+      });
+    } catch (e) {
+      //
+    }
+  };
+
+  const handleDeleteAction = async (id: number) => {
+    try {
+      props.setLoading(true);
+      await axios.delete(`/frequencia/${id}`);
+      setDeleting(false);
+      props.setLoading(false);
+    } catch (e) {
+      //
+    }
+  };
+
   return (
     <>
       <TableContainer
@@ -113,6 +171,8 @@ export default function TableSalas(props: Props) {
                 label="Nome da sala"
                 variant="outlined"
                 onClick={(e) => e.stopPropagation()}
+                value={newRoom}
+                onChange={(e) => setNewRoom(String(e.target.value))}
               />
             </FormControl>
           }
@@ -129,7 +189,10 @@ export default function TableSalas(props: Props) {
                 fontWeight: 700,
                 textTransform: 'uppercase',
               }}
-              onClick={() => setCreating(false)}
+              onClick={() => {
+                setCreating(false);
+                setNewRoom('');
+              }}
             >
               Cancelar
             </button>
@@ -146,7 +209,7 @@ export default function TableSalas(props: Props) {
                 fontWeight: 700,
                 textTransform: 'uppercase',
               }}
-              // onClick={(e) => handleAction(e)}
+              onClick={() => createRoom()}
             >
               Criar Sala
             </button>
@@ -154,11 +217,11 @@ export default function TableSalas(props: Props) {
         />
         <Modal
           ModalOpen={deleting}
-          title={`Você realmente deseja deletar a sala ${
+          title={`Você realmente deseja deletar a sala "${
             deletingId !== undefined
-              ? classPayload[Number(deletingId)].name
+              ? classPayload[Number(deletingId)].sala
               : ''
-          } ?`}
+          }" ?`}
           info={`Ao clicar em "Confirmar" você deletará a sala para sempre e todas as frequências referentes a ela`}
           button1={
             <button
@@ -173,7 +236,9 @@ export default function TableSalas(props: Props) {
                 fontWeight: 700,
                 textTransform: 'uppercase',
               }}
-              onClick={() => setDeleting(false)}
+              onClick={() => {
+                setDeleting(false);
+              }}
             >
               Cancelar
             </button>
@@ -190,7 +255,9 @@ export default function TableSalas(props: Props) {
                 fontWeight: 700,
                 textTransform: 'uppercase',
               }}
-              // onClick={(e) => handleAction(e)}
+              onClick={() =>
+                handleDeleteAction(Number(classPayload[Number(deletingId)].id))
+              }
             >
               Confirmar
             </button>
@@ -236,7 +303,7 @@ export default function TableSalas(props: Props) {
                         />
                         <input
                           type="text"
-                          value={room.name}
+                          value={room.sala}
                           onChange={(e) => handleInput(room.id, e)}
                         />
                       </span>
@@ -256,7 +323,7 @@ export default function TableSalas(props: Props) {
                         <Mode
                           style={{ fontSize: '19px', color: primaryOrange }}
                         />
-                        {room.name}
+                        {room.sala}
                       </span>
                     </div>
                   )}
@@ -280,8 +347,14 @@ export default function TableSalas(props: Props) {
             padding: '20px',
           }}
         >
-          <ContainedButton textButton="Confirmar Mudanças" />
-          <OutlinedButton textButton="Descartar Mudanças" />
+          <ContainedButton
+            textButton="Confirmar Mudanças"
+            onClick={updateRoom}
+          />
+          <OutlinedButton
+            textButton="Descartar Mudanças"
+            onClick={() => setClassPayload(props.ClassPayload)}
+          />
         </div>
       </TableContainer>
       <ContainedFixedButton

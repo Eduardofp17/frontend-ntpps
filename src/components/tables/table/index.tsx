@@ -49,10 +49,12 @@ export default function TableComponent(props: Props): JSX.Element {
   React.useEffect(() => {
     let total = 0;
     classPayload.map((room) => {
-      total += room.amount;
+      total += room.qtd_presentes;
     });
     if (
-      classPayload.find((e) => e.amount !== props.ClassPayload[e.id].amount)
+      classPayload.find(
+        (e) => e.qtd_presentes !== props.ClassPayload[e.id].qtd_presentes,
+      )
     ) {
       setIsAChange(true);
     } else {
@@ -104,9 +106,9 @@ export default function TableComponent(props: Props): JSX.Element {
           </TableHead>
           <TableBody>
             {classPayload.map((row) => (
-              <StyledTableRow key={row.name}>
+              <StyledTableRow key={row.sala}>
                 <StyledTableCell component="th" scope="row">
-                  {row.name}
+                  {row.sala}
                 </StyledTableCell>
                 {row.selected ? (
                   <StyledTableCell
@@ -121,7 +123,7 @@ export default function TableComponent(props: Props): JSX.Element {
                   >
                     <input
                       type="number"
-                      value={row.amount}
+                      value={row.qtd_presentes}
                       style={{ textAlign: 'center', maxWidth: '50px' }}
                       onChange={(e) => alterClassAmount(row.id, e)}
                     />
@@ -149,7 +151,7 @@ export default function TableComponent(props: Props): JSX.Element {
                       justifyContent: 'flex-end',
                     }}
                   >
-                    {row.amount}{' '}
+                    {row.qtd_presentes}{' '}
                     <span
                       className="selectInput"
                       onClick={() => alterSelectedInput(row.id)}
