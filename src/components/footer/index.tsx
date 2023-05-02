@@ -22,7 +22,7 @@ function Footer(): JSX.Element {
       >
         <p style={{ textAlign: 'center', fontSize: '13px' }}>
           {' '}
-          Nourishnet &copy; {year}. All rights reserved.
+          Nourishnet &copy; 2023-{year}. All rights reserved.
         </p>
         <p style={{ textAlign: 'right', opacity: '0.7', fontSize: '12px' }}>
           v1.0.0-beta

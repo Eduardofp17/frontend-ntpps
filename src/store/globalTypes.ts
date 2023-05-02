@@ -41,8 +41,8 @@ export interface Request {
 
 export interface Class {
   id: number;
-  name: string;
-  amount: number;
+  sala: string;
+  qtd_presentes: number;
   selected: boolean;
 }
 

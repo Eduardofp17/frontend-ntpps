@@ -5,12 +5,14 @@ interface Props {
   textButton: string;
   to?: string;
   width?: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 function OutlinedButton(props: Props): JSX.Element {
   return (
     <Button
       variant="outlined"
       href={props.to}
+      onClick={props.onClick}
       style={{
         borderRadius: 15,
         color: primaryGreen,
