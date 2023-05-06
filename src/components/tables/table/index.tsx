@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,9 +14,10 @@ import ModeIcon from '@mui/icons-material/Mode';
 import CloseIcon from '@mui/icons-material/Close';
 import ContainedButton from '../../buttons/contained';
 import OutlinedButton from '../../buttons/outlined';
-
+import axios from '../../../services/axios';
 interface Props {
   ClassPayload: Class[];
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const StyledTableCell = styled(TableCell)(() => ({
@@ -41,19 +42,31 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function TableComponent(props: Props): JSX.Element {
-  const [total, setTotal] = React.useState<number>(0);
-  const [isAChange, setIsAChange] = React.useState<boolean>(false);
-  const [classPayload, setClassPayload] = React.useState<Class[]>(
-    props.ClassPayload,
-  );
-  React.useEffect(() => {
+  const [total, setTotal] = useState<number>(0);
+  const [isAChange, setIsAChange] = useState<boolean>(false);
+  const [classPayload, setClassPayload] = useState<Class[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        props.setLoading(true);
+        setClassPayload(props.ClassPayload);
+        props.setLoading(false);
+      } catch (e) {
+        console.log('error: ');
+      }
+    })();
+  }, [props.ClassPayload]);
+  useEffect(() => {
     let total = 0;
     classPayload.map((room) => {
-      total += room.qtd_presentes;
+      total += room?.qtd_presentes;
     });
     if (
       classPayload.find(
-        (e) => e.qtd_presentes !== props.ClassPayload[e.id].qtd_presentes,
+        (element, index) =>
+          Number(element.qtd_presentes) !==
+          Number(props.ClassPayload[index].qtd_presentes),
       )
     ) {
       setIsAChange(true);
@@ -68,10 +81,12 @@ export default function TableComponent(props: Props): JSX.Element {
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const amount = e.target.value.toString().replace(/^0+/, '');
-
     const novaClassPayload = classPayload.map((sala) => {
       if (sala.id === id) {
-        return { ...sala, amount: Number(amount) };
+        return {
+          ...sala,
+          qtd_presentes: Number(amount) > 50 ? 50 : Number(amount),
+        };
       }
       return sala;
     });
@@ -89,16 +104,39 @@ export default function TableComponent(props: Props): JSX.Element {
 
     setClassPayload(novaClassPayload);
   };
+  const updateRoom = () => {
+    const differentElements = classPayload.filter(
+      (element, index) =>
+        Number(element.qtd_presentes) !==
+        Number(props.ClassPayload[index]?.qtd_presentes),
+    );
+
+    differentElements.map(async (element) => {
+      try {
+        props.setLoading(true);
+        await axios.put(`/frequencia/${element.id}`, {
+          qtd_presentes: element.qtd_presentes,
+        });
+        props.setLoading(false);
+      } catch (e) {
+        props.setLoading(false);
+        //
+      }
+    });
+  };
   return (
     <>
       <TableContainer
         component={Paper}
-        style={{ display: 'flex', flexDirection: 'column' }}
+        variant="outlined"
+        sx={{ width: 'auto', overflowX: 'hidden' }}
       >
-        <Table sx={{ minWidth: 300 }} aria-label="customized table">
+        <Table>
           <TableHead>
             <TableRow>
               <StyledTableCell>Salas</StyledTableCell>
+              <StyledTableCell align="center">Atualizado em:</StyledTableCell>
+
               <StyledTableCell align="right">
                 Quantidade de alunos
               </StyledTableCell>
@@ -106,9 +144,13 @@ export default function TableComponent(props: Props): JSX.Element {
           </TableHead>
           <TableBody>
             {classPayload.map((row) => (
-              <StyledTableRow key={row.sala}>
+              <StyledTableRow key={row.sala} style={{ border: 'none' }}>
                 <StyledTableCell component="th" scope="row">
                   {row.sala}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {' '}
+                  {row.updated_at}{' '}
                 </StyledTableCell>
                 {row.selected ? (
                   <StyledTableCell
@@ -119,6 +161,7 @@ export default function TableComponent(props: Props): JSX.Element {
                       gap: '15px',
                       alignItems: 'center',
                       justifyContent: 'flex-end',
+                      border: 'none',
                     }}
                   >
                     <input
@@ -142,13 +185,14 @@ export default function TableComponent(props: Props): JSX.Element {
                   </StyledTableCell>
                 ) : (
                   <StyledTableCell
-                    align="right"
+                    align="center"
                     style={{
                       display: 'flex',
                       flexDirection: 'row',
                       gap: '15px',
                       alignItems: 'center',
                       justifyContent: 'flex-end',
+                      border: 'none',
                     }}
                   >
                     {row.qtd_presentes}{' '}
@@ -177,9 +221,8 @@ export default function TableComponent(props: Props): JSX.Element {
                 fontSize: '16px',
                 padding: '10px',
                 justifyContent: 'space-between',
-                minWidth: '271%',
+                minWidth: '320%',
                 textAlign: 'center',
-
                 fontWeight: 'bold',
               }}
             >
@@ -198,8 +241,14 @@ export default function TableComponent(props: Props): JSX.Element {
             padding: '20px',
           }}
         >
-          <ContainedButton textButton="Confirmar Mudanças" />
-          <OutlinedButton textButton="Descartar Mudanças" />
+          <ContainedButton
+            textButton="Confirmar Mudanças"
+            onClick={updateRoom}
+          />
+          <OutlinedButton
+            textButton="Descartar Mudanças"
+            onClick={() => setClassPayload(props.ClassPayload)}
+          />
         </div>
       </TableContainer>
     </>
