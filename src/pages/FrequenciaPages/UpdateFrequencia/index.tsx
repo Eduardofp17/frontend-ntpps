@@ -1,26 +1,55 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import DenseHeader from '../../../components/headers/dense';
 import { Main } from './styled';
 import TableComponent from '../../../components/tables/table';
+import { Class } from '../../../store/globalTypes';
+import axios from '../../../services/axios';
+import { CircularProgress } from '@mui/material';
+import { darkGreen } from '../../../config/collors/colors';
 
 function AtualizarFrequencia(): JSX.Element {
+  const [classApi, setClassApi] = useState<Class[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get('/frequencia');
+        data.map((room: Class) => {
+          room.selected = false;
+          const date = new Date(room.updated_at);
+          room.updated_at = new Intl.DateTimeFormat('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+            timeZone: 'UTC',
+          }).format(date);
+        });
+        setClassApi(data);
+      } catch (e) {
+        setLoading(false);
+      }
+    })();
+  }, [loading]);
+
   return (
-    <React.Fragment>
+    <>
       <DenseHeader text="Atualizar frequência" />
 
-      <Main style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        <TableComponent
-          ClassPayload={[
-            { id: 0, sala: 'Sala 01', qtd_presentes: 39, selected: false },
-            { id: 1, sala: 'Sala 02', qtd_presentes: 50, selected: false },
-            { id: 2, sala: 'Sala 03', qtd_presentes: 25, selected: false },
-            { id: 3, sala: 'Sala 04', qtd_presentes: 30, selected: false },
-            { id: 4, sala: 'Sala 05', qtd_presentes: 1, selected: false },
-            { id: 5, sala: 'Sala 06', qtd_presentes: 130, selected: false },
-          ]}
-        />
+      <Main style={{ display: 'flex', flexDirection: 'column' }}>
+        <h2>Suas salas abaixo: </h2>
+        {loading ? (
+          <CircularProgress
+            style={{ color: darkGreen, margin: 'auto', marginTop: '100px' }}
+          />
+        ) : (
+          <TableComponent ClassPayload={classApi} setLoading={setLoading} />
+        )}
       </Main>
-    </React.Fragment>
+    </>
   );
 }
 

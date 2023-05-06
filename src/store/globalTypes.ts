@@ -44,6 +44,8 @@ export interface Class {
   sala: string;
   qtd_presentes: number;
   selected: boolean;
+  updated_at: string;
+  updated_by: string;
 }
 
 export interface School {
