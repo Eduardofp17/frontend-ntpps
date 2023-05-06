@@ -61,7 +61,7 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools"
           element={
-            <Loggeding loggedin={loggedin}>
+            <Loggeding levelRequired={1} loggedin={loggedin}>
               <Tools />
             </Loggeding>
           }
@@ -69,7 +69,7 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/adm-cardapios"
           element={
-            <Loggeding loggedin={loggedin}>
+            <Loggeding levelRequired={1} loggedin={loggedin}>
               <AdmCardapios />
             </Loggeding>
           }
@@ -77,7 +77,7 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/adm-cardapios/criar-cardapios"
           element={
-            <Loggeding loggedin={loggedin}>
+            <Loggeding levelRequired={1} loggedin={loggedin}>
               <CriarCardapios />
             </Loggeding>
           }
@@ -85,7 +85,7 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/adm-cardapios/atualizar-cardapios"
           element={
-            <Loggeding loggedin={loggedin}>
+            <Loggeding levelRequired={1} loggedin={loggedin}>
               <AtualizarCardapios />
             </Loggeding>
           }
@@ -93,7 +93,7 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/gestores"
           element={
-            <Loggeding loggedin={loggedin}>
+            <Loggeding levelRequired={1} loggedin={loggedin}>
               <ParaGestores />
             </Loggeding>
           }
@@ -101,7 +101,7 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/gestores/pedidos-de-adesao"
           element={
-            <Loggeding loggedin={loggedin}>
+            <Loggeding levelRequired={1} loggedin={loggedin}>
               <PedidosDeAdesao />
             </Loggeding>
           }
@@ -109,7 +109,7 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/frequencia"
           element={
-            <Loggeding loggedin={loggedin}>
+            <Loggeding loggedin={loggedin} levelRequired={2}>
               <Frequencia />
             </Loggeding>
           }
@@ -117,7 +117,7 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/frequencia/atualizar-frequencia"
           element={
-            <Loggeding loggedin={loggedin}>
+            <Loggeding levelRequired={1} loggedin={loggedin}>
               <AtualizarFrequencia />
             </Loggeding>
           }
@@ -125,7 +125,7 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/frequencia/administrar-salas"
           element={
-            <Loggeding loggedin={loggedin}>
+            <Loggeding levelRequired={1} loggedin={loggedin}>
               <AdministrarSalas />
             </Loggeding>
           }

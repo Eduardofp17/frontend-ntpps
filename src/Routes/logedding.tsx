@@ -1,13 +1,29 @@
-import React from 'react';
 import Erro404 from '../pages/Erro 404/404';
+import Erro401 from '../pages/Erro 401/401';
+import { useSelector } from 'react-redux';
+import { States } from '../store/globalTypes';
+
 interface Props {
   children: JSX.Element;
   loggedin: boolean;
+  levelRequired: number;
 }
+
 function Loggeding(props: Props) {
-  if (props.loggedin) {
-    return props.children;
+  const userLevel = useSelector(
+    (state: States): number => state.authReducer.level,
+  );
+  console.log(userLevel);
+
+  if (!props.loggedin) {
+    return <Erro404 />;
   }
-  return <Erro404 />;
+
+  if (Number(userLevel) < Number(props.levelRequired)) {
+    return <Erro401 />;
+  }
+
+  return props.children;
 }
+
 export default Loggeding;
