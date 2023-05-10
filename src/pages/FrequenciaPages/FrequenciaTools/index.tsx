@@ -8,6 +8,8 @@ import { States } from '../../../store/globalTypes';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import Tool from '../../../components/tool/tool';
 import { RoomPreferences } from '@mui/icons-material';
+import { History } from '@mui/icons-material';
+
 function Frequencia(): JSX.Element {
   const [level, setLevel] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
@@ -43,6 +45,13 @@ function Frequencia(): JSX.Element {
             text="Administrar salas"
             to="/tools/frequencia/administrar-salas"
             icon={<RoomPreferences />}
+            level={level}
+            levelRequired={2}
+          />
+          <Tool
+            text="Histórico de frequências"
+            to="/tools/frequencia/historico-de-frequencias"
+            icon={<History />}
             level={level}
             levelRequired={2}
           />

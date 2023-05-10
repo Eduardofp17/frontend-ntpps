@@ -3,6 +3,8 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { States } from '../store/globalTypes';
 import { useSelector } from 'react-redux';
+import Footer2 from '../components/footer2';
+import Footer from '../components/footer';
 //Pages bellow
 import Loggeding from './logedding';
 import Erro404 from '../pages/Erro 404/404';
@@ -25,6 +27,7 @@ import ConfirmEmail from '../pages/ConfirmEmail/Confirm';
 import ConfirmEmailSchool from '../pages/ConfirmEmail-School/Confirm';
 import CardapioFeedback from '../pages/CadapiosPages/CardapioFeedback';
 import AdministrarSalas from '../pages/FrequenciaPages/AdministrarSalas';
+import HistoricoFrequencia from '../pages/FrequenciaPages/HistoricoFrequencia';
 
 function Rotas(): JSX.Element {
   const loggedin = useSelector(
@@ -33,27 +36,79 @@ function Rotas(): JSX.Element {
   return (
     <React.Fragment>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgotpassword" element={<Forgot />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <Home /> <Footer2 />{' '}
+            </>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <>
+              <Login /> <Footer2 />
+            </>
+          }
+        />
+        <Route
+          path="/forgotpassword"
+          element={
+            <>
+              <Forgot /> <Footer2 />{' '}
+            </>
+          }
+        />
         <Route
           path="/forgotpassword/redefine-password/:v1?"
-          element={<RedefinePassword />}
+          element={
+            <>
+              <RedefinePassword /> <Footer2 />{' '}
+            </>
+          }
         />
-        <Route path="/createaccount" element={<Register />} />
+        <Route
+          path="/createaccount"
+          element={
+            <>
+              <Register /> <Footer2 />{' '}
+            </>
+          }
+        />
         <Route
           path="/createaccount/confirmemail"
-          element={<RedirectToEmail />}
+          element={
+            <>
+              <RedirectToEmail /> <Footer2 />
+            </>
+          }
         />
         <Route
           path="/createaccount/confirmemail/:v1?"
-          element={<ConfirmEmail />}
+          element={
+            <>
+              <ConfirmEmail /> <Footer2 />
+            </>
+          }
         />
         <Route
           path="/createaccount/confirmemail-school/:v1?"
-          element={<ConfirmEmailSchool />}
+          element={
+            <>
+              <ConfirmEmailSchool /> <Footer2 />{' '}
+            </>
+          }
         />
-        <Route path="/cardapios" element={<Cardapios />} />
+        <Route
+          path="/cardapios"
+          element={
+            <>
+              <Cardapios />
+              <Footer />{' '}
+            </>
+          }
+        />
         {/* <Route
           path="/cardapios/feedback-cardapios"
           element={<CardapioFeedback />}
@@ -61,7 +116,11 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools"
           element={
-            <Loggeding levelRequired={1} loggedin={loggedin}>
+            <Loggeding
+              levelRequired={1}
+              loggedin={loggedin}
+              footer={<Footer2 />}
+            >
               <Tools />
             </Loggeding>
           }
@@ -69,7 +128,11 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/adm-cardapios"
           element={
-            <Loggeding levelRequired={1} loggedin={loggedin}>
+            <Loggeding
+              levelRequired={1}
+              loggedin={loggedin}
+              footer={<Footer2 />}
+            >
               <AdmCardapios />
             </Loggeding>
           }
@@ -77,7 +140,11 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/adm-cardapios/criar-cardapios"
           element={
-            <Loggeding levelRequired={1} loggedin={loggedin}>
+            <Loggeding
+              levelRequired={1}
+              loggedin={loggedin}
+              footer={<Footer2 />}
+            >
               <CriarCardapios />
             </Loggeding>
           }
@@ -85,7 +152,11 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/adm-cardapios/atualizar-cardapios"
           element={
-            <Loggeding levelRequired={1} loggedin={loggedin}>
+            <Loggeding
+              levelRequired={1}
+              loggedin={loggedin}
+              footer={<Footer />}
+            >
               <AtualizarCardapios />
             </Loggeding>
           }
@@ -93,7 +164,11 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/gestores"
           element={
-            <Loggeding levelRequired={1} loggedin={loggedin}>
+            <Loggeding
+              levelRequired={1}
+              loggedin={loggedin}
+              footer={<Footer2 />}
+            >
               <ParaGestores />
             </Loggeding>
           }
@@ -101,7 +176,11 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/gestores/pedidos-de-adesao"
           element={
-            <Loggeding levelRequired={1} loggedin={loggedin}>
+            <Loggeding
+              levelRequired={1}
+              loggedin={loggedin}
+              footer={<Footer2 />}
+            >
               <PedidosDeAdesao />
             </Loggeding>
           }
@@ -109,7 +188,11 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/frequencia"
           element={
-            <Loggeding loggedin={loggedin} levelRequired={2}>
+            <Loggeding
+              loggedin={loggedin}
+              levelRequired={2}
+              footer={<Footer2 />}
+            >
               <Frequencia />
             </Loggeding>
           }
@@ -117,7 +200,11 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/frequencia/atualizar-frequencia"
           element={
-            <Loggeding levelRequired={1} loggedin={loggedin}>
+            <Loggeding
+              levelRequired={1}
+              loggedin={loggedin}
+              footer={<Footer />}
+            >
               <AtualizarFrequencia />
             </Loggeding>
           }
@@ -125,8 +212,24 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/frequencia/administrar-salas"
           element={
-            <Loggeding levelRequired={1} loggedin={loggedin}>
+            <Loggeding
+              levelRequired={1}
+              loggedin={loggedin}
+              footer={<Footer />}
+            >
               <AdministrarSalas />
+            </Loggeding>
+          }
+        />
+        <Route
+          path="/tools/frequencia/historico-de-frequencias"
+          element={
+            <Loggeding
+              levelRequired={2}
+              loggedin={loggedin}
+              footer={<Footer />}
+            >
+              <HistoricoFrequencia />
             </Loggeding>
           }
         />

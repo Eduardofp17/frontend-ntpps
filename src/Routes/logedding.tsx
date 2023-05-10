@@ -5,6 +5,7 @@ import { States } from '../store/globalTypes';
 
 interface Props {
   children: JSX.Element;
+  footer: JSX.Element;
   loggedin: boolean;
   levelRequired: number;
 }
@@ -13,7 +14,6 @@ function Loggeding(props: Props) {
   const userLevel = useSelector(
     (state: States): number => state.authReducer.level,
   );
-  console.log(userLevel);
 
   if (!props.loggedin) {
     return <Erro404 />;
@@ -23,7 +23,12 @@ function Loggeding(props: Props) {
     return <Erro401 />;
   }
 
-  return props.children;
+  return (
+    <>
+      {props.children}
+      {props.footer}
+    </>
+  );
 }
 
 export default Loggeding;

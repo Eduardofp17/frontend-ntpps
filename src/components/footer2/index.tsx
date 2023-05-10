@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Footer(): JSX.Element {
+function Footer2(): JSX.Element {
   const [year, setYear] = React.useState<number>();
 
   React.useEffect(() => {
@@ -16,7 +16,9 @@ function Footer(): JSX.Element {
           width: '100%',
           lineHeight: '0px',
           opacity: '0.9',
-          margin: 'auto',
+          position: 'absolute',
+          left: 0,
+          bottom: 0,
         }}
       >
         <p style={{ textAlign: 'center', fontSize: '13px' }}>
@@ -31,4 +33,4 @@ function Footer(): JSX.Element {
   );
 }
 
-export default Footer;
+export default Footer2;
