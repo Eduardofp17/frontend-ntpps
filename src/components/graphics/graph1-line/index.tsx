@@ -71,6 +71,7 @@ function GraphLine(props: Props): JSX.Element {
             padding: '0px 20px',
             fontWeight: 'bold',
             fontSize: '14px',
+            margin: '0px',
           }}
         >
           {title}
