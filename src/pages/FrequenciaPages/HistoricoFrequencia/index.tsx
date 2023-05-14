@@ -4,6 +4,7 @@ import Graph1 from '../../../components/graphics/graph1';
 import { Class } from '../../../store/globalTypes';
 import axios from '../../../services/axios';
 import GraphLine from '../../../components/graphics/graph1-line';
+import RelatorioDiv from '../../../components/divs/relatorioDiv';
 
 function HistoricoFrequencia(): JSX.Element {
   const [classApi, setClassApi] = useState<Class[]>([]);
@@ -63,21 +64,40 @@ function HistoricoFrequencia(): JSX.Element {
           gap: '20px',
         }}
       >
-        <h3>Aqui você terá acesso ao histórico de frequências de suas salas</h3>
-        <Graph1
-          CLass={classApi}
-          categories={categories}
-          data={data}
-          title={`Últimas frequências: (Atualizado em: ${latestHour})`}
-          name="Ultima frequência"
-        />
-        <GraphLine
-          CLass={classApi}
-          categories={categories}
-          data={data}
-          title={`Últimas frequências: (Médias mensais)`}
-          name="Ultima frequência"
-        />
+        <section
+          style={{
+            padding: '10px 20px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
+          }}
+        >
+          <RelatorioDiv data1={-1} data2={5} data3={20} />
+          <div
+            style={{
+              width: '30%',
+              height: '2px',
+              backgroundColor: '#7e7d7d',
+              borderRadius: '15px',
+            }}
+          ></div>
+        </section>
+        <section>
+          <Graph1
+            CLass={classApi}
+            categories={categories}
+            data={data}
+            title={`Últimas frequências: (Atualizado em: ${latestHour})`}
+            name="Ultima frequência"
+          />
+          <GraphLine
+            CLass={classApi}
+            categories={categories}
+            data={data}
+            title={`Últimas frequências: (Médias mensais)`}
+            name="Ultima frequência"
+          />
+        </section>
       </main>
     </>
   );
