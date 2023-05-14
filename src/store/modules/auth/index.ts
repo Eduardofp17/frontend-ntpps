@@ -60,7 +60,6 @@ const authSlice = createSlice({
       state.loggedIn = false;
       state.level = 0;
       state.school_id = -1;
-      window.location.href = 'https://nourishnet.net/login';
       state.creation = 0;
       state.expiration = 0;
     },

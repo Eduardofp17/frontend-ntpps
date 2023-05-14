@@ -19,12 +19,31 @@ export function* authRequest({ payload }) {
 
 export function* persisRehydrate({ payload }) {
   const token = get(payload, 'authReducer.token');
-  const expiration = new Date(payload.authReducer.expiration);
-  const creation = new Date(payload.authReducer.creation);
+  const expiration = new Intl.DateTimeFormat('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    timeZone: 'America/Sao_Paulo',
+  }).format(new Date(payload.authReducer.expiration));
+  const loggedIn = payload.authReducer.loggedIn;
 
-  const timeDiff = Math.abs(expiration.getTime() - creation.getTime());
-  const daysOn = Math.ceil(timeDiff / (1000 * 3600 * 24));
-  if (daysOn < 0) yield put(AuthLoggout());
+  if (
+    loggedIn &&
+    expiration <=
+      new Intl.DateTimeFormat('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZone: 'America/Sao_Paulo',
+      }).format(new Date())
+  )
+    yield put(AuthLoggout());
   if (!token) return;
   axios.defaults.headers.Authorization = `Bearer ${token}`;
 }
