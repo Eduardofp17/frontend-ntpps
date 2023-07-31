@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, IMG, Main, P } from './styled';
 import DenseHeader from '../../components/headers/dense';
-import Form from '../../components/loginForm/form';
+import Form from '../../components/forms/loginForm/form';
 import { useSelector } from 'react-redux';
 import { States } from '../../store/globalTypes';
 import { CircularProgress } from '@mui/material';

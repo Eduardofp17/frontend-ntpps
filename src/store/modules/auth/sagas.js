@@ -19,7 +19,12 @@ export function* authRequest({ payload }) {
 
 export function* persisRehydrate({ payload }) {
   const token = get(payload, 'authReducer.token');
-  const expiration = new Intl.DateTimeFormat('pt-BR', {
+  const expiration = payload.authReducer.expiration;
+  if (!expiration) {
+    return;
+  }
+
+  const formattedExpiration = new Intl.DateTimeFormat('pt-BR', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
@@ -27,12 +32,13 @@ export function* persisRehydrate({ payload }) {
     minute: '2-digit',
     hour12: false,
     timeZone: 'America/Sao_Paulo',
-  }).format(new Date(payload.authReducer.expiration));
+  }).format(new Date(expiration));
+
   const loggedIn = payload.authReducer.loggedIn;
 
   if (
     loggedIn &&
-    expiration <=
+    formattedExpiration >=
       new Intl.DateTimeFormat('pt-BR', {
         day: '2-digit',
         month: '2-digit',
