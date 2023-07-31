@@ -11,6 +11,7 @@ import { darkGreen } from '../../config/collors/colors';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Alert from '@mui/material/Alert';
 import { Settings } from '@mui/icons-material';
+import { ManageAccounts } from '@mui/icons-material';
 
 function ParaGestores(): JSX.Element {
   document.title = 'Para gestores';
@@ -92,6 +93,13 @@ function ParaGestores(): JSX.Element {
             text="Pedidos de adesão"
             icon={<GroupAddIcon />}
             to="/tools/gestores/pedidos-de-adesao"
+            level={level}
+            levelRequired={2}
+          />
+          <Tool
+            text="Administrar usuários"
+            icon={<ManageAccounts />}
+            to="/tools/gestores/administrar-usuarios"
             level={level}
             levelRequired={2}
           />
