@@ -14,13 +14,13 @@ import IconButton from '@mui/material/IconButton';
 import { Visibility } from '@mui/icons-material';
 import { VisibilityOff } from '@mui/icons-material';
 import { FormHTML } from './styled';
-import { darkGreen } from '../../config/collors/colors';
-import ContainedButton from '../buttons/contained';
+import { darkGreen } from '../../../config/collors/colors';
+import ContainedButton from '../../buttons/contained';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { useSelector } from 'react-redux';
-import { States } from '../../store/globalTypes';
-import { AuthRequest } from '../../store/modules/auth';
+import { States } from '../../../store/globalTypes';
+import { AuthRequest } from '../../../store/modules/auth';
 function LoginForm(): JSX.Element {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -50,11 +50,17 @@ function LoginForm(): JSX.Element {
   ) => {
     event.preventDefault();
   };
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
     if (!isInvalidEmail() && !isInvalidPassword()) {
-      dispatch(AuthRequest({ email, password }));
-      if (err.length > 0) {
+      try {
+        await dispatch(AuthRequest({ email, password }));
+        if (err) {
+          setError(true);
+          setTimeout(() => setError(false), 2500);
+        }
+      } catch (error) {
         setError(true);
         setTimeout(() => setError(false), 2500);
       }
@@ -82,6 +88,7 @@ function LoginForm(): JSX.Element {
           maxWidth: '300px',
           display: error ? 'flex' : 'none',
           textAlign: 'center',
+          margin: 'auto',
         }}
       >
         <AlertTitle>Email ou senha inválidos</AlertTitle>

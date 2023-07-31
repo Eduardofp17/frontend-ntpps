@@ -28,6 +28,7 @@ import ConfirmEmailSchool from '../pages/ConfirmEmail-School/Confirm';
 import CardapioFeedback from '../pages/CadapiosPages/CardapioFeedback';
 import AdministrarSalas from '../pages/FrequenciaPages/AdministrarSalas';
 import HistoricoFrequencia from '../pages/FrequenciaPages/HistoricoFrequencia';
+import ManageUsers from '../pages/ParaGestoresPages/ManageUsers';
 
 function Rotas(): JSX.Element {
   const loggedin = useSelector(
@@ -117,7 +118,7 @@ function Rotas(): JSX.Element {
           path="/tools"
           element={
             <Loggeding
-              levelRequired={1}
+              levelRequired={0}
               loggedin={loggedin}
               footer={<Footer2 />}
             >
@@ -182,6 +183,18 @@ function Rotas(): JSX.Element {
               footer={<Footer2 />}
             >
               <PedidosDeAdesao />
+            </Loggeding>
+          }
+        />
+        <Route
+          path="/tools/gestores/administrar-usuarios"
+          element={
+            <Loggeding
+              levelRequired={3}
+              loggedin={loggedin}
+              footer={<Footer />}
+            >
+              <ManageUsers />
             </Loggeding>
           }
         />

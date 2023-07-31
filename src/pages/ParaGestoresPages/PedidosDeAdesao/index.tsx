@@ -39,7 +39,7 @@ function PedidosDeAdesao(): JSX.Element {
         });
         setRequests(data);
       } catch (e) {
-        console.log(e);
+        //
       }
     };
     getRequests();
@@ -53,7 +53,7 @@ function PedidosDeAdesao(): JSX.Element {
         />
       </Main>
       <Main style={{ display: loading ? 'none' : 'flex' }}>
-        <h2>{requests.length} solicitações: </h2>
+        <h2>Solicitações: {requests.length} </h2>
         <RequestsContainer>
           {requests.map((request: Request) => (
             <RequestComponent
