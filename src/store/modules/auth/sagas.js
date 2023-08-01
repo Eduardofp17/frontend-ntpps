@@ -38,7 +38,7 @@ export function* persisRehydrate({ payload }) {
 
   if (
     loggedIn &&
-    formattedExpiration >=
+    formattedExpiration <=
       new Intl.DateTimeFormat('pt-BR', {
         day: '2-digit',
         month: '2-digit',
