@@ -13,7 +13,7 @@ class Semanas {
   }
 
   static pegarDataAtual(): number {
-    const today: Date = new Date('2023-08-28');
+    const today: Date = new Date();
     const weekNumOfDate: number = this.getWeekNumOfDate(today);
     const semana: number = this.isOdd(weekNumOfDate) ? 1 : 0;
     return semana;
