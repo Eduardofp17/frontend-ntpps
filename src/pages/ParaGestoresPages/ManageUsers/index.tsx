@@ -1,14 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import DenseHeader from '../../../components/headers/dense';
 import CardUser from '../../../components/CardUser/card';
 import axios from '../../../services/axios';
 import { Main } from './styled';
-
+import { States } from '../../../store/globalTypes';
+import { useSelector } from 'react-redux';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './managa-users.css';
 type User = {
   id: number;
   name: string;
   level: number;
-  hash_id: string;
   email: string;
   created_at: string;
 };
@@ -18,33 +23,72 @@ type User_API = {
   nome: string;
   sobrenome: string;
   email: string;
-  level: string;
+  level: number;
 };
 function ManageUsers(): JSX.Element {
   const [Users, setUsers] = useState<User[]>([]);
+  const loadingState = useSelector(
+    (state: States): boolean => state.updateUserRoleReducer.loading,
+  );
+  const updatedState = useSelector(
+    (state: States): boolean => state.updateUserRoleReducer.updated,
+  );
+  const [loading, setLoading] = useState<boolean>(loadingState);
+  const [updated, setUpdated] = useState<boolean>(updatedState);
   const getUsers = async () => {
     try {
-      const { data } = await axios.get('/users/');
+      setLoading(true);
+      const { data } = await axios.get(`/users`);
       data.map((user: User_API) => {
         user.name = user.nome + ' ' + user.sobrenome;
       });
       setUsers(data);
+      setLoading(false);
     } catch (e) {
       //
     }
   };
   useEffect(() => {
+    setLoading(loadingState);
     getUsers();
-  }, []);
+  }, [loadingState]);
 
+  useEffect(() => {
+    setUpdated(updatedState);
+    if (updatedState) {
+      toast.success('Cargo atualizado com sucesso', {
+        toastId: 'unique-toast-id',
+      });
+    }
+  }, [updatedState, updated]);
   Users.sort((a, b) => {
     if (a.name > b.name) return 1;
     if (a.name < b.name) return -1;
     return 0;
   });
+
   return (
     <>
       <DenseHeader text="Administrar usuários" />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        style={{ width: '90%', maxWidth: '320px', margin: 'auto' }}
+      />
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading ? true : false}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Main style={{ paddingBottom: '20px' }}>
         {Users.length == 0 ? (
           <div style={{ margin: 'auto', textAlign: 'center' }}>
@@ -70,7 +114,7 @@ function ManageUsers(): JSX.Element {
             >
               {Users.map((user) => (
                 <CardUser
-                  hash_id={'teste123'}
+                  id={Number(user.id)}
                   name={String(user.name)}
                   email={String(user.email)}
                   role={Number(user.level)}

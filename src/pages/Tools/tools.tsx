@@ -21,15 +21,9 @@ function ToolsPage(): JSX.Element {
   const loadingState = useSelector(
     (state: States): boolean => state.authReducer.loading,
   );
-  const schooldIdState = useSelector(
-    (state: States): number => state.authReducer.school_id,
-  );
 
   React.useEffect(() => {
     setLevel(levelState);
-    if (schooldIdState === 2) {
-      setLevel(1000);
-    }
     setLoading(loadingState);
   }, [levelState, loadingState]);
 
@@ -64,7 +58,7 @@ function ToolsPage(): JSX.Element {
             icon={<Student />}
             to="/tools/frequencia"
             level={level}
-            levelRequired={999}
+            levelRequired={1}
           />
         </Tools>
       </Main>

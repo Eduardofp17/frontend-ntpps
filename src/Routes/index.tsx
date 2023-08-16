@@ -49,7 +49,7 @@ function Rotas(): JSX.Element {
           path="/login"
           element={
             <>
-              <Login /> <Footer2 />
+              <Login /> <Footer />
             </>
           }
         />
@@ -73,7 +73,7 @@ function Rotas(): JSX.Element {
           path="/createaccount"
           element={
             <>
-              <Register /> <Footer2 />{' '}
+              <Register /> <Footer />{' '}
             </>
           }
         />

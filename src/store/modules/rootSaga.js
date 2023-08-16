@@ -11,7 +11,8 @@ import { AcceptRequestTypes } from './AcceptRequest/types';
 import { AcceptRequestRequest } from './AcceptRequest/sagas';
 import { RejectRequestTypes } from './RejectRequest/types';
 import { RejectRequestRequest } from './RejectRequest/sagas';
-
+import { UpdateUserRoleTypes } from './Update-user-role/types';
+import { UpdateUserRoleRequest } from './Update-user-role/sagas';
 export default function* rootSaga() {
   yield all([takeLatest(AuthTypes.AuthRequest, authRequest)]);
   yield all([takeLatest(AuthTypes.AuthLoggoutRequest, authLoggoutRequest)]);
@@ -34,5 +35,11 @@ export default function* rootSaga() {
   ]);
   yield all([
     takeLatest(RejectRequestTypes.RejectRequestRequest, RejectRequestRequest),
+  ]);
+  yield all([
+    takeLatest(
+      UpdateUserRoleTypes.UpdateUserRoleRequest,
+      UpdateUserRoleRequest,
+    ),
   ]);
 }

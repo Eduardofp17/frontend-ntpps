@@ -5,6 +5,7 @@ import deleteCardapioReducer from './DeleteCardapio/index';
 import updateCardapioReducer from './UpdateCardapio';
 import acceptRequestReducer from './AcceptRequest';
 import rejectRequestReducer from './RejectRequest';
+import updateUserRoleReducer from './Update-user-role';
 
 export default combineReducers({
   authReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   updateCardapioReducer,
   acceptRequestReducer,
   rejectRequestReducer,
+  updateUserRoleReducer,
 });
