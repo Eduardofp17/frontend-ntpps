@@ -1,18 +1,17 @@
 import SettingsIcon from '@mui/icons-material/Settings';
 import { User, Paragraph, ParagraphRole } from './styled';
-import { IconButton } from '@mui/material';
+
 import ModalUser from '../Modals/ModalUser';
-import { useState } from 'react';
+
 interface Props {
   name: string;
   role: number;
-  hash_id: string;
+  id: number;
   email: string;
   created_at: string;
 }
 function CardUser(props: Props): JSX.Element {
   const roles = ['Aluno(a)', 'Líder de sala', 'Funcionário(a)', 'Gestor(a)'];
-  const [ModalOn, setModalOn] = useState<boolean>(false);
   return (
     <>
       <div
@@ -37,7 +36,7 @@ function CardUser(props: Props): JSX.Element {
           name={props.name}
           description="test"
           icon={<SettingsIcon style={{ color: '#000' }} />}
-          hash_id={String(props.hash_id)}
+          id={Number(props.id)}
           role={String(roles[props.role])}
           created_at={String(props.created_at)}
           email={String(props.email)}

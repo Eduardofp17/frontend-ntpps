@@ -1,7 +1,7 @@
-import { UpdateUserProfileState } from './types';
+import { UpdateUserRoleState } from './types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const INITIAL_STATE: UpdateUserProfileState = {
+const INITIAL_STATE: UpdateUserRoleState = {
   errorMessage: '',
   error: false,
   updated: false,
@@ -15,28 +15,29 @@ interface Error {
 }
 interface PayloadApi {
   token: string;
-  email: string;
+  id: number;
+  role: number;
 }
 
-const AcceptRequestSlice = createSlice({
-  name: 'AcceptRequest',
+const UpdateUserRoleSlice = createSlice({
+  name: 'UpdateUserRole',
   initialState: INITIAL_STATE,
   reducers: {
-    AcceptRequestRequest: (state, action: PayloadAction<PayloadApi>) => {
+    UpdateUserRoleRequest: (state, action: PayloadAction<PayloadApi>) => {
       state.error = false;
       state.errorMessage = '';
       state.updated = false;
       state.loading = true;
       state.updating = true;
     },
-    AcceptRequestSuccess: (state) => {
+    UpdateUserRoleSuccess: (state) => {
       state.error = false;
       state.errorMessage = '';
       state.updated = true;
       state.loading = false;
       state.id = null;
     },
-    AcceptRequestFailure: (state, action: PayloadAction<Error>) => {
+    UpdateUserRoleFailure: (state, action: PayloadAction<Error>) => {
       state.error = true;
       state.errorMessage = action.payload.error;
       state.updated = false;
@@ -47,8 +48,8 @@ const AcceptRequestSlice = createSlice({
 });
 
 export const {
-  AcceptRequestRequest,
-  AcceptRequestSuccess,
-  AcceptRequestFailure,
-} = AcceptRequestSlice.actions;
-export default AcceptRequestSlice.reducer;
+  UpdateUserRoleRequest,
+  UpdateUserRoleSuccess,
+  UpdateUserRoleFailure,
+} = UpdateUserRoleSlice.actions;
+export default UpdateUserRoleSlice.reducer;

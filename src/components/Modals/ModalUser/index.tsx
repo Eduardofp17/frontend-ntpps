@@ -1,20 +1,51 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Modal, ButtonGroup, IconButton } from '@mui/material';
 import { GrClose } from 'react-icons/gr';
+import { TbEdit } from 'react-icons/tb';
+import { primaryOrange } from '../../../config/collors/colors';
+import { useSelector } from 'react-redux';
+import { States } from '../../../store/globalTypes';
+import { useDispatch } from 'react-redux';
+import { UpdateUserRoleRequest } from '../../../store/modules/Update-user-role';
+
 interface Props {
   icon: JSX.Element;
   name: string;
   description: string;
-  hash_id: string;
   role: string;
   email: string;
   created_at: string;
+  id: number;
 }
 export default function ModalUser(props: Props) {
-  const [open, setOpen] = React.useState(false);
+  const roles = ['Aluno(a)', 'Líder de sala', 'Funcionário(a)', 'Gestor(a)'];
+  const [open, setOpen] = useState<boolean>(false);
+  const [editing, setEditing] = useState<boolean>(false);
+  const loadingState = useSelector(
+    (state: States): boolean => state.updateUserRoleReducer.loading,
+  );
+  const [loading, setLoading] = useState<boolean>(loadingState);
+  const [role, setRole] = useState<number>(Number(roles.indexOf(props.role)));
+  const token = useSelector((state: States): string => state.authReducer.token);
+  const dispatch = useDispatch();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const handleUpdateRole = async () => {
+    try {
+      await dispatch(UpdateUserRoleRequest({ id: props.id, role, token }));
+    } catch (e) {
+      //
+    }
+  };
+
+  useEffect(() => {
+    setLoading(loadingState);
+
+    if (loadingState) {
+      handleClose();
+    }
+  }, [loading, loadingState]);
   return (
     <div>
       <IconButton onClick={handleOpen}>{props.icon}</IconButton>
@@ -68,7 +99,7 @@ export default function ModalUser(props: Props) {
                     fontSize: '10px',
                   }}
                 >
-                  #{props.hash_id}
+                  #{String(props.id).padStart(6, '0')}
                 </span>
               </h2>
             </div>
@@ -86,8 +117,37 @@ export default function ModalUser(props: Props) {
               gap: '10px',
             }}
           >
-            <p style={{ fontSize: '14px', fontWeight: 'bold', margin: '0px' }}>
-              Cargo: <span style={{ fontWeight: 'normal' }}>{props.role}</span>
+            <p
+              style={{
+                fontSize: '14px',
+                fontWeight: 'bold',
+                margin: '0px',
+                alignItems: 'center',
+              }}
+            >
+              Cargo:{' '}
+              {editing ? (
+                <select
+                  value={role}
+                  onChange={(e) => setRole(Number(e.target.value))}
+                >
+                  <option value="0">Aluno(a)</option>
+                  <option value="1">Líder de sala</option>
+                  <option value="2">Funcionário(a)</option>
+                  <option value="3">Gestor(a)</option>
+                </select>
+              ) : (
+                <span style={{ fontWeight: 'normal' }}>{roles[role]}</span>
+              )}
+              <IconButton
+                style={{
+                  fontSize: '16px',
+                  color: !editing ? primaryOrange : 'red',
+                }}
+                onClick={() => setEditing(!editing)}
+              >
+                {!editing ? <TbEdit /> : <GrClose />}
+              </IconButton>
             </p>
             <p style={{ fontSize: '14px', fontWeight: 'bold', margin: '0px' }}>
               Email: <span style={{ fontWeight: 'normal' }}>{props.email}</span>
@@ -116,7 +176,7 @@ export default function ModalUser(props: Props) {
               flexDirection: 'column',
               gap: '3px',
               paddingTop: '60px',
-              paddingLeft: '5px',
+              alignItems: 'center',
             }}
           >
             <ButtonGroup
@@ -125,12 +185,26 @@ export default function ModalUser(props: Props) {
               aria-label="Disabled elevation buttons"
             >
               <Button
-                style={{ fontSize: '12px', color: 'red', borderColor: '#000' }}
+                style={{
+                  fontSize: '12px',
+                  color: 'red',
+                  borderColor: '#000',
+                  textAlign: 'center',
+                  minWidth: '145px',
+                }}
               >
                 Expulsar Usuário
               </Button>
-              <Button style={{ fontSize: '12px', color: 'green' }}>
-                Salvar Alterações
+              <Button
+                style={{
+                  fontSize: '12px',
+                  color: 'green',
+                  textAlign: 'center',
+                  minWidth: '145px',
+                }}
+                onClick={() => handleUpdateRole()}
+              >
+                Alterar cargo
               </Button>
             </ButtonGroup>
           </div>
