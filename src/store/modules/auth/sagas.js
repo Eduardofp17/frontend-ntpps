@@ -24,32 +24,11 @@ export function* persisRehydrate({ payload }) {
     return;
   }
 
-  const formattedExpiration = new Intl.DateTimeFormat('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-    timeZone: 'America/Sao_Paulo',
-  }).format(new Date(expiration));
-
+  const formattedExpiration = new Date(expiration).getTime();
+  const date = new Date().getTime();
   const loggedIn = payload.authReducer.loggedIn;
 
-  if (
-    loggedIn &&
-    formattedExpiration <=
-      new Intl.DateTimeFormat('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-        timeZone: 'America/Sao_Paulo',
-      }).format(new Date())
-  )
-    yield put();
+  if (loggedIn && formattedExpiration <= date) yield put(AuthLoggout());
   if (!token) return;
   axios.defaults.headers.Authorization = `Bearer ${token}`;
 }
