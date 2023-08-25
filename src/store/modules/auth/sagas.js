@@ -49,7 +49,7 @@ export function* persisRehydrate({ payload }) {
         timeZone: 'America/Sao_Paulo',
       }).format(new Date())
   )
-    yield put(AuthLoggout());
+    yield put();
   if (!token) return;
   axios.defaults.headers.Authorization = `Bearer ${token}`;
 }
