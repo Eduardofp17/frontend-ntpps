@@ -6,8 +6,10 @@ import { Class } from '../../../store/globalTypes';
 import axios from '../../../services/axios';
 import { CircularProgress } from '@mui/material';
 import { darkGreen } from '../../../config/collors/colors';
+import Footer from '../../../components/footer';
 
 function AdministrarSalas(): JSX.Element {
+  document.title = 'Administrar salas';
   const [classApi, setClassApi] = useState<Class[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +30,7 @@ function AdministrarSalas(): JSX.Element {
 
   return (
     <>
-      <DenseHeader text="Atualizar frequência" />
+      <DenseHeader text="Administrar salas" />
 
       <Main style={{ display: 'flex', flexDirection: 'column' }}>
         <h2>Suas salas abaixo: </h2>
@@ -40,6 +42,7 @@ function AdministrarSalas(): JSX.Element {
           <TableSalas ClassPayload={classApi} setLoading={setLoading} />
         )}
       </Main>
+      <Footer />
     </>
   );
 }

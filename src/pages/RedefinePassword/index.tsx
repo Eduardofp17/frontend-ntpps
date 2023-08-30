@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import DenseHeader from '../../components/headers/dense';
 import { Main, FormHTML } from './styled';
 import IconButton from '@mui/material/IconButton';
@@ -11,20 +11,20 @@ import { Visibility } from '@mui/icons-material';
 import { VisibilityOff } from '@mui/icons-material';
 import ContainedButton from '../../components/buttons/contained';
 import axios from '../../services/axios';
+import Footer from '../../components/footer';
 
 function RedefinePassword() {
   document.title = 'Redefinir senha';
   const token = document.location.search.split('').slice(1).join('');
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [password, setPassword] = React.useState<string>('');
-  const [confirmPassword, setConfirmPassword] = React.useState<string>('');
-  const [passwordError, setPasswordError] = React.useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<boolean>(false);
   const [confirmPasswordError, setConfirmPasswordError] =
-    React.useState<boolean>(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] =
-    React.useState<string>('');
+    useState<boolean>(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>('');
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] =
-    React.useState<string>('');
+    useState<string>('');
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (
@@ -32,7 +32,7 @@ function RedefinePassword() {
   ) => {
     event.preventDefault();
   };
-  React.useEffect(() => {
+  useEffect(() => {
     setPassword(password.split(' ').join(''));
     setConfirmPassword(confirmPassword.split(' ').join(''));
     isValidPasswords();
@@ -70,7 +70,7 @@ function RedefinePassword() {
     }
   };
   return (
-    <React.Fragment>
+    <>
       <DenseHeader text="Redefinir senha" to="/" />
       <Main>
         <h3>Digite a sua nova senha: </h3>
@@ -152,7 +152,8 @@ function RedefinePassword() {
           />
         </FormHTML>
       </Main>
-    </React.Fragment>
+      <Footer />
+    </>
   );
 }
 

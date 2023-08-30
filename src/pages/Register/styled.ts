@@ -19,4 +19,5 @@ export const IMG = styled.img`
 export const Main = styled.main`
   width: 100%;
   padding: 0px 20px;
+  padding-bottom: 40px;
 `;

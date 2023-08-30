@@ -5,8 +5,10 @@ import { Class } from '../../../store/globalTypes';
 import axios from '../../../services/axios';
 import GraphLine from '../../../components/graphics/graph1-line';
 import RelatorioDiv from '../../../components/divs/relatorioDiv';
+import Footer from '../../../components/footer';
 
 function HistoricoFrequencia(): JSX.Element {
+  document.title = 'Histórico de frequências';
   const [classApi, setClassApi] = useState<Class[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [data, setData] = useState<number[]>([]);
@@ -99,6 +101,7 @@ function HistoricoFrequencia(): JSX.Element {
           />
         </section>
       </main>
+      <Footer />
     </>
   );
 }

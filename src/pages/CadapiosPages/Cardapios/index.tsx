@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import DenseHeader from '../../../components/headers/dense';
 import Cardapio from '../../../components/Cardapio/Cardapio';
 import { CardapioModel } from '../../../store/globalTypes';
@@ -8,6 +8,7 @@ import { CircularProgress } from '@mui/material';
 import { darkGreen } from '../../../config/collors/colors';
 // import ContainedFixedButton from '../../../components/buttons/containedFixed';
 // import { Icon } from '@iconify/react';
+import Footer from '../../../components/footer';
 function Cardapios(): JSX.Element {
   document.title = 'Ver cardápios';
   const [CardapiosAPI, setCardapiosAPI] = useState([]);
@@ -53,7 +54,7 @@ function Cardapios(): JSX.Element {
   });
 
   return (
-    <React.Fragment>
+    <>
       <DenseHeader text="Ver Cardápios" />
       <Main style={{ display: loading ? 'flex' : 'none' }}>
         <CircularProgress
@@ -85,7 +86,8 @@ function Cardapios(): JSX.Element {
           }
         /> */}
       </Main>
-    </React.Fragment>
+      <Footer />
+    </>
   );
 }
 
