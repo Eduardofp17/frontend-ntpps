@@ -42,6 +42,7 @@ function Request(props: Props): JSX.Element {
                 height: '100%',
                 display: 'flex',
                 alignItems: 'center',
+                cursor: 'pointer',
               }}
               onClick={() => handleAccept()}
             >
@@ -52,6 +53,7 @@ function Request(props: Props): JSX.Element {
                 height: '100%',
                 display: 'flex',
                 alignItems: 'center',
+                cursor: 'pointer',
               }}
               onClick={() => handleReject()}
             >
