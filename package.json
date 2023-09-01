@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "http://34.95.218.151/",
+  "homepage": "http://34.151.226.222/",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",

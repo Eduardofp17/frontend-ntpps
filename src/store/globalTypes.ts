@@ -5,6 +5,8 @@ import { UpdateCardapioState } from './modules/UpdateCardapio/types';
 import { AcceptRequestState } from './modules/AcceptRequest/types';
 import { RejectRequestState } from './modules/RejectRequest/types';
 import { UpdateUserRoleState } from './modules/Update-user-role/types';
+import { DeleteUserState } from './modules/ban-user/types';
+
 export interface States {
   authReducer: AuthState;
   registerReducer: RegisterState;
@@ -13,6 +15,7 @@ export interface States {
   acceptRequestReducer: AcceptRequestState;
   rejectRequestReducer: RejectRequestState;
   updateUserRoleReducer: UpdateUserRoleState;
+  deleteUserReducer: DeleteUserState;
 }
 export interface CardapioModel {
   id: number;

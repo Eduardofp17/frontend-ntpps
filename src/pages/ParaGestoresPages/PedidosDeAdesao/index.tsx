@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DenseHeader from '../../../components/headers/dense';
 import { Main, RequestsContainer } from './styled';
 import RequestComponent from '../../../components/Request';
@@ -8,11 +8,12 @@ import { States } from '../../../store/globalTypes';
 import { Request } from '../../../store/globalTypes';
 import { CircularProgress } from '@mui/material';
 import { darkGreen } from '../../../config/collors/colors';
+import Footer from '../../../components/footer';
 
 function PedidosDeAdesao(): JSX.Element {
   document.title = 'Pedidos de adesão';
   const [requests, setRequests] = useState([]);
-  const [loading, setLoading] = React.useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const token = useSelector((state: States): string => state.authReducer.token);
   const LoadingAcceptState = useSelector(
@@ -22,7 +23,7 @@ function PedidosDeAdesao(): JSX.Element {
     (state: States): boolean => state.rejectRequestReducer.loading,
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     setLoading(LoadingAcceptState || LoadingAcceptState);
     const getRequests = async () => {
       try {
@@ -45,29 +46,43 @@ function PedidosDeAdesao(): JSX.Element {
     getRequests();
   }, [loading, LoadingAcceptState, LoadingRejectState]);
   return (
-    <React.Fragment>
+    <>
       <DenseHeader text="Pedidos de adesão" />
       <Main style={{ display: loading ? 'flex' : 'none' }}>
         <CircularProgress
           style={{ color: darkGreen, margin: 'auto', marginTop: '200px' }}
         />
       </Main>
-      <Main style={{ display: loading ? 'none' : 'flex' }}>
-        <h2>Solicitações: {requests.length} </h2>
-        <RequestsContainer>
-          {requests.map((request: Request) => (
-            <RequestComponent
-              nome={request.nome}
-              sobrenome={request.sobrenome}
-              verified={request.verified}
-              email={request.email}
-              token={token}
-              key={request.id}
-            />
-          ))}
-        </RequestsContainer>
-      </Main>
-    </React.Fragment>
+      {requests.length == 0 ? (
+        <Main style={{ display: loading ? 'none' : 'flex' }}>
+          <h2>Não há solicitações no momento</h2>
+          <p>
+            Se você fez uma solicitação de adesão, por favor, verifique o status
+            da sua instituição para confirmar se estão sendo aceitas novas
+            solicitações no momento. Caso ainda tenha dúvidas ou suspeite de
+            algum erro, entre em contato conosco através do seguinte e-mail:{' '}
+            <b>naescolaalimentacao@gmail.com</b>.
+          </p>
+        </Main>
+      ) : (
+        <Main style={{ display: loading ? 'none' : 'flex' }}>
+          <h2>Solicitações: {requests.length} </h2>
+          <RequestsContainer>
+            {requests.map((request: Request) => (
+              <RequestComponent
+                nome={request.nome}
+                sobrenome={request.sobrenome}
+                verified={request.verified}
+                email={request.email}
+                token={token}
+                key={request.id}
+              />
+            ))}
+          </RequestsContainer>
+        </Main>
+      )}
+      <Footer />
+    </>
   );
 }
 

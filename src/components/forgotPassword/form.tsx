@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import isEmail from 'validator/lib/isEmail';
 import { TextField, FormControl, Link } from '@mui/material';
 
@@ -10,14 +10,14 @@ import AlertTitle from '@mui/material/AlertTitle';
 import axios from '../../services/axios';
 
 function EmailForm(): JSX.Element {
-  const [email, setEmail] = React.useState<string>('');
-  const [emailError, setEmailError] = React.useState<boolean>(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState<string>('');
-  const [alert, setAlert] = React.useState<boolean>(false);
-  const [alertMessage, setAlertMessage] = React.useState<string>('');
-  const [error, setError] = React.useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState<string>('');
+  const [alert, setAlert] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>('');
+  const [error, setError] = useState<boolean>(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (email.length > 0) {
       setEmailError(isInvalidEmail());
     }
@@ -55,7 +55,7 @@ function EmailForm(): JSX.Element {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Alert
         severity={error ? 'error' : 'success'}
         style={{
@@ -96,12 +96,13 @@ function EmailForm(): JSX.Element {
             textAlign: 'right',
             color: darkGreen,
             margin: '5px 5px 20px 0px ',
+            textDecorationColor: darkGreen,
           }}
         >
           Solicitar conta.
         </Link>{' '}
       </p>
-    </React.Fragment>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Main, Tools } from './styled';
 import DenseHeader from '../../components/headers/dense';
 import Tool from '../../components/tool/tool';
@@ -6,6 +6,8 @@ import { PostAdd } from '@mui/icons-material';
 import { States } from '../../store/globalTypes';
 import { useSelector } from 'react-redux';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import Footer from '../../components/footer';
+
 function AdmCardapios(): JSX.Element {
   document.title = 'Administrar cardápios';
   const [level, setLevel] = useState(0);
@@ -17,7 +19,7 @@ function AdmCardapios(): JSX.Element {
     setLevel(levelState);
   }, [levelState]);
   return (
-    <React.Fragment>
+    <>
       <DenseHeader text="Administrar Cardápios" />
       <Main>
         <h4 style={{ textAlign: 'left' }}>Funcionalidades disponíveis: </h4>
@@ -41,7 +43,8 @@ function AdmCardapios(): JSX.Element {
           />
         </Tools>
       </Main>
-    </React.Fragment>
+      <Footer />
+    </>
   );
 }
 

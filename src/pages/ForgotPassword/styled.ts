@@ -8,7 +8,8 @@ export const Container = styled.section`
   transition: all 500ms;
 `;
 export const IMG = styled.img`
-  width: 80px;
+  width: 70%;
+  max-width: 210px;
   margin: auto;
 `;
 
@@ -17,8 +18,6 @@ export const Main = styled.main`
   padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-color: red;
 `;
 
 export const P = styled.p`

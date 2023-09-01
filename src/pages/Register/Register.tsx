@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Main } from './styled';
 import DenseHeader from '../../components/headers/dense';
 import FormUser from '../../components/forms/registerUserForm/form';
@@ -10,6 +10,7 @@ import { darkGreen, primaryGreen } from '../../config/collors/colors';
 import { Navigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import Footer from '../../components/footer';
 
 function Register(): JSX.Element {
   document.title = 'Solicitar conta';
@@ -33,7 +34,7 @@ function Register(): JSX.Element {
     setCommonUser(true);
   };
   return (
-    <React.Fragment>
+    <>
       <DenseHeader text="Solicitar conta" />
 
       <Main style={{ display: loading ? 'flex' : 'none' }}>
@@ -89,7 +90,8 @@ function Register(): JSX.Element {
           </Container>
         )}
       </Main>
-    </React.Fragment>
+      <Footer />
+    </>
   );
 }
 

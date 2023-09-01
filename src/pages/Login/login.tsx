@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, IMG, Main, P } from './styled';
 import DenseHeader from '../../components/headers/dense';
 import Form from '../../components/forms/loginForm/form';
 import { useSelector } from 'react-redux';
 import { States } from '../../store/globalTypes';
-import { CircularProgress } from '@mui/material';
-import { darkGreen } from '../../config/collors/colors';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Navigate } from 'react-router-dom';
+import Footer from '../../components/footer';
 function Login(): JSX.Element {
   document.title = 'Login';
   const loadingState = useSelector(
@@ -22,28 +23,31 @@ function Login(): JSX.Element {
     setLoggedIn(loggedInState);
   }, [loadingState, loadingState]);
   return (
-    <React.Fragment>
+    <>
       <DenseHeader text="Login" />
-      <div style={{ display: loading ? 'flex' : 'none' }}>
-        <CircularProgress
-          style={{ color: darkGreen, margin: 'auto', marginTop: '200px' }}
-        />
-      </div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading ? true : false}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       {loggedIn ? (
         <Navigate to="/tools" />
       ) : (
-        <Main style={{ display: loading ? 'none' : 'flex' }}>
+        <Main>
           <Container>
             <IMG
-              src="images/propaganda.png"
+              src="images/Nourishnet.svg"
               alt="Propaganda alusiva ao desperdício de Alimentos"
+              width={400}
             />
             <P>Insira suas informações para entrar:</P>
             <Form />
           </Container>
         </Main>
       )}
-    </React.Fragment>
+      <Footer />
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Main, Card } from './styled';
 import DenseHeader from '../../../components/headers/dense';
 import InputLabel from '@mui/material/InputLabel';
@@ -13,17 +13,19 @@ import { useSelector } from 'react-redux';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { AxiosError } from 'axios';
+import Footer from '../../../components/footer';
+
 function CriarCardapios(): JSX.Element {
   document.title = 'Criar cardápio';
-  const [weekDay, setWeekDay] = React.useState<string>('');
-  const [weekNum, setWeekNum] = React.useState<number>(0);
-  const [snack, setSnack] = React.useState<string>('');
-  const [lunch, setLunch] = React.useState<string>('');
-  const [error, setError] = React.useState<boolean>(false);
-  const [success, setSuccess] = React.useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = React.useState<string>('');
-  const [successMessage, setSuccessMessage] = React.useState<string>('');
-  const [afternoonSnack, setAfternoonSnack] = React.useState<string>('');
+  const [weekDay, setWeekDay] = useState<string>('');
+  const [weekNum, setWeekNum] = useState<number>(0);
+  const [snack, setSnack] = useState<string>('');
+  const [lunch, setLunch] = useState<string>('');
+  const [error, setError] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
+  const [afternoonSnack, setAfternoonSnack] = useState<string>('');
 
   const token = useSelector((state: States): string => state.authReducer.token);
 
@@ -67,7 +69,7 @@ function CriarCardapios(): JSX.Element {
     }
   };
   return (
-    <React.Fragment>
+    <>
       <DenseHeader text="Criar cardápio" />
       <Main>
         <Alert
@@ -187,7 +189,8 @@ function CriarCardapios(): JSX.Element {
           </form>
         </Card>
       </Main>
-    </React.Fragment>
+      <Footer />
+    </>
   );
 }
 

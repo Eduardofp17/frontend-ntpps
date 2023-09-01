@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Main, Tools } from './styled';
 import DenseHeader from '../../components/headers/dense';
 import Tool from '../../components/tool/tool';
@@ -12,14 +12,15 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Alert from '@mui/material/Alert';
 import { Settings } from '@mui/icons-material';
 import { ManageAccounts } from '@mui/icons-material';
+import Footer from '../../components/footer';
 
 function ParaGestores(): JSX.Element {
   document.title = 'Para gestores';
-  const [level, setLevel] = React.useState<number>(0);
-  const [schoolId, setSchoolId] = React.useState<number>(-1);
-  const [code, setCode] = React.useState<string>('');
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [alertOpen, setAlertOpen] = React.useState<boolean>(false);
+  const [level, setLevel] = useState<number>(0);
+  const [schoolId, setSchoolId] = useState<number>(-1);
+  const [code, setCode] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [alertOpen, setAlertOpen] = useState<boolean>(false);
 
   const levelState = useSelector(
     (state: States): number => state.authReducer.level,
@@ -41,7 +42,7 @@ function ParaGestores(): JSX.Element {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     setLevel(levelState);
     setSchoolId(schooldIdState);
     getCode();
@@ -53,8 +54,11 @@ function ParaGestores(): JSX.Element {
     setTimeout(() => setAlertOpen(false), 1500);
   };
   return (
-    <React.Fragment>
-      <DenseHeader text="Para gestores" icon={<Settings />} />
+    <>
+      <DenseHeader
+        text="Para gestores"
+        icon={<Settings style={{ cursor: 'pointer' }} />}
+      />
 
       <div style={{ display: loading ? 'flex' : 'none' }}>
         <CircularProgress
@@ -77,7 +81,13 @@ function ParaGestores(): JSX.Element {
             {code}
           </span>
           <span onClick={() => handleCopy(code)}>
-            <ContentCopyIcon style={{ fontSize: '20px', paddingLeft: '3px' }} />
+            <ContentCopyIcon
+              style={{
+                fontSize: '20px',
+                paddingLeft: '3px',
+                cursor: 'pointer',
+              }}
+            />
           </span>
         </h4>
         <div
@@ -105,7 +115,8 @@ function ParaGestores(): JSX.Element {
           />
         </Tools>
       </Main>
-    </React.Fragment>
+      <Footer />
+    </>
   );
 }
 

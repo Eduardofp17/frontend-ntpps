@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import DenseHeader from '../../../components/headers/dense';
 import CardUser from '../../../components/CardUser/card';
 import axios from '../../../services/axios';
@@ -7,9 +7,11 @@ import { States } from '../../../store/globalTypes';
 import { useSelector } from 'react-redux';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import Footer from '../../../components/footer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './managa-users.css';
+
 type User = {
   id: number;
   name: string;
@@ -26,9 +28,13 @@ type User_API = {
   level: number;
 };
 function ManageUsers(): JSX.Element {
+  document.title = 'Administrar usuários';
   const [Users, setUsers] = useState<User[]>([]);
   const loadingState = useSelector(
     (state: States): boolean => state.updateUserRoleReducer.loading,
+  );
+  const loadingDeleteState = useSelector(
+    (state: States): boolean => state.deleteUserReducer.loading,
   );
   const updatedState = useSelector(
     (state: States): boolean => state.updateUserRoleReducer.updated,
@@ -54,6 +60,10 @@ function ManageUsers(): JSX.Element {
   }, [loadingState]);
 
   useEffect(() => {
+    getUsers();
+  }, [loadingDeleteState]);
+
+  useEffect(() => {
     setUpdated(updatedState);
     if (updatedState) {
       toast.success('Cargo atualizado com sucesso', {
@@ -72,7 +82,7 @@ function ManageUsers(): JSX.Element {
       <DenseHeader text="Administrar usuários" />
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={1500}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick={false}
@@ -92,9 +102,7 @@ function ManageUsers(): JSX.Element {
       <Main style={{ paddingBottom: '20px' }}>
         {Users.length == 0 ? (
           <div style={{ margin: 'auto', textAlign: 'center' }}>
-            <h2 style={{}}>
-              Ainda não existem usuários vinculados à sua instituição.
-            </h2>
+            <h2>Ainda não existem usuários vinculados à sua instituição.</h2>
             <p>
               Se a sua instituição está aceitando inscrições, verifique as
               solicitações pendentes para adicionar novos usuários.
@@ -102,7 +110,10 @@ function ManageUsers(): JSX.Element {
           </div>
         ) : (
           <section>
-            <h3>Pessoas vinculadas com sua instituição: {Users.length} </h3>
+            <h3 style={{ padding: '0px 25px' }}>
+              Pessoas vinculadas com sua instituição: {Users.length}{' '}
+            </h3>
+
             <div
               style={{
                 display: 'flex',
@@ -126,6 +137,7 @@ function ManageUsers(): JSX.Element {
           </section>
         )}
       </Main>
+      <Footer />
     </>
   );
 }

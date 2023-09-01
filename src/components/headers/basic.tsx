@@ -79,13 +79,13 @@ function BasicHeader(props: Props): JSX.Element {
                 href={props.to}
               >
                 <img
-                  src="/images/logoFigueiredo.png"
+                  src="/images/Nourishnet-white.svg"
                   alt="Logo da instituição"
                 />
               </IconButton>
 
               <div onClick={() => setModalOpen(true)}>
-                <LogoutIcon />
+                <LogoutIcon style={{ cursor: 'pointer' }} />
               </div>
             </Toolbar>
           </AppBar>

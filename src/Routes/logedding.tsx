@@ -5,7 +5,6 @@ import { States } from '../store/globalTypes';
 
 interface Props {
   children: JSX.Element;
-  footer: JSX.Element;
   loggedin: boolean;
   levelRequired: number;
 }
@@ -23,12 +22,7 @@ function Loggeding(props: Props) {
     return <Erro401 />;
   }
 
-  return (
-    <>
-      {props.children}
-      {props.footer}
-    </>
-  );
+  return <>{props.children}</>;
 }
 
 export default Loggeding;

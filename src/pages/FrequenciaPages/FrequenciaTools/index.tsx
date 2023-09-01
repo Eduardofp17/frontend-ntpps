@@ -9,8 +9,10 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import Tool from '../../../components/tool/tool';
 import { RoomPreferences } from '@mui/icons-material';
 import { History } from '@mui/icons-material';
+import Footer from '../../../components/footer';
 
 function Frequencia(): JSX.Element {
+  document.title = 'Frequência';
   const [level, setLevel] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -57,6 +59,7 @@ function Frequencia(): JSX.Element {
           />
         </Tools>
       </Main>
+      <Footer />
     </>
   );
 }

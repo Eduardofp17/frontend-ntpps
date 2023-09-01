@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import isEmail from 'validator/lib/isEmail';
 import { useDispatch } from 'react-redux';
 import {
@@ -16,11 +16,12 @@ import { VisibilityOff } from '@mui/icons-material';
 import { FormHTML } from './styled';
 import { darkGreen } from '../../../config/collors/colors';
 import ContainedButton from '../../buttons/contained';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 import { useSelector } from 'react-redux';
 import { States } from '../../../store/globalTypes';
 import { AuthRequest } from '../../../store/modules/auth';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function LoginForm(): JSX.Element {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -80,19 +81,30 @@ function LoginForm(): JSX.Element {
     }
     return false;
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.error('Email ou senha inválidos', {
+        toastId: 'unique-toast-id',
+      });
+    }
+    setError(false);
+  }, [error]);
   return (
-    <React.Fragment>
-      <Alert
-        severity="error"
-        style={{
-          maxWidth: '300px',
-          display: error ? 'flex' : 'none',
-          textAlign: 'center',
-          margin: 'auto',
-        }}
-      >
-        <AlertTitle>Email ou senha inválidos</AlertTitle>
-      </Alert>
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        style={{ width: '90%', maxWidth: '320px', margin: 'auto' }}
+      />
       <FormHTML method="post" style={{ justifyContent: 'center' }}>
         <FormControl sx={{ m: 1, width: '95%' }} variant="standard">
           <TextField
@@ -145,7 +157,7 @@ function LoginForm(): JSX.Element {
             textAlign: 'right',
             color: darkGreen,
             margin: '5px 5px 20px 0px ',
-            borderColor: darkGreen,
+            textDecorationColor: darkGreen,
           }}
         >
           Esqueci minha senha
@@ -163,12 +175,13 @@ function LoginForm(): JSX.Element {
             textAlign: 'right',
             color: darkGreen,
             margin: '5px 5px 20px 0px ',
+            textDecorationColor: darkGreen,
           }}
         >
           Solicitar conta.
         </Link>{' '}
       </p>
-    </React.Fragment>
+    </>
   );
 }
 

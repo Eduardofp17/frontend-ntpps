@@ -13,6 +13,9 @@ import { RejectRequestTypes } from './RejectRequest/types';
 import { RejectRequestRequest } from './RejectRequest/sagas';
 import { UpdateUserRoleTypes } from './Update-user-role/types';
 import { UpdateUserRoleRequest } from './Update-user-role/sagas';
+import { DeleteUserTypes } from './ban-user/types';
+import { DeleteUserRequest } from './ban-user/sagas';
+
 export default function* rootSaga() {
   yield all([takeLatest(AuthTypes.AuthRequest, authRequest)]);
   yield all([takeLatest(AuthTypes.AuthLoggoutRequest, authLoggoutRequest)]);
@@ -42,4 +45,5 @@ export default function* rootSaga() {
       UpdateUserRoleRequest,
     ),
   ]);
+  yield all([takeLatest(DeleteUserTypes.DeleteUserRequest, DeleteUserRequest)]);
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import DenseHeader from '../../../components/headers/dense';
 import CardapioEdit from '../../../components/CardapioEdit/Cardapio';
 import {
@@ -16,12 +16,14 @@ import { darkGreen } from '../../../config/collors/colors';
 import { States } from '../../../store/globalTypes';
 import { useSelector } from 'react-redux';
 import Semanas from '../../../utils/weekNumber';
+import Footer from '../../../components/footer';
+
 function AtualizarCardapios(): JSX.Element {
   document.title = 'Editar cardápio';
-  const [CardapiosEven, setCardapiosEven] = React.useState<CardapioModel[]>([]);
-  const [CardapiosOdd, setCardapiosOdd] = React.useState<CardapioModel[]>([]);
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [actualWeek, setActualWeek] = React.useState<number>(-1);
+  const [CardapiosEven, setCardapiosEven] = useState<CardapioModel[]>([]);
+  const [CardapiosOdd, setCardapiosOdd] = useState<CardapioModel[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [actualWeek, setActualWeek] = useState<number>(-1);
   const loadingState = useSelector(
     (state: States): boolean => state.deleteCardapioReducer.loading,
   );
@@ -49,7 +51,7 @@ function AtualizarCardapios(): JSX.Element {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     getCardapios();
 
     setLoading(loadingState);
@@ -57,7 +59,7 @@ function AtualizarCardapios(): JSX.Element {
     setActualWeek(semana);
   }, [loading, loadingState, loadingUpdateState]);
   return (
-    <React.Fragment>
+    <>
       <DenseHeader text="Editar cardápio" />
       <Main style={{ display: loading ? 'flex' : 'none' }}>
         <CircularProgress
@@ -161,7 +163,8 @@ function AtualizarCardapios(): JSX.Element {
           </CardapiosSection>
         )}
       </Main>
-    </React.Fragment>
+      <Footer />
+    </>
   );
 }
 

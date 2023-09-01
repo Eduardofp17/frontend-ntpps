@@ -7,11 +7,14 @@ export const Main = styled.main`
   gap: 60px;
   margin: auto;
   padding: 20px;
-  padding-bottom: 25%;
+  padding-bottom: 150px;
+  justify-content: center;
+  min-height: calc(100vh - 150px);
 `;
 export const IMG = styled.img`
-  width: 70%;
-  max-width: 210px;
-  margin: auto;
-  margin-top: 40px;
+  width: 85%;
+  max-width: 510px;
+  margin: 0;
+  margin-top: 25vh;
+  margin-left: 6vw;
 `;
