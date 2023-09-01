@@ -55,7 +55,10 @@ function ParaGestores(): JSX.Element {
   };
   return (
     <>
-      <DenseHeader text="Para gestores" icon={<Settings />} />
+      <DenseHeader
+        text="Para gestores"
+        icon={<Settings style={{ cursor: 'pointer' }} />}
+      />
 
       <div style={{ display: loading ? 'flex' : 'none' }}>
         <CircularProgress
@@ -78,7 +81,13 @@ function ParaGestores(): JSX.Element {
             {code}
           </span>
           <span onClick={() => handleCopy(code)}>
-            <ContentCopyIcon style={{ fontSize: '20px', paddingLeft: '3px' }} />
+            <ContentCopyIcon
+              style={{
+                fontSize: '20px',
+                paddingLeft: '3px',
+                cursor: 'pointer',
+              }}
+            />
           </span>
         </h4>
         <div
