@@ -11,6 +11,7 @@ import Footer from '../../../components/footer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './managa-users.css';
+
 type User = {
   id: number;
   name: string;
@@ -31,6 +32,9 @@ function ManageUsers(): JSX.Element {
   const [Users, setUsers] = useState<User[]>([]);
   const loadingState = useSelector(
     (state: States): boolean => state.updateUserRoleReducer.loading,
+  );
+  const loadingDeleteState = useSelector(
+    (state: States): boolean => state.deleteUserReducer.loading,
   );
   const updatedState = useSelector(
     (state: States): boolean => state.updateUserRoleReducer.updated,
@@ -54,6 +58,10 @@ function ManageUsers(): JSX.Element {
     setLoading(loadingState);
     getUsers();
   }, [loadingState]);
+
+  useEffect(() => {
+    getUsers();
+  }, [loadingDeleteState]);
 
   useEffect(() => {
     setUpdated(updatedState);
@@ -105,6 +113,7 @@ function ManageUsers(): JSX.Element {
             <h3 style={{ padding: '0px 25px' }}>
               Pessoas vinculadas com sua instituição: {Users.length}{' '}
             </h3>
+
             <div
               style={{
                 display: 'flex',

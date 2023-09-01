@@ -7,6 +7,10 @@ import { useSelector } from 'react-redux';
 import { States } from '../../../store/globalTypes';
 import { useDispatch } from 'react-redux';
 import { UpdateUserRoleRequest } from '../../../store/modules/Update-user-role';
+import ModalWithTwoButtons from '../ModalButtons';
+import { DeleteUserRequest } from '../../../store/modules/ban-user/index';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Props {
   icon: JSX.Element;
@@ -21,19 +25,49 @@ export default function ModalUser(props: Props) {
   const roles = ['Aluno(a)', 'Líder de sala', 'Funcionário(a)', 'Gestor(a)'];
   const [open, setOpen] = useState<boolean>(false);
   const [editing, setEditing] = useState<boolean>(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [updateRoleModalOpen, setUpdateRoleModalOpen] =
+    useState<boolean>(false);
   const loadingState = useSelector(
     (state: States): boolean => state.updateUserRoleReducer.loading,
   );
+  const deleted = useSelector(
+    (state: States): boolean => state.deleteUserReducer.loading,
+  );
+
   const [loading, setLoading] = useState<boolean>(loadingState);
+
   const [role, setRole] = useState<number>(Number(roles.indexOf(props.role)));
   const token = useSelector((state: States): string => state.authReducer.token);
   const dispatch = useDispatch();
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setEditing(false);
+    setRole(Number(roles.indexOf(props.role)));
+  };
 
+  const handleDelete = async (id: number) => {
+    try {
+      setDeleteModalOpen(false);
+      await dispatch(DeleteUserRequest({ id, token }));
+      handleClose();
+    } catch (e) {
+      //
+    }
+  };
+  const handleModalRole = () => {
+    setOpen(false);
+    setDeleteModalOpen(false);
+    setUpdateRoleModalOpen(true);
+  };
   const handleUpdateRole = async () => {
     try {
+      setDeleteModalOpen(false);
+      setUpdateRoleModalOpen(false);
       await dispatch(UpdateUserRoleRequest({ id: props.id, role, token }));
+      setRole(Number(roles.indexOf(props.role)));
+      handleClose();
     } catch (e) {
       //
     }
@@ -46,14 +80,122 @@ export default function ModalUser(props: Props) {
       handleClose();
     }
   }, [loading, loadingState]);
+
+  useEffect(() => {
+    if (deleted) {
+      toast.success(`${props.name} foi expulso com sucesso!`, {
+        toastId: 'unique-toast-id',
+      });
+    }
+  }, [deleted]);
   return (
     <div>
       <IconButton onClick={handleOpen}>{props.icon}</IconButton>
+      <ToastContainer
+        position="top-right"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        style={{ width: '90%', maxWidth: '320px', margin: 'auto' }}
+      />
+      <ModalWithTwoButtons
+        title="Deseja realmente expulsar o usuário?"
+        ModalOpen={deleteModalOpen}
+        info='Ao clicar em "Confirmar", você estará excluindo-o permanentemente.'
+        button1={
+          <Button
+            className="ModalWithTwoButtons"
+            style={{
+              background: 'none',
+              border: `1px solid  #9D0000`,
+              color: '#9D0000',
+              borderRadius: '5px ',
+              fontSize: '15px',
+              fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+            }}
+            onClick={() => {
+              setDeleteModalOpen(false);
+              setOpen(true);
+            }}
+          >
+            Cancelar
+          </Button>
+        }
+        button2={
+          <Button
+            className="ModalWithTwoButtons"
+            style={{
+              backgroundColor: 'green',
+              color: '#fff',
+              borderRadius: '5px ',
+              fontSize: '15px',
+              fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+            }}
+            onClick={() => handleDelete(Number(props.id))}
+          >
+            Confirmar
+          </Button>
+        }
+      />
+      <ModalWithTwoButtons
+        title="Você realmente deseja alterar o cargo do usuário?"
+        ModalOpen={updateRoleModalOpen}
+        info='Ao clicar em "Confirmar", você fará a alteração.'
+        button1={
+          <Button
+            className="ModalWithTwoButtons"
+            style={{
+              background: 'none',
+              border: `1px solid  #9D0000`,
+              color: '#9D0000',
+              borderRadius: '5px ',
+              fontSize: '15px',
+              fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+            }}
+            onClick={() => {
+              setUpdateRoleModalOpen(false);
+              setOpen(true);
+            }}
+          >
+            Cancelar
+          </Button>
+        }
+        button2={
+          <Button
+            className="ModalWithTwoButtons"
+            style={{
+              backgroundColor: 'green',
+              color: '#fff',
+              borderRadius: '5px ',
+              fontSize: '15px',
+              fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+            }}
+            onClick={() => handleUpdateRole()}
+          >
+            Confirmar
+          </Button>
+        }
+      />
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        style={{ zIndex: 1 }}
       >
         <div
           style={{
@@ -192,6 +334,10 @@ export default function ModalUser(props: Props) {
                   textAlign: 'center',
                   minWidth: '145px',
                 }}
+                onClick={() => {
+                  setDeleteModalOpen(true);
+                  setOpen(false);
+                }}
               >
                 Expulsar Usuário
               </Button>
@@ -202,7 +348,8 @@ export default function ModalUser(props: Props) {
                   textAlign: 'center',
                   minWidth: '145px',
                 }}
-                onClick={() => handleUpdateRole()}
+                disabled={roles[role] == props.role}
+                onClick={() => handleModalRole()}
               >
                 Alterar cargo
               </Button>
