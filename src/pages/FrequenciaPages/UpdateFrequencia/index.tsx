@@ -7,7 +7,7 @@ import axios from '../../../services/axios';
 import { CircularProgress } from '@mui/material';
 import { darkGreen } from '../../../config/collors/colors';
 import Footer from '../../../components/footer';
-const teste = 'teste';
+
 function AtualizarFrequencia(): JSX.Element {
   document.title = 'Atualizar Frequência';
   const [classApi, setClassApi] = useState<Class[]>([]);
