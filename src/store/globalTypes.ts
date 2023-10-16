@@ -94,3 +94,13 @@ export type frequency = Classes & {
   created_at: string;
   updated_at: string;
 };
+
+//Provisório
+export interface Room {
+  id: number;
+  sala: string;
+  qtd_presentes: number;
+  selected: boolean;
+  updated_at: string;
+  updated_by: string;
+}

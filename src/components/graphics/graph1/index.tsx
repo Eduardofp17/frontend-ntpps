@@ -1,12 +1,12 @@
 import Chart from 'react-apexcharts';
-import { Class } from '../../../store/globalTypes';
+import { Room } from '../../../store/globalTypes';
 
 interface Props {
   title: string;
   categories: string[];
   data: number[];
   name: string;
-  CLass: Class[];
+  CLass: Room[];
 }
 
 function Graph1(props: Props): JSX.Element {

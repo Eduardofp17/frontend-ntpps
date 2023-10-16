@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import DenseHeader from '../../../components/headers/dense';
 import Graph1 from '../../../components/graphics/graph1';
-import { Class } from '../../../store/globalTypes';
+import { Room as Class } from '../../../store/globalTypes';
 import axios from '../../../services/axios';
 import GraphLine from '../../../components/graphics/graph1-line';
 import RelatorioDiv from '../../../components/divs/relatorioDiv';
