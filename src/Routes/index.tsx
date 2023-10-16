@@ -24,10 +24,12 @@ import AtualizarFrequencia from '../pages/FrequenciaPages/UpdateFrequencia';
 import RedefinePassword from '../pages/RedefinePassword';
 import ConfirmEmail from '../pages/ConfirmEmail/Confirm';
 import ConfirmEmailSchool from '../pages/ConfirmEmail-School/Confirm';
-import CardapioFeedback from '../pages/CadapiosPages/CardapioFeedback';
+import CardapioFeedback from '../pages/CadapiosPages/CardapioFeedback/index';
 import AdministrarSalas from '../pages/FrequenciaPages/AdministrarSalas';
 import HistoricoFrequencia from '../pages/FrequenciaPages/HistoricoFrequencia';
 import ManageUsers from '../pages/ParaGestoresPages/ManageUsers';
+import ManageStudents from '../pages/FrequenciaPages/ManageStudents';
+import UpdateFrequency from '../pages/FrequenciaPages/UpdateFrequency';
 
 function Rotas(): JSX.Element {
   const loggedin = useSelector(
@@ -171,7 +173,7 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/frequencia"
           element={
-            <Loggeding loggedin={loggedin} levelRequired={2}>
+            <Loggeding loggedin={loggedin} levelRequired={1}>
               <Frequencia />
             </Loggeding>
           }
@@ -179,8 +181,8 @@ function Rotas(): JSX.Element {
         <Route
           path="/tools/frequencia/atualizar-frequencia"
           element={
-            <Loggeding levelRequired={1} loggedin={loggedin}>
-              <AtualizarFrequencia />
+            <Loggeding levelRequired={1} loggedin={loggedin} equals={true}>
+              <UpdateFrequency />
             </Loggeding>
           }
         />
@@ -197,6 +199,14 @@ function Rotas(): JSX.Element {
           element={
             <Loggeding levelRequired={2} loggedin={loggedin}>
               <HistoricoFrequencia />
+            </Loggeding>
+          }
+        />
+        <Route
+          path="/tools/frequencia/administrar-alunos-de-sua-sala"
+          element={
+            <Loggeding levelRequired={1} loggedin={loggedin} equals={true}>
+              <ManageStudents />
             </Loggeding>
           }
         />

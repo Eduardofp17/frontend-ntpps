@@ -2,10 +2,14 @@ import styled from 'styled-components';
 import { lightGreen } from '../../config/collors/colors';
 export const Container = styled.section`
   width: 100%;
+  max-width: 300px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   margin: auto;
   transition: all 500ms;
+  align-items: center;
+  justify-content: center;
 `;
 export const IMG = styled.img`
   width: 70%;

@@ -6,7 +6,8 @@ import { AcceptRequestState } from './modules/AcceptRequest/types';
 import { RejectRequestState } from './modules/RejectRequest/types';
 import { UpdateUserRoleState } from './modules/Update-user-role/types';
 import { DeleteUserState } from './modules/ban-user/types';
-
+import { UpdateFrequencyState } from './modules/UpdateFrequency/types';
+import { UpdateStudentState } from './modules/Update-student/types';
 export interface States {
   authReducer: AuthState;
   registerReducer: RegisterState;
@@ -16,6 +17,8 @@ export interface States {
   rejectRequestReducer: RejectRequestState;
   updateUserRoleReducer: UpdateUserRoleState;
   deleteUserReducer: DeleteUserState;
+  updateFrequencyReducer: UpdateFrequencyState;
+  updateStudentReducer: UpdateStudentState;
 }
 export interface CardapioModel {
   id: number;
@@ -32,6 +35,8 @@ export interface Response {
     token: string;
     level: number;
     school_id: number;
+    room_id?: number;
+    room_name?: string;
   };
 }
 
@@ -45,13 +50,20 @@ export interface Request {
 
 export interface Class {
   id: number;
-  sala: string;
-  qtd_presentes: number;
+  name: string;
   selected: boolean;
+  school_id: number;
+  Students: Student[];
+  created_at: string;
   updated_at: string;
-  updated_by: string;
 }
-
+export interface Student {
+  id: number;
+  name: string;
+  room_id: number;
+  created_at: string;
+  updated_at: string;
+}
 export interface School {
   id: number;
   name: string;
@@ -61,3 +73,24 @@ export interface School {
   accepting_accounts: boolean;
   cardapios: CardapioModel[];
 }
+
+export type Classes = {
+  class_01: boolean;
+  class_02: boolean;
+  class_03: boolean;
+  class_04: boolean;
+  class_05: boolean;
+  class_06: boolean;
+  class_07: boolean;
+  class_08: boolean;
+  class_09: boolean;
+};
+export type frequency = Classes & {
+  id: number;
+  updated_by: string;
+  school_id: number;
+  room_id: number;
+  student_id: number;
+  created_at: string;
+  updated_at: string;
+};

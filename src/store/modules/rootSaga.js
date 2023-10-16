@@ -15,6 +15,10 @@ import { UpdateUserRoleTypes } from './Update-user-role/types';
 import { UpdateUserRoleRequest } from './Update-user-role/sagas';
 import { DeleteUserTypes } from './ban-user/types';
 import { DeleteUserRequest } from './ban-user/sagas';
+import { UpdateFrequencyRequest } from './UpdateFrequency/sagas';
+import { UpdateFrequencyTypes } from './UpdateFrequency/types';
+import { UpdateStudentTypes } from './Update-student/types';
+import { UpdateStudentRequest } from './Update-student/sagas';
 
 export default function* rootSaga() {
   yield all([takeLatest(AuthTypes.AuthRequest, authRequest)]);
@@ -46,4 +50,13 @@ export default function* rootSaga() {
     ),
   ]);
   yield all([takeLatest(DeleteUserTypes.DeleteUserRequest, DeleteUserRequest)]);
+  yield all([
+    takeLatest(
+      UpdateFrequencyTypes.UpdateFrequencyRequest,
+      UpdateFrequencyRequest,
+    ),
+  ]);
+  yield all([
+    takeLatest(UpdateStudentTypes.UpdateStudentRequest, UpdateStudentRequest),
+  ]);
 }

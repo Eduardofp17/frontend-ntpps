@@ -15,13 +15,11 @@ import 'react-toastify/dist/ReactToastify.css';
 interface Props {
   icon: JSX.Element;
   name: string;
-  role: string;
-  email: string;
+  room_id: number;
   created_at: string;
   id: number;
 }
-export default function ModalUser(props: Props) {
-  const roles = ['Aluno(a)', 'Líder de sala', 'Funcionário(a)', 'Gestor(a)'];
+export default function ModalStudent(props: Props) {
   const [open, setOpen] = useState<boolean>(false);
   const [editing, setEditing] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
@@ -36,14 +34,12 @@ export default function ModalUser(props: Props) {
 
   const [loading, setLoading] = useState<boolean>(loadingState);
 
-  const [role, setRole] = useState<number>(Number(roles.indexOf(props.role)));
   const token = useSelector((state: States): string => state.authReducer.token);
   const dispatch = useDispatch();
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     setEditing(false);
-    setRole(Number(roles.indexOf(props.role)));
   };
 
   const handleDelete = async (id: number) => {
@@ -64,8 +60,7 @@ export default function ModalUser(props: Props) {
     try {
       setDeleteModalOpen(false);
       setUpdateRoleModalOpen(false);
-      await dispatch(UpdateUserRoleRequest({ id: props.id, role, token }));
-      setRole(Number(roles.indexOf(props.role)));
+
       handleClose();
     } catch (e) {
       //
@@ -218,7 +213,13 @@ export default function ModalUser(props: Props) {
               alignItems: 'flex-start',
             }}
           >
-            <div className="user">
+            <div
+              className="user"
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+              }}
+            >
               <h2
                 id="modal-user-name"
                 style={{
@@ -258,43 +259,8 @@ export default function ModalUser(props: Props) {
               gap: '10px',
             }}
           >
-            <p
-              style={{
-                fontSize: '14px',
-                fontWeight: 'bold',
-                margin: '0px',
-                alignItems: 'center',
-              }}
-            >
-              Cargo:{' '}
-              {editing ? (
-                <select
-                  value={role}
-                  onChange={(e) => setRole(Number(e.target.value))}
-                >
-                  <option value="0">Aluno(a)</option>
-                  <option value="1">Líder de sala</option>
-                  <option value="2">Funcionário(a)</option>
-                  <option value="3">Gestor(a)</option>
-                </select>
-              ) : (
-                <span style={{ fontWeight: 'normal' }}>{roles[role]}</span>
-              )}
-              <IconButton
-                style={{
-                  fontSize: '16px',
-                  color: !editing ? primaryOrange : 'red',
-                }}
-                onClick={() => setEditing(!editing)}
-              >
-                {!editing ? <TbEdit /> : <GrClose />}
-              </IconButton>
-            </p>
             <p style={{ fontSize: '14px', fontWeight: 'bold', margin: '0px' }}>
-              Email: <span style={{ fontWeight: 'normal' }}>{props.email}</span>
-            </p>
-            <p style={{ fontSize: '14px', fontWeight: 'bold', margin: '0px' }}>
-              Conta criada em:{' '}
+              Aluno adicionado em:{' '}
               <span style={{ fontWeight: 'normal' }}>
                 {new Intl.DateTimeFormat('pt-BR', {
                   day: '2-digit',
@@ -328,29 +294,13 @@ export default function ModalUser(props: Props) {
               <Button
                 style={{
                   fontSize: '12px',
-                  color: 'red',
-                  borderColor: '#000',
-                  textAlign: 'center',
-                  minWidth: '145px',
-                }}
-                onClick={() => {
-                  setDeleteModalOpen(true);
-                  setOpen(false);
-                }}
-              >
-                Expulsar Usuário
-              </Button>
-              <Button
-                style={{
-                  fontSize: '12px',
                   color: 'green',
                   textAlign: 'center',
                   minWidth: '145px',
                 }}
-                disabled={roles[role] == props.role}
                 onClick={() => handleModalRole()}
               >
-                Alterar cargo
+                Alterar Informações
               </Button>
             </ButtonGroup>
           </div>

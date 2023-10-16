@@ -7,6 +7,7 @@ interface Props {
   to?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   width?: string;
+  disabled?: boolean;
 }
 function ContainedButton(props: Props): JSX.Element {
   return (
@@ -22,6 +23,7 @@ function ContainedButton(props: Props): JSX.Element {
         backgroundColor: primaryGreen,
         width: props.width ? props.width : '100%',
       }}
+      disabled={Boolean(props.disabled)}
     >
       {props.textButton}
     </Button>

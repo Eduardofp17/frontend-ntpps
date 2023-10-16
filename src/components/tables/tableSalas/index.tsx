@@ -57,7 +57,7 @@ export default function TableSalas(props: Props) {
       try {
         setClassPayload(props.ClassPayload);
       } catch (e) {
-        console.log('error: ');
+        //
       }
     })();
   }, [props.ClassPayload]);
@@ -65,8 +65,8 @@ export default function TableSalas(props: Props) {
     if (
       classPayload.find(
         (element, index) =>
-          JSON.stringify(element.sala) !==
-          JSON.stringify(props.ClassPayload[index].sala),
+          JSON.stringify(element.name) !==
+          JSON.stringify(props.ClassPayload[index].name),
       )
     ) {
       setIsAChange(true);
@@ -89,7 +89,7 @@ export default function TableSalas(props: Props) {
     const room = e.target.value.toString();
     const novaClassPayload = classPayload.map((sala) => {
       if (sala.id === id) {
-        return { ...sala, sala: room };
+        return { ...sala, name: room };
       }
       return sala;
     });
@@ -104,7 +104,7 @@ export default function TableSalas(props: Props) {
   const createRoom = async () => {
     try {
       props.setLoading(true);
-      await axios.post('/frequencia', { sala: newRoom, qtd_presentes: 0 });
+      await axios.post('/room', { name: newRoom });
       setCreating(false);
       props.setLoading(false);
     } catch (e) {
@@ -116,12 +116,12 @@ export default function TableSalas(props: Props) {
     try {
       const differentElements = classPayload.filter(
         (element, index) =>
-          JSON.stringify(element.sala) !==
-          JSON.stringify(props.ClassPayload[index]?.sala),
+          JSON.stringify(element.name) !==
+          JSON.stringify(props.ClassPayload[index]?.name),
       );
       differentElements.map(async (newRoom) => {
         props.setLoading(true);
-        await axios.put(`/frequencia/${newRoom.id}`, { sala: newRoom.sala }),
+        await axios.put(`/room/${newRoom.id}`, { name: newRoom.name }),
           props.setLoading(false);
       });
     } catch (e) {
@@ -132,7 +132,7 @@ export default function TableSalas(props: Props) {
   const handleDeleteAction = async (id: number) => {
     try {
       props.setLoading(true);
-      await axios.delete(`/frequencia/${id}`);
+      await axios.delete(`/room/${id}`);
       setDeleting(false);
       props.setLoading(false);
     } catch (e) {
@@ -219,10 +219,10 @@ export default function TableSalas(props: Props) {
           ModalOpen={deleting}
           title={`Você realmente deseja deletar a sala "${
             deletingId !== undefined
-              ? classPayload[Number(deletingId)].sala
+              ? classPayload[Number(deletingId)].name
               : ''
           }" ?`}
-          info={`Ao clicar em "Confirmar" você deletará a sala para sempre e todas as frequências referentes a ela`}
+          info={`Ao clicar em "Confirmar", todos os registros da sala, incluindo frequências e alunos, serão permanentemente excluídos.`}
           button1={
             <button
               className="ModalWithTwoButtons"
@@ -303,7 +303,7 @@ export default function TableSalas(props: Props) {
                         />
                         <input
                           type="text"
-                          value={room.sala}
+                          value={room.name}
                           onChange={(e) => handleInput(room.id, e)}
                         />
                       </span>
@@ -323,7 +323,7 @@ export default function TableSalas(props: Props) {
                         <Mode
                           style={{ fontSize: '19px', color: primaryOrange }}
                         />
-                        {room.sala}
+                        {room.name}
                       </span>
                     </div>
                   )}

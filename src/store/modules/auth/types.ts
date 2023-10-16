@@ -17,6 +17,8 @@ export interface AuthState {
   readonly school_id: number;
   readonly creation: number;
   readonly expiration: number;
+  readonly room_id?: number;
+  readonly room_name?: string;
 }
 
 export interface PayloadApi {

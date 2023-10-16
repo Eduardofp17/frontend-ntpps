@@ -34,7 +34,7 @@ function LoginForm(): JSX.Element {
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const err = useSelector((state: States) => state.authReducer.errorMessage);
+  const err = useSelector((state: States) => state.authReducer.error);
   useEffect(() => {
     if (password.length > 0) {
       setPasswordError(isInvalidPassword());
@@ -57,16 +57,15 @@ function LoginForm(): JSX.Element {
     if (!isInvalidEmail() && !isInvalidPassword()) {
       try {
         await dispatch(AuthRequest({ email, password }));
-        if (err) {
-          setError(true);
-          setTimeout(() => setError(false), 2500);
-        }
       } catch (error) {
         setError(true);
-        setTimeout(() => setError(false), 2500);
+        toast.error('Email ou senha inválidos', {
+          toastId: 'unique-toast-id',
+        });
       }
     }
   };
+
   const isInvalidEmail = (): boolean => {
     if (!isEmail(email)) {
       setEmailErrorMessage('Email inválido.');
@@ -83,13 +82,13 @@ function LoginForm(): JSX.Element {
   };
 
   useEffect(() => {
-    if (error) {
+    if (err === true) {
       toast.error('Email ou senha inválidos', {
         toastId: 'unique-toast-id',
       });
     }
     setError(false);
-  }, [error]);
+  }, [err]);
   return (
     <>
       <ToastContainer

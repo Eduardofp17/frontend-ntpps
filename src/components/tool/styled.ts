@@ -10,8 +10,6 @@ export const Card = styled.div`
   border-radius: 12px;
   padding: 10px;
   text-align: left;
-  display: ${(props: Props) =>
-    props.level < props.levelRequired ? 'none' : 'flex'};
   flex-direction: column;
   justify-content: space-between;
   max-height: 120px;

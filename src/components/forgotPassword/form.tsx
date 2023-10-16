@@ -5,17 +5,18 @@ import { TextField, FormControl, Link } from '@mui/material';
 import { FormHTML } from './styled';
 import { darkGreen } from '../../config/collors/colors';
 import ContainedButton from '../buttons/contained';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 import axios from '../../services/axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function EmailForm(): JSX.Element {
   const [email, setEmail] = useState<string>('');
   const [emailError, setEmailError] = useState<boolean>(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState<string>('');
-  const [alert, setAlert] = useState<boolean>(false);
-  const [alertMessage, setAlertMessage] = useState<string>('');
-  const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     if (email.length > 0) {
@@ -27,22 +28,15 @@ function EmailForm(): JSX.Element {
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
       e.preventDefault();
-
-      if (isInvalidEmail()) {
-        setError(true);
-        setAlertMessage('Email inválido');
-        setAlert(true);
-        setTimeout(() => setError(false), 2500);
-        return;
-      }
+      setLoading(true);
       await axios.post('/users/forgotPassword/', { email });
-      setAlert(true);
-      setAlertMessage(
-        'Enviamos um link para o seu email, clicando nele você poderá redefinir sua senha',
-      );
-      setTimeout(() => setAlert(false), 2500);
+      setLoading(false);
+      setSuccess(true);
     } catch (e) {
-      return 'An error ocurred';
+      setLoading(false);
+      toast.error('Email ou senha inválidos', {
+        toastId: 'unique-toast-id',
+      });
     }
   };
 
@@ -54,19 +48,49 @@ function EmailForm(): JSX.Element {
     return false;
   };
 
+  useEffect(() => {
+    if (success) {
+      toast.success(
+        'Enviamos um link para o seu email, clicando nele você poderá redefinir sua senha',
+        {
+          toastId: 'unique-toast-id',
+        },
+      );
+      setSuccess(false);
+    }
+  });
   return (
     <>
-      <Alert
-        severity={error ? 'error' : 'success'}
+      <ToastContainer
+        position="top-right"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        style={{ width: '90%', maxWidth: '320px', margin: 'auto' }}
+      />
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading ? true : false}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <FormHTML
+        method="post"
         style={{
-          maxWidth: '300px',
-          display: alert ? 'flex' : 'none',
-          textAlign: 'center',
+          width: '100%',
+          margin: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
-        <AlertTitle>{alertMessage}</AlertTitle>
-      </Alert>
-      <FormHTML method="post" style={{ minWidth: '100%' }}>
         <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
           <TextField
             type="email"
@@ -83,6 +107,7 @@ function EmailForm(): JSX.Element {
         <ContainedButton
           textButton="Enviar Link"
           onClick={(e) => handleSubmit(e)}
+          disabled={emailError}
         />
       </FormHTML>
 

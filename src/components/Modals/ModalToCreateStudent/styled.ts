@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ModalBox = styled.div`
+export const ModalBox = styled.dialog`
   position: absolute;
   left: 0;
   top: 0;
@@ -8,10 +8,11 @@ export const ModalBox = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;
+  border: none !important;
   .box {
     background-color: #fff;
     width: 340px;
-    max-height: 40%;
+    max-height: 45%;
     top: 0;
     bottom: 0;
     margin: auto;
@@ -43,7 +44,6 @@ export const ModalBox = styled.div`
     margin: auto;
     text-align: center;
     padding: 5px;
-    max-width: 340px;
   }
   .buttons {
     width: 330px;
