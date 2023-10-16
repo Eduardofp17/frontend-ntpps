@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import DenseHeader from '../../../components/headers/dense';
 import { Main } from './styled';
 import TableComponent from '../../../components/tables/table';
-import { Class } from '../../../store/globalTypes';
+import { Room as Class } from '../../../store/globalTypes';
 import axios from '../../../services/axios';
 import { CircularProgress } from '@mui/material';
 import { darkGreen } from '../../../config/collors/colors';
