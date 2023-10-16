@@ -34,7 +34,6 @@ function CardUser(props: Props): JSX.Element {
 
         <ModalUser
           name={props.name}
-          description="test"
           icon={<SettingsIcon style={{ color: '#000' }} />}
           id={Number(props.id)}
           role={String(roles[props.role])}

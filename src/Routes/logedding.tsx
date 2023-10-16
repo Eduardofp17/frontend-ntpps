@@ -7,6 +7,7 @@ interface Props {
   children: JSX.Element;
   loggedin: boolean;
   levelRequired: number;
+  equals?: boolean;
 }
 
 function Loggeding(props: Props) {
@@ -18,6 +19,9 @@ function Loggeding(props: Props) {
     return <Erro404 />;
   }
 
+  if (props.equals && Number(userLevel) !== Number(props.levelRequired)) {
+    return <Erro401 />;
+  }
   if (Number(userLevel) < Number(props.levelRequired)) {
     return <Erro401 />;
   }

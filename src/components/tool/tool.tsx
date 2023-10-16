@@ -4,17 +4,34 @@ import { IconButton } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { darkGreen } from '../../config/collors/colors';
 interface Props {
-  icon: JSX.Element;
+  icon?: JSX.Element;
   text: string;
   to: string;
   level: number;
   levelRequired: number;
+  iconSVG?: string;
+  equals?: boolean;
 }
 function Tool(props: Props): JSX.Element {
   return (
     <React.Fragment>
-      <Card level={props.level} levelRequired={props.levelRequired}>
-        <Icon>{props.icon}</Icon>
+      <Card
+        style={{
+          display: props.equals
+            ? props.level == props.levelRequired
+              ? 'flex'
+              : 'none'
+            : props.level >= props.levelRequired
+            ? 'flex'
+            : 'none',
+        }}
+      >
+        {props.icon ? (
+          <Icon>{props.icon}</Icon>
+        ) : (
+          <img src={props.iconSVG} alt="" width={50} height={50} />
+        )}
+
         <IconButton
           edge="start"
           color="inherit"

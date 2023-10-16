@@ -7,6 +7,8 @@ import acceptRequestReducer from './AcceptRequest';
 import rejectRequestReducer from './RejectRequest';
 import updateUserRoleReducer from './Update-user-role';
 import deleteUserReducer from './ban-user';
+import updateFrequencyReducer from './UpdateFrequency';
+import updateStudentReducer from './Update-student/index';
 
 export default combineReducers({
   authReducer,
@@ -17,4 +19,6 @@ export default combineReducers({
   rejectRequestReducer,
   updateUserRoleReducer,
   deleteUserReducer,
+  updateFrequencyReducer,
+  updateStudentReducer,
 });

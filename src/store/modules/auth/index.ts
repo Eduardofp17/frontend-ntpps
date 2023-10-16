@@ -1,6 +1,7 @@
 import { AuthState, PayloadApi } from './types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Response } from '../../globalTypes';
+import axios from '../../../services/axios';
 
 const INITIAL_STATE: AuthState = {
   token: '',
@@ -35,6 +36,10 @@ const authSlice = createSlice({
       state.token = action.payload.data.token;
       state.level = action.payload.data.level;
       state.school_id = action.payload.data.school_id;
+      if (state.level === 1) {
+        state.room_id = action.payload.data.room_id;
+        state.room_name = action.payload.data.room_name;
+      }
       state.data = { email: '', password: '' };
       state.loggedIn = true;
       state.creation = Number(new Date().getTime());

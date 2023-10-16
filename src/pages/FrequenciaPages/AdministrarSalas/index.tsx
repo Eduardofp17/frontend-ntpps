@@ -16,14 +16,18 @@ function AdministrarSalas(): JSX.Element {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get('/frequencia');
+        const { data } = await axios.get('/room/');
         data.map((room: Class) => {
           room.selected = false;
         });
+        data.sort((a: Class, b: Class) =>
+          a.name.localeCompare(b.name, 'pt-BR', {
+            sensitivity: 'base',
+          }),
+        );
         setClassApi(data);
       } catch (e) {
         setLoading(false);
-        console.log(e);
       }
     })();
   }, [loading]);

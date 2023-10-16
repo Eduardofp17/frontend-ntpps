@@ -13,7 +13,6 @@ function Erro401(): JSX.Element {
         <h3> Erro 401</h3>
 
         <ContainedButton textButton="Página Inicial" to="/" />
-        <ContainedButton textButton="Fazer Login" to="/login" />
       </Main>
     </React.Fragment>
   );

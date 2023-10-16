@@ -17,6 +17,6 @@
     "jsx": "react-jsx",
   },
 
-  "include":  ["./src/**/*.ts", "./src/**/*.tsx", "./src/**/*.js"],
+  "include":  ["./src/**/*.ts", "./src/**/*.tsx", "./src/**/*.js", "src/store/modules/UpdateFrequency/sagas.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
