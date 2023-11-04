@@ -9,7 +9,7 @@ import Footer from '../../components/footer';
 function ConfirmEmail(): JSX.Element {
   const token = document.location.search.split('').slice(1).join('');
   const registered: boolean = useSelector(
-    (state: States): boolean => state.registerReducer.registered,
+    (state: States): boolean => state.registerUserReducer.registered,
   );
 
   useEffect(() => {
