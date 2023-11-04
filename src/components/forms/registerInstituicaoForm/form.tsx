@@ -1,272 +1,198 @@
-import React, { useState, useEffect } from 'react';
-import {
-  TextField,
-  InputLabel,
-  Input,
-  InputAdornment,
-  FormControl,
-  FormHelperText,
-} from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import { Visibility } from '@mui/icons-material';
-import { VisibilityOff } from '@mui/icons-material';
-import { FormHTML, P } from './styled';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { RegisterRequest } from '../../../store/modules/register/index';
-import ContainedButton from '../../buttons/contained';
-import isEmail from 'validator/lib/isEmail';
+import { Paper, Divider, Backdrop, CircularProgress } from '@mui/material';
+import { StepperComponent } from '../../steppers/stepper-form-instituition/stepper';
+import { AccountInstituitionInfo } from './account-info-form/account';
+import { InstituitionDataInfo } from './instituition-data-form/instituition';
+import { LocalizationInfo } from './localization-form/localization';
 import { useSelector } from 'react-redux';
 import { States } from '../../../store/globalTypes';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import { RegisterErrors } from '../../../store/modules/register/types';
+import { RegisterInstituitionRequest } from '../../../store/modules/register-instituition/index';
+import { toast, ToastContainer } from 'react-toastify';
+import { RegisterErrorResponses } from '../../../translate/register-translations/register-errors';
+
+export type AccountInfo = {
+  email: string;
+  password: string;
+  agreeWithTermsAndPrivacyPolicy: boolean;
+};
+
+export type InstituitionData = {
+  instituition_name: string;
+  school_modality: string;
+  cnpj: string;
+  forms_of_education: string[];
+  isPublic: boolean;
+};
+
+export type LocalizationData = {
+  cep: string;
+  state: string;
+  city: string;
+  address: string;
+  neighborhood: string;
+};
 function RegisterForm(): JSX.Element {
   const dispatch = useDispatch();
-  const [showPassword, setShowPassword] = useState(false);
-
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [cnpj, setCnpj] = useState('');
-  const [password, setPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
-
-  const [cnpjError, setCnpjError] = useState(false);
-  const [nameError, setNameError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  const [repeatPasswordError, setRepeatPasswordError] = useState(false);
-  const [error, setError] = useState(false);
-
-  const [errors, setErrors] = useState('');
-  const [cnpjErrorMessage, setCnpjErrorMessage] = useState('');
-  const [nameErrorMessage, setNameErrorMessage] = useState('');
-  const [emailErrorMessage, setEmailErrorMessage] = useState('');
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
-  const [repeatPasswordErrorMessage, setRepeatPasswordErrorMessage] =
-    useState('');
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const err: RegisterErrors = useSelector(
-    (state: States): RegisterErrors => state.registerReducer.errorMessage,
+  const [currentStepper, setCurrentStepper] = useState<number>(0);
+  const [loadingForm, setLoadingForm] = useState<boolean>(false);
+  const loadingState = useSelector(
+    (state: States): boolean => state.registerInstituitionReducer.loading,
   );
+  const errorState = useSelector(
+    (state: States): boolean => state.registerInstituitionReducer.error,
+  );
+  const errorMessage = useSelector(
+    (state: States): string => state.registerInstituitionReducer.errorMessage,
+  );
+  const handleNext = (): void => {
+    setLoadingForm(true);
+    setTimeout(() => {
+      setCurrentStepper(currentStepper + 1);
+      setLoadingForm(false);
+    }, 300);
+  };
+  const handleLast = (): void => {
+    setLoadingForm(true);
+    setCurrentStepper(currentStepper - 1);
+    setTimeout(() => {
+      setCurrentStepper(currentStepper - 1);
+      setLoadingForm(false);
+    }, 150);
+  };
+
+  const [instituitionData, setInstituitionData] = useState<InstituitionData>({
+    instituition_name: '',
+    school_modality: 'regular',
+    cnpj: '',
+    forms_of_education: [],
+    isPublic: true,
+  });
+  const [accountInfo, setAccountInfo] = useState<AccountInfo>({
+    email: '',
+    password: '',
+    agreeWithTermsAndPrivacyPolicy: false,
+  });
+  const [localizationInfo, setLocalizationInfo] = useState<LocalizationData>({
+    cep: '',
+    city: '',
+    state: '',
+    neighborhood: '',
+    address: '',
+  });
+  const handleSubmit = async () => {
+    try {
+      dispatch(
+        RegisterInstituitionRequest({
+          name: instituitionData.instituition_name,
+          school_modality: instituitionData.school_modality,
+          cnpj: instituitionData.cnpj,
+          forms_of_education: String(instituitionData.forms_of_education),
+          isPublic: instituitionData.isPublic,
+          email: accountInfo.email,
+          password: accountInfo.password,
+          agreeWithTermsAndPrivacyPolicy:
+            accountInfo.agreeWithTermsAndPrivacyPolicy,
+          address: localizationInfo.address,
+          city: localizationInfo.city,
+          state: localizationInfo.state,
+          cep: localizationInfo.cep,
+          neighborhood: localizationInfo.neighborhood,
+        }),
+      );
+    } catch (e) {
+      toast.error(String('internal Server Error'), {
+        toastId: 'unique-toast-id',
+        position: 'top-right',
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: false,
+        rtl: false,
+        pauseOnFocusLoss: true,
+        draggable: true,
+        pauseOnHover: true,
+        theme: 'light',
+        bodyStyle: { width: '90%', maxWidth: '320px', margin: 'auto' },
+      });
+    }
+  };
+
   useEffect(() => {
-    if (name.length > 0) {
-      setNameError(isInvalidName());
-    }
-    if (email.length > 0) {
-      setEmailError(isInvalidEmail());
-    }
-    if (cnpj.length > 0) {
-      setCnpjError(isInvalidCnpj());
-    }
-    if (password.length > 0) {
-      setPasswordError(isInvalidPassword());
-      setPassword(password.split(' ').join(''));
-    }
-
-    if (repeatPassword.length > 0) {
-      setRepeatPasswordError(isInvalidRePassword());
-      setRepeatPassword(repeatPassword.split(' ').join(''));
-    }
-    if (name.length === 0) setNameError(false);
-    if (email.length === 0) setEmailError(false);
-    if (password.length === 0) setPasswordError(false);
-    if (repeatPassword.length === 0) setRepeatPasswordError(false);
-  }, [name, email, cnpj, password, repeatPassword]);
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    event.preventDefault();
-  };
-
-  const isInvalidName = (): boolean => {
-    if (name.length < 3) {
-      setNameErrorMessage('O nome deve ter no mínimo 3 caracteres.');
-      return true;
-    }
-    return false;
-  };
-  const isInvalidEmail = (): boolean => {
-    if (!isEmail(email)) {
-      setEmailErrorMessage('Email inválido.');
-      return true;
-    }
-    return false;
-  };
-  const isInvalidCnpj = (): boolean => {
-    if (cnpj.length < 14) {
-      setCnpjErrorMessage('Cnpj inválido.');
-      return true;
-    }
-    return false;
-  };
-
-  const isInvalidPassword = (): boolean => {
-    if (password.length < 6) {
-      setPasswordErrorMessage('A senha deve ter no mínimo 6 caracteres');
-      return true;
-    }
-    if (password !== repeatPassword) {
-      setPasswordErrorMessage('As senhas não coincidem');
-      return true;
-    }
-    return false;
-  };
-
-  const isInvalidRePassword = (): boolean => {
-    if (repeatPassword.length < 6) {
-      setRepeatPasswordErrorMessage('A senha deve ter no mínimo 6 caracteres');
-      return true;
-    }
-    if (repeatPassword !== password) {
-      setRepeatPasswordErrorMessage('As senhas não coincidem');
-      return true;
-    }
-    return false;
-  };
-
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (
-      !isInvalidName() &&
-      !isInvalidEmail() &&
-      !isInvalidCnpj() &&
-      !isInvalidPassword()
-    ) {
-      dispatch(RegisterRequest({ name, email, cnpj, password }));
-      if (err) {
-        setError(true);
-        if (err.msg === 'School already exist') {
-          setErrors('Instituição já cadastrada, tente efetuar login');
-        }
-        if (err.msg === 'Invalid Cnpj') {
-          setErrors(
-            'Cnpj inválido. Envie ele nesse formato: 99.999.999/9999-99',
-          );
-        }
-
-        setTimeout(() => setError(false), 4500);
+    console.log(errorState);
+    if (errorState) {
+      if (String(errorMessage) in RegisterErrorResponses) {
+        const translatedErrorMessage = RegisterErrorResponses[errorMessage];
+        toast.error(String(translatedErrorMessage), {
+          toastId: 'unique-toast-id',
+        });
+      } else {
+        toast.error('INTERNAL SERVER ERROR', {
+          toastId: 'unique-toast-id',
+        });
       }
     }
-  };
+  }, [errorState]);
   return (
-    <React.Fragment>
-      <P>Insira as informações de sua instituição: </P>
-      <Alert
-        severity="error"
-        style={{
-          maxWidth: '300px',
-          display: error ? 'flex' : 'none',
-          textAlign: 'center',
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        style={{ width: '90%', maxWidth: '320px', margin: 'auto' }}
+      />
+      <Paper
+        key={1}
+        elevation={1}
+        sx={{
+          padding: '10px 10px',
+          marginTop: '20px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+          maxWidth: '100%',
         }}
       >
-        <AlertTitle>{errors}</AlertTitle>
-      </Alert>
-      <FormHTML method="post">
-        <FormControl sx={{ m: 1, width: '95%' }}>
-          <TextField
-            type="text"
-            id="name-basic"
-            label="Nome"
-            variant="standard"
-            onChange={(e) => setName(e.target.value)}
-            error={nameError}
-            helperText={nameError ? nameErrorMessage : ''}
-          />
-        </FormControl>
-        <FormControl sx={{ m: 1, width: '95%' }}>
-          <TextField
-            type="email"
-            id="email-basic"
-            label="Email"
-            variant="standard"
-            helperText={emailError ? emailErrorMessage : ''}
-            onChange={(e) => setEmail(e.target.value)}
-            error={emailError}
-          />
-        </FormControl>
-        <FormControl sx={{ m: 1, width: '95%' }}>
-          <TextField
-            type="text"
-            id="cnpj-basic"
-            label="Cnpj"
-            placeholder="99.999.999/9999-99"
-            variant="standard"
-            onChange={(e) => setCnpj(e.target.value)}
-            error={cnpjError}
-            helperText={cnpjError ? cnpjErrorMessage : ''}
-          />
-        </FormControl>
-        <FormControl
-          sx={{ m: 1, width: '95%' }}
-          variant="standard"
-          error={passwordError}
+        <h3>Criar conta da instituição</h3>
+        <StepperComponent activeStep={currentStepper} />
+        <Divider sx={{ width: '100%', margin: 'auto' }} />
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={loadingForm || loadingState ? true : false}
         >
-          <InputLabel htmlFor="standard-adornment-password">Senha</InputLabel>
-          <Input
-            id="standard-adornment-password"
-            aria-describedby="component-error-text"
-            type={showPassword ? 'text' : 'password'}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        {currentStepper === 0 && (
+          <InstituitionDataInfo
+            onInstituitionDataInfoChange={setInstituitionData}
+            onNext={handleNext}
+            instituitionDataInfo={instituitionData}
           />
-          <FormHelperText
-            id="component-error-text"
-            style={{ display: passwordError ? 'flex' : 'none' }}
-          >
-            {passwordErrorMessage}
-          </FormHelperText>
-        </FormControl>
-        <FormControl
-          sx={{ m: 1, width: '95%' }}
-          variant="standard"
-          error={repeatPasswordError}
-        >
-          <InputLabel htmlFor="standard-adornment-repeat-password">
-            Confirmar senha
-          </InputLabel>
-          <Input
-            id="standard-adornment-repeat-password"
-            aria-describedby="component-error-text-repeat"
-            type={showPassword ? 'text' : 'password'}
-            value={repeatPassword}
-            onChange={(e) => setRepeatPassword(e.target.value)}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
+        )}
+        {currentStepper === 1 && (
+          <AccountInstituitionInfo
+            onAccountInfoChange={setAccountInfo}
+            onNext={handleNext}
+            accountInfo={accountInfo}
+            onLast={handleLast}
           />
-          <FormHelperText
-            id="component-error-text-repeat"
-            style={{ display: repeatPasswordError ? 'flex' : 'none' }}
-          >
-            {repeatPasswordErrorMessage}
-          </FormHelperText>
-        </FormControl>
-        <ContainedButton
-          textButton="Criar conta"
-          onClick={(e) => handleSubmit(e)}
-        />
-      </FormHTML>
-    </React.Fragment>
+        )}
+        {currentStepper === 2 && (
+          <LocalizationInfo
+            onLocalizationInfoChange={setLocalizationInfo}
+            onSubmit={handleSubmit}
+            localizationInfo={localizationInfo}
+            onLast={handleLast}
+          />
+        )}
+      </Paper>
+    </>
   );
 }
 

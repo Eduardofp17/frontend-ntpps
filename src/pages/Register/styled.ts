@@ -6,7 +6,8 @@ export const Container = styled.section`
   flex-direction: column;
   margin: auto;
   transition: all 500ms;
-
+  justify-content: center;
+  align-items: center;
   .ButtonGroup:not(:last-of-type) {
     border-color: #fff;
   }

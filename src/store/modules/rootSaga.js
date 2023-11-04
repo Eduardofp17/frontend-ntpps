@@ -1,8 +1,10 @@
 import { all, takeLatest } from 'redux-saga/effects';
 import { AuthTypes, PersistRehydrat } from './auth/types';
 import { authRequest, persisRehydrate, authLoggoutRequest } from './auth/sagas';
-import { RegisterTypes } from './register/types';
-import { registerRequest } from './register/sagas';
+import { RegisterUserTypes } from './register-user/types';
+import { registerUserRequest } from './register-user/sagas';
+import { RegisterInstituitionTypes } from './register-instituition/types';
+import { registerInstituitionRequest } from './register-instituition/sagas';
 import { DeleteCardapioTypes } from './DeleteCardapio/types';
 import { deleteCardapioRequest } from './DeleteCardapio/sagas';
 import { UpdateCardapioTypes } from './UpdateCardapio/types';
@@ -24,7 +26,15 @@ export default function* rootSaga() {
   yield all([takeLatest(AuthTypes.AuthRequest, authRequest)]);
   yield all([takeLatest(AuthTypes.AuthLoggoutRequest, authLoggoutRequest)]);
   yield all([takeLatest(PersistRehydrat, persisRehydrate)]);
-  yield all([takeLatest(RegisterTypes.RegisterRequest, registerRequest)]);
+  yield all([
+    takeLatest(RegisterUserTypes.RegisterUserRequest, registerUserRequest),
+  ]);
+  yield all([
+    takeLatest(
+      RegisterInstituitionTypes.RegisterInstituitionRequest,
+      registerInstituitionRequest,
+    ),
+  ]);
   yield all([
     takeLatest(
       DeleteCardapioTypes.DeleteCardapioRequest,

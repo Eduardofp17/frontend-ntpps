@@ -31,9 +31,10 @@ function LoginForm(): JSX.Element {
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
-  const [error, setError] = useState(false);
+  const [, setError] = useState(false);
   const dispatch = useDispatch();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const err = useSelector((state: States) => state.authReducer.error);
   useEffect(() => {
     if (password.length > 0) {
