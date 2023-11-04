@@ -1,31 +1,51 @@
 import { Main, Container } from './styled';
-import ContainedButton from '../../components/buttons/contained';
-import Erro404 from '../Erro 404/404';
-import { useSelector } from 'react-redux';
-import { States } from '../../store/globalTypes';
-import Footer from '../../components/footer';
-function RedirectToEmail(): JSX.Element {
+
+interface Props {
+  isInstituition: boolean;
+}
+function RedirectToEmail(props: Props): JSX.Element {
   document.title = 'Email enviado!';
-  const registered: boolean = useSelector(
-    (state: States): boolean => state.registerReducer.registered,
-  );
   return (
     <>
-      {registered ? (
+      {props.isInstituition ? (
         <>
           <Main>
             <Container>
-              <h2>Enviamos um link no seu email.</h2>
-              <h3>
-                Clicando nele você poderá confirmar que seu email é válido
-              </h3>
-              <ContainedButton textButton="Início" to="/" />
+              <h2>Quase Lá!</h2>
+              <p>
+                Um email foi enviado de{' '}
+                <strong>naescolaalimentacao@gmail.com</strong> com um link para
+                verificar o seu endereço de email.
+              </p>
+              <p>
+                Ao clicar nele, você poderá confirmar a validade do seu email.
+                Após isso, a conta da sua instituição estará pronta para uso.
+              </p>
             </Container>
           </Main>
-          <Footer />
         </>
       ) : (
-        <Erro404 />
+        <>
+          <Main>
+            <Container>
+              <h1>Quase Lá!</h1>
+              <p>
+                Um email foi enviado de{' '}
+                <strong>naescolaalimentacao@gmail.com</strong> com um link para
+                verificar o seu endereço de email.
+              </p>
+              <p>
+                Ao clicar nele, você poderá confirmar a validade do seu email.
+              </p>
+              <p>
+                Depois disso, basta aguardar a aceitação da sua instituição para
+                que sua conta seja criada. Após a aprovação, você poderá fazer
+                login com o email e a senha que inseriu durante o processo de
+                registro.
+              </p>
+            </Container>
+          </Main>
+        </>
       )}
     </>
   );

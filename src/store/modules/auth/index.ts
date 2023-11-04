@@ -64,6 +64,10 @@ const authSlice = createSlice({
       state.token = '';
       state.data = { email: '', password: '' };
       state.loggedIn = false;
+      if (state.level === 1) {
+        state.room_id = undefined;
+        state.room_name = undefined;
+      }
       state.level = 0;
       state.school_id = -1;
       state.creation = 0;

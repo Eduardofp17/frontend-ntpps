@@ -7,17 +7,12 @@ export const Container = styled.section`
   margin: auto;
   transition: all 500ms;
 `;
-export const IMG = styled.img`
-  width: 80px;
-  margin: auto;
-`;
 
 export const Main = styled.main`
   width: 100%;
   max-width: 600px;
   padding: 20px;
   margin: auto;
-  margin-top: 100px;
 `;
 
 export const P = styled.p`

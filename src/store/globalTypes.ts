@@ -1,5 +1,5 @@
 import { AuthState } from './modules/auth/types';
-import { RegisterState } from './modules/register/types';
+import { RegisterUserState } from './modules/register-user/types';
 import { DeleteCardapioState } from './modules/DeleteCardapio/types';
 import { UpdateCardapioState } from './modules/UpdateCardapio/types';
 import { AcceptRequestState } from './modules/AcceptRequest/types';
@@ -8,9 +8,10 @@ import { UpdateUserRoleState } from './modules/Update-user-role/types';
 import { DeleteUserState } from './modules/ban-user/types';
 import { UpdateFrequencyState } from './modules/UpdateFrequency/types';
 import { UpdateStudentState } from './modules/Update-student/types';
+import { RegisterInstituitionState } from './modules/register-instituition/types';
+
 export interface States {
   authReducer: AuthState;
-  registerReducer: RegisterState;
   deleteCardapioReducer: DeleteCardapioState;
   updateCardapioReducer: UpdateCardapioState;
   acceptRequestReducer: AcceptRequestState;
@@ -19,6 +20,8 @@ export interface States {
   deleteUserReducer: DeleteUserState;
   updateFrequencyReducer: UpdateFrequencyState;
   updateStudentReducer: UpdateStudentState;
+  registerUserReducer: RegisterUserState;
+  registerInstituitionReducer: RegisterInstituitionState;
 }
 export interface CardapioModel {
   id: number;
