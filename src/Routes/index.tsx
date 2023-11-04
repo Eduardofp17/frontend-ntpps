@@ -11,7 +11,6 @@ import Home from '../pages/Home/home';
 import Login from '../pages/Login/login';
 import Forgot from '../pages/ForgotPassword/Forgot';
 import Register from '../pages/Register/Register';
-import RedirectToEmail from '../pages/RedirectToEmail/Redirect';
 import Cardapios from '../pages/CadapiosPages/Cardapios';
 import Tools from '../pages/Tools/tools';
 import AdmCardapios from '../pages/AdmCardapios/AdmCardapios';
@@ -30,6 +29,8 @@ import HistoricoFrequencia from '../pages/FrequenciaPages/HistoricoFrequencia';
 import ManageUsers from '../pages/ParaGestoresPages/ManageUsers';
 import ManageStudents from '../pages/FrequenciaPages/ManageStudents';
 import UpdateFrequency from '../pages/FrequenciaPages/UpdateFrequency';
+import { TermsOfService } from '../pages/docs/terms-of-service/terms-of-service';
+import { PrivacyPolicy } from '../pages/docs/privacy-policy/privacy-policy';
 
 function Rotas(): JSX.Element {
   const loggedin = useSelector(
@@ -75,14 +76,6 @@ function Rotas(): JSX.Element {
           element={
             <>
               <Register />{' '}
-            </>
-          }
-        />
-        <Route
-          path="/createaccount/confirmemail"
-          element={
-            <>
-              <RedirectToEmail />
             </>
           }
         />
@@ -210,6 +203,8 @@ function Rotas(): JSX.Element {
             </Loggeding>
           }
         />
+        <Route path="/docs/terms-of-service" element={<TermsOfService />} />
+        <Route path="/docs/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="*" element={<Erro404 />} />
       </Routes>
     </React.Fragment>
