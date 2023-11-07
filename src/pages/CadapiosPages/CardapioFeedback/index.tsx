@@ -10,13 +10,24 @@ import {
   MenuItem,
   InputLabel,
   TextareaAutosize,
+  Typography,
+  Rating,
+  FormHelperText,
+  Backdrop,
+  CircularProgress,
 } from '@mui/material';
 import ContainedButton from '../../../components/buttons/contained';
 import axios from '../../../services/axios';
 import { School } from '../../../store/globalTypes';
-import Alert from '@mui/material/Alert';
+import { Paper } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
 const FormSchema = z.object({
   fullName: z.string().nonempty('Seu nome completo é obrigatório'),
+  food: z
+    .string()
+    .nonempty(
+      'É obrigatório que você informe o alimento em que você deseja dar o feedback',
+    ),
   email: z.string().nonempty('Seu email é obrigatório').email('Email inválido'),
   instituicao: z.string().nonempty('Selecione a sua instituição'),
   feedback: z
@@ -24,12 +35,18 @@ const FormSchema = z.object({
     .nonempty('Seu feedback precisa ter ao menos 15 caracteres')
     .min(15, 'Seu feedback precisa ter ao menos 15 caracteres'),
 });
+
 function CardapioFeedback(): JSX.Element {
   const [schools, setSchools] = useState<School[]>([]);
+  const [email, setEmail] = useState<string>('');
+  const [food, setFood] = useState<string>('');
+  const [fullName, setFullName] = useState<string>('');
+  const [rating, setRating] = useState<number>(0);
   const [selectValue, setSelectValue] = useState('');
   const [error, setError] = useState<boolean>(false);
   const [alert, setAlert] = useState<boolean>(false);
   const [alertMessage, setAlertMessage] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -41,73 +58,24 @@ function CardapioFeedback(): JSX.Element {
   //eslint-disable-next-line
   const SendFeedback = async (data: any) => {
     try {
-      const instituicao = schools.find((school) => school.email === data.email);
-      const response = await axios.post('/email/', {
-        email: data.instituicao,
-        subject: 'Feedback sobre a alimentação',
-        html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>Feedback</title>
-          <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-          </head>
-          <body>
-        <main style="color: #000; font-family: 'Roboto', sans-serif; padding: 10px 20px; margin: auto">
-         <div class="Header" style="width: 100%; text-align: left; margin: auto">
-
-           <h2 style="color: #000"> Saudações, ${instituicao?.name}. Esta é uma mensangem repassando o feedback de um usuário. </h2>
-           <h3 style="color: #000"> Informações do remetente abaixo:  </h3>
-           <div class="card-remetente-info" style="flex-wrap: wrap; width: 100%; background-color: #fbfbfb; margin: auto; padding: 5px 10px; border-radius: 5px; color: #000">
-             <p style=" font-weight: bold"> Nome completo do remetente: <span style="text-align: justify; padding-left: 10px; font-weight: normal"> ${data.fullName} <span/> </p>
-
-          <p style=" font-weight: bold"> Email do remetente: <span style="text-align: justify; padding-left: 10px; font-weight: normal"> ${data.email} <span/> </p>
-
-             <p style="font-weight: bold"> Feedback do remetente: <span style="text-align: justify; padding-left: 10px; font-weight: normal"> ${data.feedback} <span/> </p>
-          </p>
-           </div>
-           </div>
-        </main>
-          </body>
-        </html>
-        `,
+      setLoading(true);
+      const response = await axios.post('/email/enviar-feedback/', {
+        email: selectValue,
+        subject:
+          'Esse é um email de teste. Caso tenha recebido o mesmo, saiba que foi um engano',
+        userName: data.fullName,
+        userEmail: data.email,
+        food: data.food,
+        rating: rating,
+        feedback: data.feedback,
       });
+      setLoading(false);
       if (response.status === 200) {
-        setError(false);
-        setAlertMessage(
-          `Feedback enviado com sucesso para:  ${instituicao?.name}`,
-        );
-        setAlert(true);
-        setTimeout(() => {
-          setAlert(false);
-          setAlertMessage('');
-        }, 2000);
-
-        return;
+        toast.success('Feedback enviado com sucesso');
       }
-      setError(true);
-      setAlertMessage(
-        'Algum erro ocorreu, verifique se preencheu os campos corretamente',
-      );
-      setAlert(true);
-      setTimeout(() => {
-        setAlert(false);
-        setAlertMessage('');
-      }, 2000);
       return;
     } catch (e) {
-      setError(true);
-      setAlertMessage('Algum erro interno ocorreu');
-      setAlert(true);
-      setTimeout(() => {
-        setAlert(false);
-        setAlertMessage('');
-      }, 2000);
-      return;
+      toast.error('Internal Server Error');
     }
   };
   useEffect(() => {
@@ -116,109 +84,181 @@ function CardapioFeedback(): JSX.Element {
       setSchools(data);
     })();
   }, []);
+
   return (
     <>
       <DenseHeader text="Feedback" />
+      <ToastContainer
+        position="top-right"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        style={{ width: '90%', maxWidth: '320px', margin: 'auto' }}
+      />
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading ? true : false}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <main
         style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: alert ? '20px' : '0px',
+          width: '100%',
+          maxWidth: '500px',
+          padding: '20px',
+          justifyContent: 'center',
+          alignItems: 'center',
+          margin: 'auto',
         }}
       >
-        <h2>Envie seu feedback para sua instituição</h2>
-        <p style={{ maxWidth: '90%', margin: 'auto', marginBottom: '20px' }}>
-          Após preencher os campos e clicar em &quot;ENVIAR FEEDBACK&quot;,
-          enviaremos seu feedback para a instuição selecionada
-        </p>
-        <Alert
-          variant="outlined"
-          severity={error ? 'error' : 'success'}
-          style={{
-            display: alert ? 'flex' : 'none',
-            width: '80%',
-            margin: 'auto',
+        <Paper
+          key={1}
+          elevation={1}
+          sx={{
+            padding: '10px 10px',
+            marginTop: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+            maxWidth: '100%',
           }}
         >
-          {alertMessage}
-        </Alert>
-        <form
-          style={{ width: '80%', margin: 'auto' }}
-          onSubmit={handleSubmit(SendFeedback)}
-        >
-          <FormControl sx={{ m: 1, width: '95%' }}>
-            <TextField
-              type="text"
-              id="name-basic"
-              label="Nome Completo*"
+          <h2>Envie seu feedback para sua instituição</h2>
+          <form
+            style={{ width: '95%', margin: 'auto' }}
+            onSubmit={handleSubmit(SendFeedback)}
+          >
+            <FormControl sx={{ m: 1, width: '95%' }}>
+              <TextField
+                type="text"
+                id="name-basic"
+                label="Nome Completo *"
+                variant="outlined"
+                size="small"
+                {...register('fullName')}
+                error={Boolean(errors.fullName)}
+                onChange={(e) => setFullName(e.target.value)}
+                helperText={
+                  errors.fullName ? String(errors.fullName?.message) : ''
+                }
+              />
+            </FormControl>
+            <FormControl sx={{ m: 1, width: '95%' }}>
+              <TextField
+                type="email"
+                id="email-basic"
+                label="Seu email *"
+                variant="outlined"
+                size="small"
+                {...register('email')}
+                onChange={(e) => setEmail(e.target.value)}
+                error={Boolean(errors.email)}
+                helperText={errors.email ? String(errors.email?.message) : ''}
+              />
+            </FormControl>
+            <FormControl
               variant="outlined"
-              {...register('fullName')}
-              error={Boolean(errors.fullName)}
-              helperText={
-                errors.fullName ? String(errors.fullName?.message) : ''
-              }
-            />
-          </FormControl>
-          <FormControl sx={{ m: 1, width: '95%' }}>
-            <TextField
-              type="email"
-              id="email-basic"
-              label="Seu email*"
-              variant="outlined"
-              {...register('email')}
-              error={Boolean(errors.email)}
-              helperText={errors.email ? String(errors.email?.message) : ''}
-            />
-          </FormControl>
-          <FormControl variant="outlined" sx={{ m: 1, minWidth: '95%' }}>
-            <InputLabel
-              id="demo-simple-select-standard-label"
-              error={Boolean(errors.instituicao)}
+              sx={{ m: 1, width: '95%' }}
+              size="small"
             >
-              Instituição
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              label="Instituição"
-              style={{ textAlign: 'left', fontSize: '14px', width: '76vw' }}
-              {...register('instituicao')}
-              error={Boolean(errors.instituicao)}
-              value={selectValue}
-              onChange={(e) => setSelectValue(e.target.value)}
-            >
-              {schools.map((school) =>
-                school.id !== 20 ? (
+              <InputLabel
+                id="demo-simple-select-standard-label"
+                error={Boolean(errors.instituicao)}
+              >
+                Instituição
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                label="Instituição"
+                size="small"
+                style={{ textAlign: 'left', fontSize: '14px' }}
+                {...register('instituicao')}
+                error={Boolean(errors.instituicao)}
+                value={selectValue}
+                onChange={(e) => setSelectValue(e.target.value)}
+              >
+                {schools.map((school) => (
                   <MenuItem
                     value={school.email}
                     key={school.id}
                     style={{
                       textAlign: 'left',
                       fontSize: '12px',
-                      maxWidth: '274px',
-                      padding: '5px',
                     }}
                   >
                     {school.name}
                   </MenuItem>
-                ) : (
-                  ''
-                ),
-              )}
-            </Select>
-          </FormControl>
-          <FormControl variant="outlined" sx={{ m: 1, width: '95%' }}>
-            <TextareaAutosize
-              aria-label="empty textarea"
-              style={{ width: '100%' }}
-              placeholder={'Seu feedback precisa ter ao menos 15 caracteres'}
-              {...register('feedback')}
-            />
-          </FormControl>
-          <div className="buttonSubmit" style={{ marginTop: '20px' }}>
-            <ContainedButton textButton="Enviar feedback" width="100%" />
-          </div>
-        </form>
+                ))}
+              </Select>
+              <FormHelperText
+                id="component-error-text"
+                error={Boolean(errors.instituicao)}
+                style={{
+                  display: errors.instituicao ? 'flex' : 'none',
+                }}
+              >
+                {errors.instituicao ? String(errors.instituicao?.message) : ''}
+              </FormHelperText>
+            </FormControl>
+            <FormControl sx={{ m: 1, width: '95%' }}>
+              <TextField
+                type="text"
+                id="food-of-day-basic"
+                label="Alimento que você deseja opinar *"
+                variant="outlined"
+                size="small"
+                {...register('food')}
+                onChange={(e) => setFood(e.target.value)}
+                error={Boolean(errors.food)}
+                helperText={errors.food ? String(errors.food?.message) : ''}
+              />
+            </FormControl>
+            <FormControl
+              sx={{
+                m: 1,
+                width: '95%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Typography component="legend">
+                Dê uma nota para o cardápio desse dia:
+              </Typography>
+              <Rating
+                name="simple-controlled"
+                value={rating}
+                onChange={(event, newValue) => {
+                  setRating(Number(newValue));
+                }}
+                size="large"
+              />
+            </FormControl>
+            <FormControl
+              variant="outlined"
+              sx={{ m: 1, width: '95%' }}
+              size="small"
+            >
+              <TextareaAutosize
+                aria-label="empty textarea"
+                placeholder={'Seu feedback precisa ter ao menos 15 caracteres'}
+                {...register('feedback')}
+                style={{ maxWidth: '100%' }}
+              />
+            </FormControl>
+            <div className="buttonSubmit" style={{ marginTop: '20px' }}>
+              <ContainedButton textButton="Enviar feedback" width="100%" />
+            </div>
+          </form>
+        </Paper>
       </main>
     </>
   );

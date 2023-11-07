@@ -6,8 +6,8 @@ import { CardapiosContainer, Main } from './styled';
 import axios from '../../../services/axios';
 import { CircularProgress } from '@mui/material';
 import { darkGreen } from '../../../config/collors/colors';
-// import ContainedFixedButton from '../../../components/buttons/containedFixed';
-// import { Icon } from '@iconify/react';
+import ContainedFixedButton from '../../../components/buttons/containedFixed';
+import { Icon } from '@iconify/react';
 import Footer from '../../../components/footer';
 function Cardapios(): JSX.Element {
   document.title = 'Ver cardápios';
@@ -76,7 +76,7 @@ function Cardapios(): JSX.Element {
             />
           ))}
         </CardapiosContainer>
-        {/* <ContainedFixedButton
+        <ContainedFixedButton
           to="/cardapios/feedback-cardapios"
           icon={
             <Icon
@@ -84,7 +84,7 @@ function Cardapios(): JSX.Element {
               style={{ fontSize: '35px' }}
             />
           }
-        /> */}
+        />
       </Main>
       <Footer />
     </>
