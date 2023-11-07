@@ -103,10 +103,10 @@ function Rotas(): JSX.Element {
             </>
           }
         />
-        {/* <Route
+        <Route
           path="/cardapios/feedback-cardapios"
           element={<CardapioFeedback />}
-        /> */}
+        />
         <Route
           path="/tools"
           element={
