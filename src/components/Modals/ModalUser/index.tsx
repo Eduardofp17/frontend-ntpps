@@ -11,6 +11,8 @@ import ModalWithTwoButtons from '../ModalButtons';
 import { DeleteUserRequest } from '../../../store/modules/ban-user/index';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from '../../../services/axios';
+import { NewRoom } from '../../../store/globalTypes';
 
 interface Props {
   icon: JSX.Element;
@@ -33,7 +35,9 @@ export default function ModalUser(props: Props) {
   const deleted = useSelector(
     (state: States): boolean => state.deleteUserReducer.loading,
   );
-
+  const [rooms, setRooms] = useState<NewRoom[]>([]);
+  const [roomId, setRoomId] = useState<number>(-1);
+  const [roomName, setRoomName] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(loadingState);
 
   const [role, setRole] = useState<number>(Number(roles.indexOf(props.role)));
@@ -87,6 +91,27 @@ export default function ModalUser(props: Props) {
       });
     }
   }, [deleted]);
+
+  const getRooms = async () => {
+    try {
+      const { data } = await axios.get('/room/');
+      console.log(data);
+      setRooms(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    if (role === 1) {
+      getRooms();
+    }
+  }, [role]);
+
+  useEffect(() => {
+    if (roomId !== -1) {
+      setRoomName(rooms[roomId].name);
+    }
+  }, [roomId]);
   return (
     <div>
       <IconButton onClick={handleOpen}>{props.icon}</IconButton>
@@ -279,6 +304,41 @@ export default function ModalUser(props: Props) {
                 </select>
               ) : (
                 <span style={{ fontWeight: 'normal' }}>{roles[role]}</span>
+              )}
+              <IconButton
+                style={{
+                  fontSize: '16px',
+                  color: !editing ? primaryOrange : 'red',
+                }}
+                onClick={() => setEditing(!editing)}
+              >
+                {!editing ? <TbEdit /> : <GrClose />}
+              </IconButton>
+            </p>
+            <p
+              style={{
+                fontSize: '14px',
+                fontWeight: 'bold',
+                margin: '0px',
+                alignItems: 'center',
+                display: role === 1 ? 'flex' : 'none',
+              }}
+            >
+              Sala do líder:{' '}
+              {editing ? (
+                <select
+                  value={roomId}
+                  onChange={(e) => setRoomId(Number(e.target.value))}
+                >
+                  {rooms.map((room) => (
+                    <option key={room.id + 100} value={room.id}>
+                      {' '}
+                      {room.name}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <span style={{ fontWeight: 'normal' }}>{roomName}</span>
               )}
               <IconButton
                 style={{

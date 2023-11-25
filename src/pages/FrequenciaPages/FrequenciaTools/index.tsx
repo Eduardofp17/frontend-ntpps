@@ -34,13 +34,13 @@ function Frequencia(): JSX.Element {
         <h4 style={{ textAlign: 'left' }}>Funcionalidades disponiveis: </h4>
 
         <Tools>
-          <Tool
+          {/* <Tool
             text="Atualizar frequência"
             to="/tools/frequencia/atualizar-frequencia"
             icon={<GroupAddIcon />}
             level={level}
             levelRequired={2}
-          />
+          /> */}
           <Tool
             text="Administrar salas"
             to="/tools/frequencia/administrar-salas"
@@ -48,13 +48,13 @@ function Frequencia(): JSX.Element {
             level={level}
             levelRequired={2}
           />
-          <Tool
+          {/* <Tool
             text="Histórico de frequências"
             to="/tools/frequencia/historico-de-frequencias"
             icon={<History />}
             level={level}
             levelRequired={2}
-          />
+          /> */}
           <Tool
             text="Administrar alunos da sua sala"
             to="/tools/frequencia/administrar-alunos-de-sua-sala"
@@ -70,6 +70,13 @@ function Frequencia(): JSX.Element {
             level={level}
             levelRequired={1}
             equals={true}
+          />
+          <Tool
+            text="Visualizar frequências"
+            to="/tools/frequencia/visualizar-frequencia"
+            iconSVG="/icons/fa_people_roof.svg"
+            level={level}
+            levelRequired={2}
           />
         </Tools>
       </Main>

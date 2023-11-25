@@ -98,6 +98,15 @@ export type frequency = Classes & {
   updated_at: string;
 };
 
+export interface NewRoom {
+  id: number;
+  name: string;
+  Frequencia: frequency[];
+  Students: Student[];
+  created_at: string;
+  school_id: number;
+  updated_at: string;
+}
 //Provisório
 export interface Room {
   id: number;

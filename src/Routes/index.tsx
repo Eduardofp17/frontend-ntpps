@@ -31,6 +31,7 @@ import ManageStudents from '../pages/FrequenciaPages/ManageStudents';
 import UpdateFrequency from '../pages/FrequenciaPages/UpdateFrequency';
 import { TermsOfService } from '../pages/docs/terms-of-service/terms-of-service';
 import { PrivacyPolicy } from '../pages/docs/privacy-policy/privacy-policy';
+import { ViewFrequencias } from '../pages/FrequenciaPages/view-frequencias/view';
 
 function Rotas(): JSX.Element {
   const loggedin = useSelector(
@@ -176,6 +177,14 @@ function Rotas(): JSX.Element {
           element={
             <Loggeding levelRequired={1} loggedin={loggedin} equals={true}>
               <UpdateFrequency />
+            </Loggeding>
+          }
+        />
+        <Route
+          path="/tools/frequencia/visualizar-frequencia"
+          element={
+            <Loggeding levelRequired={2} loggedin={loggedin}>
+              <ViewFrequencias />
             </Loggeding>
           }
         />
